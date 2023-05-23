@@ -48,15 +48,17 @@
   background-color: var(--main-dark);
 }
 
-video {
-  height: 300px;
-  border-radius: 1rem;
-  margin: 0.5rem;
-  width: 400px;
-  object-fit: cover;
-  transform: rotateY(180deg);
-  -webkit-transform: rotateY(180deg);
-  -moz-transform: rotateY(180deg);
+video { 
+    height: 150px;
+    margin-top: 600px;
+    margin-right: 1050px;
+    border-radius: 1rem;
+    display: flex;
+    width: 250px;
+    object-fit: cover;
+    transform: rotateY(180deg);
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
 }
 
 .options {
