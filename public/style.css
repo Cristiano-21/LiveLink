@@ -49,16 +49,16 @@
 }
 
 video { 
-    height: 150px;
-    margin-top: 600px;
-    margin-right: 1050px;
-    border-radius: 1rem;
-    display: flex;
-    width: 250px;
-    object-fit: cover;
-    transform: rotateY(180deg);
-    -webkit-transform: rotateY(180deg);
-    -moz-transform: rotateY(180deg);
+  height: 150px;
+  border-radius: 1rem;
+  display: flex;
+  margin-right: 700px;
+  margin-top: 480px;
+  width: 250px;
+  object-fit: cover;
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
 }
 
 .options {
