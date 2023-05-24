@@ -167,9 +167,19 @@ socket.on("createMessage", (message, userName) => {
     </div>`;
 });
 
+// Hide-show chat function
+
 var toggleButton = document.getElementById("toggleButton");
 var sidebar = document.getElementById("sidebar");
 
 toggleButton.addEventListener("click", function () {
   sidebar.classList.toggle("open");
+});
+
+// Change color to chat button when clicked
+
+var toggleButton = document.getElementById("toggleButton");
+
+toggleButton.addEventListener("click", function () {
+  toggleButton.classList.toggle("clicked");
 });

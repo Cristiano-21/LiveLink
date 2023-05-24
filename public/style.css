@@ -80,12 +80,56 @@ video {
 .options__button {
   display: flex;
   justify-content: center;
+  border-color: transparent;
   align-items: center;
   background-color: var(--primary-color);
   height: 45px;
   border-radius: 9999px;
   color: var(--main-light);
   font-size: 1.2rem;
+  width: 45px;
+  margin: 0 0.5rem;
+}
+
+.chatButton {
+  display: flex;
+  justify-content: center;
+  border-color: transparent;
+  align-items: center;
+  background-color: var(--primary-color);
+  height: 45px;
+  border-radius: 9999px;
+  color: var(--main-light);
+  font-size: 1.2rem;
+  width: 45px;
+  margin: 0 0.5rem;
+}
+.chatButton:hover {
+  background-color: rgb(8, 44, 205);
+}
+
+.chatButton.clicked {
+  background-color: black;
+  color: white;
+}
+.chatButton.clicked:hover {
+  background-color: rgb(44, 40, 40);
+  color: white;
+}
+.button-clicked {
+  background-color: red;
+  color: white;
+}
+.chatButton{
+  display: flex;
+  justify-content: center;
+  border-color: transparent;
+  align-items: center;
+  background-color: var(--primary-color);
+  height: 45px;
+  border-radius: 9999px;
+  color: var(--main-light);
+  font-size: 0.8rem;
   width: 45px;
   margin: 0 0.5rem;
 }
@@ -122,7 +166,7 @@ video {
 }
 
 .background__red {
-  background-color: #f6484a;
+  background-color: black;
 }
 
 .main__right {
