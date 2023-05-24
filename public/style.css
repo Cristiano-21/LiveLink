@@ -52,12 +52,13 @@ video {
   height: 150px;
   border-radius: 1rem;
   display: flex;
-  margin-right: 700px;
-  margin-top: 480px;
+  position: fixed;
+  bottom: 100px;
+  left: 5px;
   width: 250px;
   object-fit: cover;
   transform: rotateY(180deg);
-  -webkit-transform: rotateY(180deg);
+  -webkit-transform: rotateY(206deg);
   -moz-transform: rotateY(180deg);
 }
 
@@ -80,13 +81,31 @@ video {
   justify-content: center;
   align-items: center;
   background-color: var(--primary-color);
-  height: 50px;
-  border-radius: 5px;
+  height: 45px;
+  border-radius: 9999px;
   color: var(--main-light);
   font-size: 1.2rem;
-  width: 50px;
+  width: 45px;
   margin: 0 0.5rem;
 }
+
+.inviteButton {
+  
+  height: 45px;
+  border-radius: 9999px;
+  color: var(--main-light);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.0rem;
+  background-color: var(--primary-color);
+  position: absolute;
+  width: 45px;
+  top: 4px ;
+  right: 8px;
+}
+
+
 
 .background__red {
   background-color: #f6484a;
