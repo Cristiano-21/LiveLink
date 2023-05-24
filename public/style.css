@@ -34,7 +34,8 @@
 }
 
 .main__left {
-  flex: 0.7;
+  
+width: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -48,14 +49,17 @@
   background-color: var(--main-dark);
 }
 
-video {
-  height: 300px;
+video { 
+  height: 150px;
   border-radius: 1rem;
-  margin: 0.5rem;
-  width: 400px;
+  display: flex;
+  position: fixed;
+  bottom: 100px;
+  left: 5px;
+  width: 250px;
   object-fit: cover;
   transform: rotateY(180deg);
-  -webkit-transform: rotateY(180deg);
+  -webkit-transform: rotateY(206deg);
   -moz-transform: rotateY(180deg);
 }
 
@@ -78,12 +82,43 @@ video {
   justify-content: center;
   align-items: center;
   background-color: var(--primary-color);
-  height: 50px;
-  border-radius: 5px;
+  height: 45px;
+  border-radius: 9999px;
   color: var(--main-light);
   font-size: 1.2rem;
-  width: 50px;
+  width: 45px;
   margin: 0 0.5rem;
+}
+
+.inviteButton {
+  
+  height: 45px;
+  border-radius: 9999px;
+  color: var(--main-light);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.0rem;
+  background-color: var(--primary-color);
+  position: absolute;
+  width: 45px;
+  top: 4px ;
+  right: 8px;
+}
+
+/*
+#sidebar {
+  width: 200px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  right: 100px; /* Il div è nascosto di default 
+  background-color: #f0f0f0;
+  
+}
+*/
+#sidebar.open {
+  right: 50px; /* Il div appare quando la classe "open" viene applicata */
 }
 
 .background__red {
@@ -91,11 +126,22 @@ video {
 }
 
 .main__right {
+  display: none;
+  flex-direction: column;
+  flex: 0.3;
+  background-color: #242f41;
+  transition: right 1000px ease-in-out;
+  left: -200px
+}
+.main__right.open {
   display: flex;
   flex-direction: column;
   flex: 0.3;
   background-color: #242f41;
+  transition: right 1000px ease-in-out;
+  left: -200px
 }
+
 
 .main__chat_window {
   flex-grow: 1;
