@@ -15,17 +15,17 @@
 
 .header {
   display: flex;
-  justify-content: center;
   align-items: center;
-  height: 8vh;
+  height: 10vh;
   position: relative;
   width: 100%;
-  background-color: var(--main-darklg);
+  background-color: #001d4d;
 }
 
 .logo > h3 {
   color: var(--main-light);
   font-size: 40px;
+  margin-left: 16px;
 }
 
 .main {
@@ -84,6 +84,7 @@ video {
 
 .options__left {
   display: flex;
+  margin-left: 42%;
 }
 
 .options__right {
@@ -148,21 +149,29 @@ video {
   width: 45px;
   margin: 0 0.5rem;
 }
-
 .inviteButton {
-  
-  height: 45px;
-  border-radius: 9999px;
-  color: var(--main-light);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.0rem;
-  background-color: #1799e4;
   position: absolute;
-  width: 45px;
-  top: 4px ;
-  right: 8px;
+  
+}
+.inviteButton {
+  height: 45px;
+    border-radius: 9999px;
+    color: var(--main-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.0rem;
+    background-color: #000000;
+    position: absolute;
+    width: 45px;
+    right: 10px;
+    border-color: transparent;
+}
+
+.inviteButton:hover{
+  background-color: #1e1e1e;
+  
+
 }
 
 /*
