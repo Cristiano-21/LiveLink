@@ -34,7 +34,8 @@
 }
 
 .main__left {
-  flex: 0.7;
+  
+width: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -105,18 +106,42 @@ video {
   right: 8px;
 }
 
-
+/*
+#sidebar {
+  width: 200px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  right: 100px; /* Il div è nascosto di default 
+  background-color: #f0f0f0;
+  
+}
+*/
+#sidebar.open {
+  right: 50px; /* Il div appare quando la classe "open" viene applicata */
+}
 
 .background__red {
   background-color: #f6484a;
 }
 
 .main__right {
+  display: none;
+  flex-direction: column;
+  flex: 0.3;
+  background-color: #242f41;
+  transition: right 1000px ease-in-out;
+  left: -200px
+}
+.main__right.open {
   display: flex;
   flex-direction: column;
   flex: 0.3;
   background-color: #242f41;
+  transition: right 1000px ease-in-out;
+  left: -200px
 }
+
 
 .main__chat_window {
   flex-grow: 1;
