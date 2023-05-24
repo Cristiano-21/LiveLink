@@ -5,13 +5,13 @@ const { v4: uuidv4 } = require("uuid");
 app.set("view engine", "ejs");
 const io = require("socket.io")(server, {
   cors: {
-    origin: '*'
-  }
+    origin: "*",
+  },
 });
 const { ExpressPeerServer } = require("peer");
 const opinions = {
   debug: true,
-}
+};
 
 app.use("/peerjs", ExpressPeerServer(server, opinions));
 app.use(express.static("public"));
@@ -27,9 +27,9 @@ app.get("/:room", (req, res) => {
 io.on("connection", (socket) => {
   socket.on("join-room", (roomId, userId, userName) => {
     socket.join(roomId);
-    setTimeout(()=>{
+    setTimeout(() => {
       socket.to(roomId).broadcast.emit("user-connected", userId);
-    }, 1000)
+    }, 1000);
     socket.on("message", (message) => {
       io.to(roomId).emit("createMessage", message, userName);
     });
