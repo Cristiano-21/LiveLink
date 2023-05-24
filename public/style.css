@@ -34,6 +34,17 @@
   display: flex;
 }
 
+video {
+  height: 300px;
+  border-radius: 1rem;
+  margin: 0.5rem;
+  width: 400px;
+  object-fit: cover;
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+}
+
 .main__left {
   
 width: 100%;
@@ -50,6 +61,7 @@ width: 100%;
   background-color: black;
 }
 
+/*
 video { 
   height: 150px;
   border-radius: 1rem;
@@ -62,7 +74,7 @@ video {
   transform: rotateY(180deg);
   -webkit-transform: rotateY(206deg);
   -moz-transform: rotateY(180deg);
-}
+}*/
 
 .options {
   padding: 1rem;
