@@ -1,10 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
 
 :root {
-  --main-darklg: #1d2635;
+  --color-primary-900: #001d4d;
   --main-dark: #161d29;
   --primary-color: #2f80ec;
-  --main-light: #eeeeee;
+  --color-basic: #ffffff;
   font-family: "Poppins", sans-serif;
 }
 
@@ -13,19 +13,21 @@
   padding: 0;
 }
 
+/* TOP BAR */
+
 .header {
   display: flex;
   align-items: center;
   height: 8vh;
   position: relative;
   width: 100%;
-  background-color: #001d4d;
+  background-color: var(--color-primary-900);
 }
 
 .logo > h3 {
-  color: var(--main-light);
+  color: var(--color-basic);
   font-size: 40px;
-  margin-left: 16px;
+  margin-left: 12%;
 }
 
 .main {
@@ -34,11 +36,24 @@
   display: flex;
 }
 
+.videosGroup {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  background-color: black;
+}
+
+#video-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
 video {
-  height: 300px;
   border-radius: 1rem;
   margin: 0.5rem;
-  width: 400px;
   object-fit: cover;
   transform: rotateY(180deg);
   -webkit-transform: rotateY(180deg);
@@ -52,14 +67,7 @@ width: 100%;
   flex-direction: column;
 }
 
-.videos__group {
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
-  background-color: black;
-}
+
 
 /*
 video { 
@@ -80,16 +88,21 @@ video {
   padding: 1rem;
   display: flex;
   background-color: black;
+  justify-content: center;
+  align-items: center;
 }
 
 .options__left {
   display: flex;
-  margin-left: 47%;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .options__right {
   margin-left: auto;
 }
+
+
 
 .options__button {
   display: flex;
@@ -256,11 +269,7 @@ video {
   border-radius: 5px;
 }
 
-#video-grid {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
+
 
 #showChat {
   
