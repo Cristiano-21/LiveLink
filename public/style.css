@@ -16,7 +16,7 @@
 .header {
   display: flex;
   align-items: center;
-  height: 10vh;
+  height: 8vh;
   position: relative;
   width: 100%;
   background-color: #001d4d;
@@ -84,7 +84,7 @@ video {
 
 .options__left {
   display: flex;
-  margin-left: 42%;
+  margin-left: 47%;
 }
 
 .options__right {
@@ -116,7 +116,7 @@ video {
   height: 45px;
   border-radius: 9999px;
   color: var(--main-light);
-  font-size: 1.2rem;
+ font-size: 1.2rem;
   width: 45px;
   margin: 0 0.5rem;
 }
@@ -136,19 +136,7 @@ video {
   background-color: red;
   color: white;
 }
-.chatButton{
-  display: flex;
-  justify-content: center;
-  border-color: transparent;
-  align-items: center;
- background-color: #ab0000;
-  height: 45px;
-  border-radius: 9999px;
-  color: var(--main-light);
-  font-size: 0.8rem;
-  width: 45px;
-  margin: 0 0.5rem;
-}
+
 .inviteButton {
   position: absolute;
   
@@ -161,7 +149,7 @@ video {
     justify-content: center;
     align-items: center;
     font-size: 1.0rem;
-    background-color: #000000;
+    background-color: #00b4ff;
     position: absolute;
     width: 45px;
     right: 10px;
@@ -275,7 +263,7 @@ video {
 }
 
 #showChat {
-  display: none;
+  
 }
 
 .header__back {
