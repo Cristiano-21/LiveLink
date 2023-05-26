@@ -15,22 +15,34 @@
 
 .header {
   display: flex;
-  justify-content: center;
   align-items: center;
   height: 8vh;
   position: relative;
   width: 100%;
-  background-color: var(--main-darklg);
+  background-color: #001d4d;
 }
 
 .logo > h3 {
   color: var(--main-light);
+  font-size: 40px;
+  margin-left: 16px;
 }
 
 .main {
   overflow: hidden;
   height: 92vh;
   display: flex;
+}
+
+video {
+  height: 300px;
+  border-radius: 1rem;
+  margin: 0.5rem;
+  width: 400px;
+  object-fit: cover;
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
 }
 
 .main__left {
@@ -45,11 +57,12 @@
   justify-content: center;
   align-items: center;
   padding: 1rem;
-  background-color: var(--main-dark);
+  background-color: black;
 }
 
-video {
-  height: 300px;
+/*
+video { 
+  height: 150px;
   border-radius: 1rem;
   margin: 0.5rem;
   width: 400px;
@@ -57,16 +70,17 @@ video {
   transform: rotateY(180deg);
   -webkit-transform: rotateY(180deg);
   -moz-transform: rotateY(180deg);
-}
+}*/
 
 .options {
   padding: 1rem;
   display: flex;
-  background-color: var(--main-darklg);
+  background-color: black;
 }
 
 .options__left {
   display: flex;
+  margin-left: 47%;
 }
 
 .options__right {
@@ -76,18 +90,91 @@ video {
 .options__button {
   display: flex;
   justify-content: center;
+  border-color: transparent;
   align-items: center;
-  background-color: var(--primary-color);
-  height: 50px;
-  border-radius: 5px;
+  background-color: #117012;
+  height: 45px;
+  border-radius: 9999px;
   color: var(--main-light);
   font-size: 1.2rem;
   width: 50px;
   margin: 0 0.5rem;
 }
 
+
+
+.chatButton {
+  display: flex;
+  justify-content: center;
+  border-color: transparent;
+  align-items: center;
+  background-color: #ab0000;
+  height: 45px;
+  border-radius: 9999px;
+  color: var(--main-light);
+ font-size: 1.2rem;
+  width: 45px;
+  margin: 0 0.5rem;
+}
+.chatButton:hover {
+  background-color: rgb(211 3 3);
+}
+
+.chatButton.clicked {
+  background-color: #117012;
+  color: white;
+}
+.chatButton.clicked:hover {
+  background-color: rgb(36 129 28);
+  color: white;
+}
+.button-clicked {
+  background-color: red;
+  color: white;
+}
+
+.inviteButton {
+  position: absolute;
+  
+}
+.inviteButton {
+  height: 45px;
+    border-radius: 9999px;
+    color: var(--main-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.0rem;
+    background-color: #00b4ff;
+    position: absolute;
+    width: 45px;
+    right: 10px;
+    border-color: transparent;
+}
+
+.inviteButton:hover{
+  background-color: #1e1e1e;
+  
+
+}
+
+/*
+#sidebar {
+  width: 200px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  right: 100px; /* Il div è nascosto di default 
+  background-color: #f0f0f0;
+  
+}
+*/
+#sidebar.open {
+  right: 50px; /* Il div appare quando la classe "open" viene applicata */
+}
+
 .background__red {
-  background-color: #f6484a;
+  background-color: #ab0000;
 }
 
 .main__right {
@@ -100,6 +187,7 @@ video {
 .main__chat_window {
   flex-grow: 1;
   overflow-y: scroll;
+  background-color: #595959;
 }
 
 .main__chat_window::-webkit-scrollbar {
@@ -146,7 +234,8 @@ video {
 }
 
 .message > span {
-  background-color: #eeeeee;
+  background-color: #9f9f9f;
+    color: white;
   margin: 1rem 0;
   padding: 1rem;
   border-radius: 5px;
@@ -159,7 +248,7 @@ video {
 }
 
 #showChat {
-  display: none;
+  
 }
 
 .header__back {
