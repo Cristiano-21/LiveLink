@@ -1,11 +1,21 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
 
 :root {
-  --main-darklg: #1d2635;
-  --main-dark: #161d29;
-  --primary-color: #2f80ec;
-  --main-light: #eeeeee;
-  font-family: "Poppins", sans-serif;
+
+    --color-primary-900: #001d4d;
+    --color-red-button: #ab0000;
+    --color-red-button-hover:rgb(211 3 3);
+    --color-button:#117012;
+    --color-button-hover:rgb(36 129 28);
+    --primary-color: #2f80ec;
+    --color-basic: #ffffff;
+    --color-gray-600: #595959;
+    --color-gray-200:#eeeeee;
+    --color-gray-400: #9f9f9f;
+    --color-primary-200: #00b4ff;
+    --color-primary-200-hover:#4bc7fc;
+    font-family: "Poppins", sans-serif;
+  
 }
 
 * {
@@ -89,6 +99,34 @@ video {
 
 .options__right {
   margin-left: auto;
+}
+
+/* Mute Button */
+
+.muteButton {
+  display: flex;
+  justify-content: center;
+  border-color: transparent;
+  align-items: center;
+  background-color: var(--color-button);
+  height: 45px;
+  border-radius: 50%;
+  color: var(--color-basic);
+  font-size: 1.2rem;
+  width: 45px;
+  margin: 0 0.5rem;
+}
+
+.muteButton:hover {
+  background-color: var(--color-button-hover);
+}
+
+.muteButton.clicked {
+  background-color: var(--color-red-button);
+}
+
+.muteButton.clicked:hover {
+  background-color: var(--color-red-button-hover);
 }
 
 .options__button {

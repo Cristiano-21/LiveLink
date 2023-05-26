@@ -93,12 +93,12 @@ muteButton.addEventListener("click", () => {
   if (enabled) {
     myVideoStream.getAudioTracks()[0].enabled = false;
     html = `<i class="fas fa-microphone-slash"></i>`;
-    muteButton.classList.toggle("background__red");
+    muteButton.classList.toggle("clicked");
     muteButton.innerHTML = html;
   } else {
     myVideoStream.getAudioTracks()[0].enabled = true;
     html = `<i class="fas fa-microphone"></i>`;
-    muteButton.classList.toggle("background__red");
+    muteButton.classList.toggle("clicked");
     muteButton.innerHTML = html;
   }
 });
