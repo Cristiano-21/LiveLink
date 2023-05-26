@@ -1,18 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
 
 :root {
-  --color-primary-900: #001d4d;
-  --color-red-button: #ab0000;
-  --color-red-button-hover:rgb(211 3 3);
-  --color-button:#117012;
-  --color-button-hover:rgb(36 129 28);
+  --main-darklg: #1d2635;
+  --main-dark: #161d29;
   --primary-color: #2f80ec;
-  --color-basic: #ffffff;
-  --color-gray-600: #595959;
-  --color-gray-200:#eeeeee;
-  --color-gray-400: #9f9f9f;
-  --color-primary-200: #00b4ff;
-  --color-primary-200-hover:#4bc7fc;
+  --main-light: #eeeeee;
   font-family: "Poppins", sans-serif;
 }
 
@@ -21,52 +13,20 @@
   padding: 0;
 }
 
-/* TOP BAR */
-
 .header {
   display: flex;
   align-items: center;
   height: 8vh;
   position: relative;
   width: 100%;
-  background-color: var(--color-primary-900);
+  background-color: #001d4d;
 }
 
 .logo > h3 {
-  color: var(--color-basic);
+  color: var(--main-light);
   font-size: 40px;
-  margin-left: 12%;
+  margin-left: 16px;
 }
-
-.inviteButton-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;  
-}
-
-
-.inviteButton {
-  justify-content: center;
-  align-items: center;
-  font-size: 1.0rem;
-  height: 45px;
-  border-radius: 50%;
-  color: var(--color-basic);
-  display: flex;
-  background-color: var(--color-primary-200);
-  position: absolute;
-  width: 45px;
-  right: 10px;
-  border-color: transparent;
-}
-
-
-.inviteButton:hover{
-  background-color: var(--color-primary-200-hover);
-}
-
-
-/* VIDEO SECTION */
 
 .main {
   overflow: hidden;
@@ -74,25 +34,11 @@
   display: flex;
 }
 
-.videosGroup {
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
-  background-color: black;
-}
-
-#video-grid {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
 video {
+  height: 300px;
   border-radius: 1rem;
   margin: 0.5rem;
-  width: 450px;
+  width: 400px;
   object-fit: cover;
   transform: rotateY(180deg);
   -webkit-transform: rotateY(180deg);
@@ -106,120 +52,140 @@ width: 100%;
   flex-direction: column;
 }
 
+.videos__group {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  background-color: black;
+}
+
+/*
+video { 
+  height: 150px;
+  border-radius: 1rem;
+  display: flex;
+  position: fixed;
+  bottom: 100px;
+  left: 5px;
+  width: 250px;
+  object-fit: cover;
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(206deg);
+  -moz-transform: rotateY(180deg);
+}*/
 
 .options {
   padding: 1rem;
   display: flex;
   background-color: black;
-  justify-content: center;
-  align-items: center;
 }
 
 .options__left {
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  margin-left: 47%;
 }
 
 .options__right {
   margin-left: auto;
 }
 
-/* Stop Video Button */ 
-
-.stopVideoButton {
+.options__button {
   display: flex;
   justify-content: center;
   border-color: transparent;
   align-items: center;
-  background-color: var(--color-button);
+  background-color: #117012;
   height: 45px;
-  border-radius: 50%;
-  color: var(--color-basic);
+  border-radius: 9999px;
+  color: var(--main-light);
   font-size: 1.2rem;
   width: 45px;
   margin: 0 0.5rem;
 }
 
-.stopVideoButton:hover {
-  background-color: var(--color-button-hover);
-}
 
-.stopVideoButton.clicked {
-  background-color: var(--color-red-button);
-}
-
-.stopVideoButton.clicked:hover {
-  background-color: var(--color-red-button-hover);
-}
-
-/* Mute Button */
-
-.muteButton {
-  display: flex;
-  justify-content: center;
-  border-color: transparent;
-  align-items: center;
-  background-color: var(--color-button);
-  height: 45px;
-  border-radius: 50%;
-  color: var(--color-basic);
-  font-size: 1.2rem;
-  width: 45px;
-  margin: 0 0.5rem;
-}
-
-.muteButton:hover {
-  background-color: var(--color-button-hover);
-}
-
-.muteButton.clicked {
-  background-color: var(--color-red-button);
-}
-
-.muteButton.clicked:hover {
-  background-color: var(--color-red-button-hover);
-}
-
-/* Chat Button */
 
 .chatButton {
   display: flex;
   justify-content: center;
   border-color: transparent;
   align-items: center;
-  background-color: var(--color-button);
+  background-color: #ab0000;
   height: 45px;
-  border-radius: 50%;
-  color: var(--color-basic);
-  font-size: 1.2rem;
+  border-radius: 9999px;
+  color: var(--main-light);
+ font-size: 1.2rem;
   width: 45px;
   margin: 0 0.5rem;
 }
-
 .chatButton:hover {
-  background-color: var(--color-button-hover);
+  background-color: rgb(211 3 3);
 }
 
 .chatButton.clicked {
-  background-color: var(--color-red-button);
+  background-color: #117012;
+  color: white;
 }
-
 .chatButton.clicked:hover {
-  background-color: var(--color-red-button-hover);
+  background-color: rgb(36 129 28);
+  color: white;
+}
+.button-clicked {
+  background-color: red;
+  color: white;
 }
 
-/* Chat */
+.inviteButton {
+  position: absolute;
+  
+}
+.inviteButton {
+  height: 45px;
+    border-radius: 9999px;
+    color: var(--main-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.0rem;
+    background-color: #00b4ff;
+    position: absolute;
+    width: 45px;
+    right: 10px;
+    border-color: transparent;
+}
 
+.inviteButton:hover{
+  background-color: #1e1e1e;
+  
+
+}
+
+/*
+#sidebar {
+  width: 200px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  right: 100px; /* Il div è nascosto di default 
+  background-color: #f0f0f0;
+  
+}
+*/
 #sidebar.open {
-  right: 50px; 
+  right: 50px; /* Il div appare quando la classe "open" viene applicata */
+}
+
+.background__red {
+  background-color: #ab0000;
 }
 
 .main__right {
   display: none;
   flex-direction: column;
   flex: 0.3;
-  background-color: var(--color-primary-900);
+  background-color: #242f41;
   transition: right 1000px ease-in-out;
   left: -200px
 }
@@ -227,7 +193,7 @@ width: 100%;
   display: flex;
   flex-direction: column;
   flex: 0.3;
-  background-color: var(--color-primary-900);
+  background-color: #242f41;
   transition: right 1000px ease-in-out;
   left: -200px
 }
@@ -236,7 +202,7 @@ width: 100%;
 .main__chat_window {
   flex-grow: 1;
   overflow-y: scroll;
-  background-color: var(--color-gray-600);
+  background-color: #595959;
 }
 
 .main__chat_window::-webkit-scrollbar {
@@ -248,42 +214,15 @@ width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
- 
-
 }
 
-.sendButton {
-  display: flex;
-  justify-content: center;
-  border-color: transparent;
-  align-items: center;
-  background-color: var(--color-primary-200);
-  height: 45px;
-  border-radius: 50%;
-  color: var(--color-basic);
-  font-size: 1.2rem;
-  width: 45px;
-  margin: 0 0.5rem;
-}
-.sendButton:hover{
-background-color: var(--color-primary-200-hover);
-}
-
-
-.inputField {
+.main__message_container > input {
   height: 50px;
   flex: 1;
-  width: 271px;
-  padding-right: 15px;
   font-size: 1rem;
-  border-radius: 26px;
-  padding-left: 15px;
-  margin-right: 12px;
+  border-radius: 5px;
+  padding-left: 20px;
   border: none;
-}
-
-.inputField:focus {
-  outline: none; 
 }
 
 .messages {
@@ -298,9 +237,8 @@ background-color: var(--color-primary-200-hover);
 }
 
 .message > b {
-  color: var(--color-gray-200);
+  color: #eeeeee;
   display: flex;
- 
   align-items: center;
   text-transform: capitalize;
 }
@@ -311,16 +249,18 @@ background-color: var(--color-primary-200-hover);
 }
 
 .message > span {
-  background-color: var(--color-gray-400);
-    color: var(--color-basic);
+  background-color: #9f9f9f;
+    color: white;
   margin: 1rem 0;
-  word-wrap: break-word;
-  max-width: 300px;
   padding: 1rem;
   border-radius: 5px;
 }
 
-
+#video-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
 
 #showChat {
   
@@ -332,7 +272,7 @@ background-color: var(--color-primary-200-hover);
   font-size: 1.3rem;
   top: 17px;
   left: 28px;
-  color: var(--color-basic);
+  color: #fff;
 }
 
 @media (max-width: 700px) {
@@ -352,25 +292,4 @@ background-color: var(--color-primary-200-hover);
   #showChat {
     display: flex;
   }
-}
-
-
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.center-box {
-  text-align: center;
-}
-
-input[type="text"] {
-  padding: 10px;
-  margin-bottom: 10px;
-}
-
-button {
-  padding: 10px 20px;
 }
