@@ -8,34 +8,17 @@ myVideo.muted = true;
 const user = prompt("Enter your name");
 
 var peer = new Peer({
-  host: '127.0.0.1',
-  port: 3030,
-  path: '/peerjs',
+  host: window.location.hostname,
+  port:
+    window.location.port || (window.location.protocol === "https:" ? 443 : 80),
+  path: "/peerjs",
   config: {
-    'iceServers': [
-      { url: 'stun:stun01.sipphone.com' },
-      { url: 'stun:stun.ekiga.net' },
-      { url: 'stun:stunserver.org' },
-      { url: 'stun:stun.softjoys.com' },
-      { url: 'stun:stun.voiparound.com' },
-      { url: 'stun:stun.voipbuster.com' },
-      { url: 'stun:stun.voipstunt.com' },
-      { url: 'stun:stun.voxgratia.org' },
-      { url: 'stun:stun.xten.com' },
-      {
-        url: 'turn:192.158.29.39:3478?transport=udp',
-        credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
-        username: '28224511:1379330808'
-      },
-      {
-        url: 'turn:192.158.29.39:3478?transport=tcp',
-        credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
-        username: '28224511:1379330808'
-      }
-    ]
+    iceServers: [
+      { urls: "stun:stun.l.google.com:19302" },
+      { urls: "stun:stun1.l.google.com:19302" },
+    ],
   },
-
-  debug: 3
+  debug: 3,
 });
 
 let myVideoStream;
@@ -49,7 +32,7 @@ navigator.mediaDevices
     addVideoStream(myVideo, stream);
 
     peer.on("call", (call) => {
-      console.log('someone call me');
+      console.log("someone call me");
       call.answer(stream);
       const video = document.createElement("video");
       call.on("stream", (userVideoStream) => {
@@ -63,7 +46,7 @@ navigator.mediaDevices
   });
 
 const connectToNewUser = (userId, stream) => {
-  console.log('I call someone' + userId);
+  console.log("I call someone" + userId);
   const call = peer.call(userId, stream);
   const video = document.createElement("video");
   call.on("stream", (userVideoStream) => {
@@ -72,7 +55,7 @@ const connectToNewUser = (userId, stream) => {
 };
 
 peer.on("open", (id) => {
-  console.log('my id is' + id);
+  console.log("my id is" + id);
   socket.emit("join-room", ROOM_ID, id, user);
 });
 
@@ -102,19 +85,20 @@ text.addEventListener("keydown", (e) => {
   }
 });
 
+const inviteButton = document.querySelector("#inviteButton");
 const muteButton = document.querySelector("#muteButton");
-
+const stopVideo = document.querySelector("#stopVideo");
 muteButton.addEventListener("click", () => {
   const enabled = myVideoStream.getAudioTracks()[0].enabled;
   if (enabled) {
     myVideoStream.getAudioTracks()[0].enabled = false;
     html = `<i class="fas fa-microphone-slash"></i>`;
-    muteButton.classList.toggle("clicked");
+    muteButton.classList.toggle("background__red");
     muteButton.innerHTML = html;
   } else {
     myVideoStream.getAudioTracks()[0].enabled = true;
     html = `<i class="fas fa-microphone"></i>`;
-    muteButton.classList.toggle("clicked");
+    muteButton.classList.toggle("background__red");
     muteButton.innerHTML = html;
   }
 });
@@ -124,12 +108,12 @@ stopVideo.addEventListener("click", () => {
   if (enabled) {
     myVideoStream.getVideoTracks()[0].enabled = false;
     html = `<i class="fas fa-video-slash"></i>`;
-    stopVideo.classList.toggle("clicked");
+    stopVideo.classList.toggle("background__red");
     stopVideo.innerHTML = html;
   } else {
     myVideoStream.getVideoTracks()[0].enabled = true;
     html = `<i class="fas fa-video"></i>`;
-    stopVideo.classList.toggle("clicked");
+    stopVideo.classList.toggle("background__red");
     stopVideo.innerHTML = html;
   }
 });
@@ -145,8 +129,26 @@ socket.on("createMessage", (message, userName) => {
   messages.innerHTML =
     messages.innerHTML +
     `<div class="message">
-        <b><i class="far fa-user-circle"></i> <span> ${userName === user ? "me" : userName
-    }</span> </b>
+        <b><i class="far fa-user-circle"></i> <span> ${
+          userName === user ? "me" : userName
+        }</span> </b>
         <span>${message}</span>
     </div>`;
+});
+
+// Hide-show chat function
+
+var toggleButton = document.getElementById("toggleButton");
+var sidebar = document.getElementById("sidebar");
+
+toggleButton.addEventListener("click", function () {
+  sidebar.classList.toggle("open");
+});
+
+// Change color to chat button when clicked
+
+var toggleButton = document.getElementById("toggleButton");
+
+toggleButton.addEventListener("click", function () {
+  toggleButton.classList.toggle("clicked");
 });
