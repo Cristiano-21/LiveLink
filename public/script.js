@@ -108,12 +108,12 @@ stopVideo.addEventListener("click", () => {
   if (enabled) {
     myVideoStream.getVideoTracks()[0].enabled = false;
     html = `<i class="fas fa-video-slash"></i>`;
-    stopVideo.classList.toggle("background__red");
+    stopVideo.classList.toggle("clicked");
     stopVideo.innerHTML = html;
   } else {
     myVideoStream.getVideoTracks()[0].enabled = true;
     html = `<i class="fas fa-video"></i>`;
-    stopVideo.classList.toggle("background__red");
+    stopVideo.classList.toggle("clicked");
     stopVideo.innerHTML = html;
   }
 });
