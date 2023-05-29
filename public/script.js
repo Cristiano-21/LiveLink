@@ -29,6 +29,8 @@ navigator.mediaDevices
   })
   .then((stream) => {
     myVideoStream = stream;
+    console.log(JSON.stringify(myVideoStream));
+	  console.log(myVideoStream);
     addVideoStream(myVideo, stream);
 
     peer.on("call", (call) => {
