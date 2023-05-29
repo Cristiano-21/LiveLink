@@ -5,22 +5,7 @@ const showChat = document.querySelector("#showChat");
 const backBtn = document.querySelector(".header__back");
 myVideo.muted = true;
 
-const errorContainer = document.createElement("div");
-errorContainer.classList.add("error-offline");
-document.body.appendChild(errorContainer);
-
-window.addEventListener("offline", () => {
-  errorContainer.innerHTML =
-    "Connessione di rete persa. Controlla la tua connessione e riprova.";
-  errorContainer.style.display = "block";
-});
-
-window.addEventListener("online", () => {
-  errorContainer.innerHTML = "";
-  errorContainer.style.display = "none";
-});
-
-const user = prompt("What is your name ?");
+const user = prompt("Enter your name");
 
 var peer = new Peer({
   host: window.location.hostname,
@@ -58,6 +43,10 @@ navigator.mediaDevices
     socket.on("user-connected", (userId) => {
       connectToNewUser(userId, stream);
     });
+  })
+  .catch((error) => {
+    console.error("Failed to access media devices:", error);
+    alert("Failed to access media devices. Please check your camera and microphone settings.");
   });
 
 const connectToNewUser = (userId, stream) => {
@@ -135,7 +124,7 @@ stopVideo.addEventListener("click", () => {
 
 inviteButton.addEventListener("click", (e) => {
   prompt(
-    "Send this link to people you want to meet with",
+    "Copy this link and send it to people you want to meet with",
     window.location.href
   );
 });
@@ -144,7 +133,7 @@ socket.on("createMessage", (message, userName) => {
   messages.innerHTML =
     messages.innerHTML +
     `<div class="message">
-        <b><i class="fa fa-user" aria-hidden="true"></i><span> ${
+        <b><i class="far fa-user-circle"></i> <span> ${
           userName === user ? "me" : userName
         }</span> </b>
         <span>${message}</span>
@@ -166,4 +155,20 @@ var toggleButton = document.getElementById("toggleButton");
 
 toggleButton.addEventListener("click", function () {
   toggleButton.classList.toggle("clicked");
+});
+
+window.addEventListener("offline", function() {
+  const errorMessageDiv = document.getElementById("error-container");
+  errorMessageDiv.innerHTML = "<div class='message-error'> CONNECTION LOST </div><br><div class='message-error'> Please check your internet connection. </div>";
+  errorMessageDiv.style.display = "block"; // Mostra l'elemento
+});
+
+window.addEventListener("online", function() {
+  const errorMessageDiv = document.getElementById("error-container");
+  errorMessageDiv.style.display = "none"; // Nasconde l'elemento
+  
+  const refreshButton = document.getElementById("refreshButton");
+  if (refreshButton) {
+    refreshButton.remove(); // Rimuove il bottone se presente
+  }
 });
