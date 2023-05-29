@@ -29,8 +29,12 @@ navigator.mediaDevices
   })
   .then((stream) => {
     myVideoStream = stream;
-    console.log(JSON.stringify(myVideoStream));
-	  console.log(myVideoStream);
+    console.log(
+      "Video resolution:",
+      stream.getVideoTracks()[0].getSettings().width,
+      "x",
+      stream.getVideoTracks()[0].getSettings().height
+    );
     addVideoStream(myVideo, stream);
 
     peer.on("call", (call) => {
@@ -38,6 +42,12 @@ navigator.mediaDevices
       call.answer(stream);
       const video = document.createElement("video");
       call.on("stream", (userVideoStream) => {
+        console.log(
+          "Received video resolution:",
+          userVideoStream.getVideoTracks()[0].getSettings().width,
+          "x",
+          userVideoStream.getVideoTracks()[0].getSettings().height
+        );
         addVideoStream(video, userVideoStream);
       });
     });
@@ -52,6 +62,12 @@ const connectToNewUser = (userId, stream) => {
   const call = peer.call(userId, stream);
   const video = document.createElement("video");
   call.on("stream", (userVideoStream) => {
+    console.log(
+      "Received video resolution:",
+      userVideoStream.getVideoTracks()[0].getSettings().width,
+      "x",
+      userVideoStream.getVideoTracks()[0].getSettings().height
+    );
     addVideoStream(video, userVideoStream);
   });
 };
