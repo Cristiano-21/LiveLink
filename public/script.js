@@ -161,11 +161,17 @@ window.addEventListener("offline", function() {
   const errorMessageDiv = document.getElementById("error-container");
   errorMessageDiv.innerHTML = "<div class='message-error'> CONNECTION LOST </div><br><div class='message-error'> Please check your internet connection. </div>";
   errorMessageDiv.style.display = "block"; // Mostra l'elemento
+  
+  const videoGridDiv = document.getElementById("video-grid");
+  videoGridDiv.style.display = "none"; // Nasconde il div "video-grid"
 });
 
 window.addEventListener("online", function() {
   const errorMessageDiv = document.getElementById("error-container");
   errorMessageDiv.style.display = "none"; // Nasconde l'elemento
+  
+  const videoGridDiv = document.getElementById("video-grid");
+  videoGridDiv.style.display = "block"; // Mostra di nuovo il div "video-grid"
   
   const refreshButton = document.getElementById("refreshButton");
   if (refreshButton) {
