@@ -5,7 +5,7 @@ const showChat = document.querySelector("#showChat");
 const backBtn = document.querySelector(".header__back");
 myVideo.muted = true;
 
-const user = prompt("Enter your name");
+const user = prompt("What is your name ?");
 
 var peer = new Peer({
   host: window.location.hostname,
@@ -120,7 +120,7 @@ stopVideo.addEventListener("click", () => {
 
 inviteButton.addEventListener("click", (e) => {
   prompt(
-    "Copy this link and send it to people you want to meet with",
+    "Send this link to people you want to meet with",
     window.location.href
   );
 });
