@@ -269,6 +269,11 @@ width: 100%;
 background-color: var(--color-primary-200-hover);
 }
 
+.error-offline{
+  text-align: center;
+  color: red;
+}
+
 
 .inputField {
   height: 50px;

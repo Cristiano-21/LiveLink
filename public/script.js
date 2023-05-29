@@ -5,6 +5,21 @@ const showChat = document.querySelector("#showChat");
 const backBtn = document.querySelector(".header__back");
 myVideo.muted = true;
 
+const errorContainer = document.createElement("div");
+errorContainer.classList.add("error-offline");
+document.body.appendChild(errorContainer);
+
+window.addEventListener("offline", () => {
+  errorContainer.innerHTML =
+    "Connessione di rete persa. Controlla la tua connessione e riprova.";
+  errorContainer.style.display = "block";
+});
+
+window.addEventListener("online", () => {
+  errorContainer.innerHTML = "";
+  errorContainer.style.display = "none";
+});
+
 const user = prompt("What is your name ?");
 
 var peer = new Peer({
