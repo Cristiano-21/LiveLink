@@ -35,6 +35,29 @@ navigator.mediaDevices
       "x",
       stream.getVideoTracks()[0].getSettings().height
     );
+    	console.log(
+	  "Frequenza fotogrammi:",
+	  stream.getVideoTracks()[0].getSettings().frameRate);
+	  
+	console.log(
+	  "Device id:",
+	  stream.getVideoTracks()[0].getSettings().deviceId);
+	 
+	console.log(
+	  "Formato:",
+	  stream.getVideoTracks()[0].getSettings().aspectRatio);
+	  
+	console.log(
+	  "Audio Latency:",
+	  stream.getAudioTracks()[0].getSettings().latency, "seconds");
+	  
+	console.log(
+	  "Noise suppression:",
+	  stream.getAudioTracks()[0].getSettings().noiseSuppression);
+	  
+	console.log(
+	  "Quality audio:",
+	  stream.getAudioTracks()[0].getSettings().sampleSize, "bits");
     addVideoStream(myVideo, stream);
 
     peer.on("call", (call) => {
@@ -48,6 +71,29 @@ navigator.mediaDevices
           "x",
           userVideoStream.getVideoTracks()[0].getSettings().height
         );
+    console.log(
+	  "Frequenza fotogrammi:",
+	  stream.getVideoTracks()[0].getSettings().frameRate);
+	  
+	console.log(
+	  "Device id:",
+	  stream.getVideoTracks()[0].getSettings().deviceId);
+	 
+	console.log(
+	  "Formato:",
+	  stream.getVideoTracks()[0].getSettings().aspectRatio);
+	  
+	console.log(
+	  "Audio Latency:",
+	  stream.getAudioTracks()[0].getSettings().latency, "seconds");
+	  
+	console.log(
+	  "Noise suppression:",
+	  stream.getAudioTracks()[0].getSettings().noiseSuppression);
+	  
+	console.log(
+	  "Quality audio:",
+	  stream.getAudioTracks()[0].getSettings().sampleSize, "bits");
         addVideoStream(video, userVideoStream);
       });
     });
@@ -68,6 +114,29 @@ const connectToNewUser = (userId, stream) => {
       "x",
       userVideoStream.getVideoTracks()[0].getSettings().height
     );
+    	console.log(
+	  "Frequenza fotogrammi:",
+	  stream.getVideoTracks()[0].getSettings().frameRate);
+	  
+	console.log(
+	  "Device id:",
+	  stream.getVideoTracks()[0].getSettings().deviceId);
+	 
+	console.log(
+	  "Formato:",
+	  stream.getVideoTracks()[0].getSettings().aspectRatio);
+	  
+	console.log(
+	  "Audio Latency:",
+	  stream.getAudioTracks()[0].getSettings().latency, "seconds");
+	  
+	console.log(
+	  "Noise suppression:",
+	  stream.getAudioTracks()[0].getSettings().noiseSuppression);
+	  
+	console.log(
+	  "Quality audio:",
+	  stream.getAudioTracks()[0].getSettings().sampleSize, "bits");
     addVideoStream(video, userVideoStream);
   });
 };
