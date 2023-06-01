@@ -13,6 +13,7 @@
   --color-gray-400: #9f9f9f;
   --color-primary-200: #00b4ff;
   --color-primary-200-hover:#4bc7fc;
+  --color-dark:black;
   font-family: "Poppins", sans-serif;
 }
 
@@ -20,6 +21,9 @@
   margin: 0;
   padding: 0;
 }
+
+
+/*ROOM PAGE */
 
 /* TOP BAR */
 
@@ -30,6 +34,32 @@
   position: relative;
   width: 100%;
   background-color: var(--color-primary-900);
+}
+
+.swal2-title{
+  color: #ff0303 !important;
+}
+
+.swal2-styled.swal2-confirm{
+  background-color: var(--color-primary-200) !important;
+  border: none !important;
+  border-color: transparent !important;
+}
+
+
+
+.swal2-styled.swal2-confirm:hover{
+  background-color: var(--color-primary-200-hover) !important;
+  border: none !important;
+  border-color: transparent !important;
+}
+.swal2-icon.swal2-info{
+  border-color: var(--color-dark) !important;
+  color: var(--color-dark) !important;
+}
+
+.swal2-container.swal2-center>.swal2-popup{
+  background-color: var(--color-gray-200);
 }
 
 .logo > h3 {
