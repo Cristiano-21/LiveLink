@@ -6,7 +6,8 @@ const backBtn = document.querySelector(".header__back");
 myVideo.muted = true;
 
 Swal.fire({
-  title: "What is your name?",
+  title:
+    "<div class='title-username-modal'><span>WELCOME ON LiveLink</span></div><div class='username-modal-container'><span> <br> Enter your username and join the call !</div>",
   input: "text",
   inputAttributes: {
     autocapitalize: "off",
