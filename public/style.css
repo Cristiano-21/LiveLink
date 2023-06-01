@@ -211,6 +211,26 @@ width: 100%;
   background-color: var(--color-red-button-hover);
 }
 
+.endCallButton {
+  display: flex;
+  justify-content: center;
+  border-color: transparent;
+  align-items: center;
+  background-color: var(--color-red-button);
+  height: 45px;
+  border-radius: 50%;
+  color: var(--color-basic);
+  font-size: 1.2rem;
+  width: 45px;
+  margin: 0 0.5rem;
+}
+
+.endCallButton:hover {
+  background-color: var(--color-red-button-hover);
+}
+
+
+
 /* Chat Button */
 
 .chatButton {

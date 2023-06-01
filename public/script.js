@@ -186,6 +186,8 @@ Swal.fire({
 
       // Nascondi il video grid
       videoGrid.style.display = "none";
+
+      socket.emit("disconnect");
     });
   }
 });
