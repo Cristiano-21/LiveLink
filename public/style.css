@@ -374,3 +374,10 @@ input[type="text"] {
 button {
   padding: 10px 20px;
 }
+
+
+
+.swal2-validation-message{
+background-color: var(--color-basic) ;
+}
+
