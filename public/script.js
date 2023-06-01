@@ -5,150 +5,170 @@ const showChat = document.querySelector("#showChat");
 const backBtn = document.querySelector(".header__back");
 myVideo.muted = true;
 
-const user = prompt("What is your name ?");
-
-var peer = new Peer({
-  host: window.location.hostname,
-  port:
-    window.location.port || (window.location.protocol === "https:" ? 443 : 80),
-  path: "/peerjs",
-  config: {
-    iceServers: [
-      { urls: "stun:stun.l.google.com:19302" },
-      { urls: "stun:stun1.l.google.com:19302" },
-    ],
+Swal.fire({
+  title: "What is your name?",
+  input: "text",
+  inputAttributes: {
+    autocapitalize: "off",
   },
-  debug: 3,
-});
+  showCancelButton: false,
+  confirmButtonText: "Submit",
+  allowOutsideClick: false,
+  preConfirm: (name) => {
+    if (!name) {
+      Swal.showValidationMessage("Please enter your name");
+    }
+    return name;
+  },
+}).then((result) => {
+  if (result.isConfirmed) {
+    const user = result.value;
 
-let myVideoStream;
-navigator.mediaDevices
-  .getUserMedia({
-    audio: true,
-    video: true,
-  })
-  .then((stream) => {
-    myVideoStream = stream;
-    addVideoStream(myVideo, stream);
+    var peer = new Peer({
+      host: window.location.hostname,
+      port:
+        window.location.port ||
+        (window.location.protocol === "https:" ? 443 : 80),
+      path: "/peerjs",
+      config: {
+        iceServers: [
+          { urls: "stun:stun.l.google.com:19302" },
+          { urls: "stun:stun1.l.google.com:19302" },
+        ],
+      },
+      debug: 3,
+    });
 
-    peer.on("call", (call) => {
-      console.log("someone call me");
-      call.answer(stream);
+    let myVideoStream;
+    navigator.mediaDevices
+      .getUserMedia({
+        audio: true,
+        video: true,
+      })
+      .then((stream) => {
+        myVideoStream = stream;
+        addVideoStream(myVideo, stream);
+
+        peer.on("call", (call) => {
+          console.log("someone call me");
+          call.answer(stream);
+          const video = document.createElement("video");
+          call.on("stream", (userVideoStream) => {
+            addVideoStream(video, userVideoStream);
+          });
+        });
+
+        socket.on("user-connected", (userId) => {
+          connectToNewUser(userId, stream);
+        });
+      });
+
+    const connectToNewUser = (userId, stream) => {
+      console.log("I call someone" + userId);
+      const call = peer.call(userId, stream);
       const video = document.createElement("video");
       call.on("stream", (userVideoStream) => {
         addVideoStream(video, userVideoStream);
       });
+    };
+
+    peer.on("open", (id) => {
+      console.log("my id is" + id);
+      socket.emit("join-room", ROOM_ID, id, user);
     });
 
-    socket.on("user-connected", (userId) => {
-      connectToNewUser(userId, stream);
+    const addVideoStream = (video, stream) => {
+      video.srcObject = stream;
+      video.addEventListener("loadedmetadata", () => {
+        video.play();
+        videoGrid.append(video);
+      });
+    };
+
+    let text = document.querySelector("#chat_message");
+    let send = document.getElementById("send");
+    let messages = document.querySelector(".messages");
+
+    send.addEventListener("click", (e) => {
+      if (text.value.length !== 0) {
+        socket.emit("message", text.value);
+        text.value = "";
+      }
     });
-  });
 
-const connectToNewUser = (userId, stream) => {
-  console.log("I call someone" + userId);
-  const call = peer.call(userId, stream);
-  const video = document.createElement("video");
-  call.on("stream", (userVideoStream) => {
-    addVideoStream(video, userVideoStream);
-  });
-};
+    text.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && text.value.length !== 0) {
+        socket.emit("message", text.value);
+        text.value = "";
+      }
+    });
 
-peer.on("open", (id) => {
-  console.log("my id is" + id);
-  socket.emit("join-room", ROOM_ID, id, user);
-});
+    const inviteButton = document.querySelector("#inviteButton");
+    const muteButton = document.querySelector("#muteButton");
+    const stopVideo = document.querySelector("#stopVideo");
+    muteButton.addEventListener("click", () => {
+      const enabled = myVideoStream.getAudioTracks()[0].enabled;
+      if (enabled) {
+        myVideoStream.getAudioTracks()[0].enabled = false;
+        html = `<i class="fas fa-microphone-slash"></i>`;
+        muteButton.classList.toggle("clicked");
+        muteButton.innerHTML = html;
+      } else {
+        myVideoStream.getAudioTracks()[0].enabled = true;
+        html = `<i class="fas fa-microphone"></i>`;
+        muteButton.classList.toggle("clicked");
+        muteButton.innerHTML = html;
+      }
+    });
 
-const addVideoStream = (video, stream) => {
-  video.srcObject = stream;
-  video.addEventListener("loadedmetadata", () => {
-    video.play();
-    videoGrid.append(video);
-  });
-};
+    stopVideo.addEventListener("click", () => {
+      const enabled = myVideoStream.getVideoTracks()[0].enabled;
+      if (enabled) {
+        myVideoStream.getVideoTracks()[0].enabled = false;
+        html = `<i class="fas fa-video-slash"></i>`;
+        stopVideo.classList.toggle("clicked");
+        stopVideo.innerHTML = html;
+      } else {
+        myVideoStream.getVideoTracks()[0].enabled = true;
+        html = `<i class="fas fa-video"></i>`;
+        stopVideo.classList.toggle("clicked");
+        stopVideo.innerHTML = html;
+      }
+    });
 
-let text = document.querySelector("#chat_message");
-let send = document.getElementById("send");
-let messages = document.querySelector(".messages");
+    inviteButton.addEventListener("click", (e) => {
+      prompt(
+        "Send this link to people you want to meet with",
+        window.location.href
+      );
+    });
 
-send.addEventListener("click", (e) => {
-  if (text.value.length !== 0) {
-    socket.emit("message", text.value);
-    text.value = "";
-  }
-});
-
-text.addEventListener("keydown", (e) => {
-  if (e.key === "Enter" && text.value.length !== 0) {
-    socket.emit("message", text.value);
-    text.value = "";
-  }
-});
-
-const inviteButton = document.querySelector("#inviteButton");
-const muteButton = document.querySelector("#muteButton");
-const stopVideo = document.querySelector("#stopVideo");
-muteButton.addEventListener("click", () => {
-  const enabled = myVideoStream.getAudioTracks()[0].enabled;
-  if (enabled) {
-    myVideoStream.getAudioTracks()[0].enabled = false;
-    html = `<i class="fas fa-microphone-slash"></i>`;
-    muteButton.classList.toggle("clicked");
-    muteButton.innerHTML = html;
-  } else {
-    myVideoStream.getAudioTracks()[0].enabled = true;
-    html = `<i class="fas fa-microphone"></i>`;
-    muteButton.classList.toggle("clicked");
-    muteButton.innerHTML = html;
-  }
-});
-
-stopVideo.addEventListener("click", () => {
-  const enabled = myVideoStream.getVideoTracks()[0].enabled;
-  if (enabled) {
-    myVideoStream.getVideoTracks()[0].enabled = false;
-    html = `<i class="fas fa-video-slash"></i>`;
-    stopVideo.classList.toggle("clicked");
-    stopVideo.innerHTML = html;
-  } else {
-    myVideoStream.getVideoTracks()[0].enabled = true;
-    html = `<i class="fas fa-video"></i>`;
-    stopVideo.classList.toggle("clicked");
-    stopVideo.innerHTML = html;
-  }
-});
-
-inviteButton.addEventListener("click", (e) => {
-  prompt(
-    "Send this link to people you want to meet with",
-    window.location.href
-  );
-});
-
-socket.on("createMessage", (message, userName) => {
-  messages.innerHTML =
-    messages.innerHTML +
-    `<div class="message">
+    socket.on("createMessage", (message, userName) => {
+      messages.innerHTML =
+        messages.innerHTML +
+        `<div class="message">
         <b><i class="fa fa-user" aria-hidden="true"></i><span> ${
           userName === user ? "me" : userName
         }</span> </b>
         <span>${message}</span>
     </div>`;
-});
+    });
 
-// Hide-show chat function
+    // Hide-show chat function
 
-var toggleButton = document.getElementById("toggleButton");
-var sidebar = document.getElementById("sidebar");
+    var toggleButton = document.getElementById("toggleButton");
+    var sidebar = document.getElementById("sidebar");
 
-toggleButton.addEventListener("click", function () {
-  sidebar.classList.toggle("open");
-});
+    toggleButton.addEventListener("click", function () {
+      sidebar.classList.toggle("open");
+    });
 
-// Change color to chat button when clicked
+    // Change color to chat button when clicked
 
-var toggleButton = document.getElementById("toggleButton");
+    var toggleButton = document.getElementById("toggleButton");
 
-toggleButton.addEventListener("click", function () {
-  toggleButton.classList.toggle("clicked");
+    toggleButton.addEventListener("click", function () {
+      toggleButton.classList.toggle("clicked");
+    });
+  }
 });
