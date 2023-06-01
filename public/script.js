@@ -177,17 +177,15 @@ Swal.fire({
       toggleButton.classList.toggle("clicked");
     });
     endCallButton.addEventListener("click", () => {
-      // Termina la connessione
+      // stop the connction
       peer.destroy();
 
-      // Rimuovi tutti i video dal video grid
+      // Remove all the videos from videoGrid
       const videos = document.querySelectorAll("#video-grid video");
       videos.forEach((video) => video.remove());
 
-      // Nascondi il video grid
+      // Hide videoGrid section
       videoGrid.style.display = "none";
-
-      socket.emit("disconnect");
     });
   }
 });
