@@ -161,6 +161,8 @@ Swal.fire({
     // Hide-show chat function
 
     var toggleButton = document.getElementById("toggleButton");
+    const endCallButton = document.getElementById("endCallButton");
+
     var sidebar = document.getElementById("sidebar");
 
     toggleButton.addEventListener("click", function () {
@@ -173,6 +175,17 @@ Swal.fire({
 
     toggleButton.addEventListener("click", function () {
       toggleButton.classList.toggle("clicked");
+    });
+    endCallButton.addEventListener("click", () => {
+      // Termina la connessione
+      peer.destroy();
+
+      // Rimuovi tutti i video dal video grid
+      const videos = document.querySelectorAll("#video-grid video");
+      videos.forEach((video) => video.remove());
+
+      // Nascondi il video grid
+      videoGrid.style.display = "none";
     });
   }
 });
