@@ -137,10 +137,14 @@ Swal.fire({
     });
 
     inviteButton.addEventListener("click", (e) => {
-      prompt(
-        "Send this link to people you want to meet with",
-        window.location.href
-      );
+      Swal.fire({
+        title: "Send this link to people you want to meet with",
+        text: window.location.href,
+        icon: "info",
+        confirmButtonText: "OK",
+        position: "center",
+        allowOutsideClick: false,
+      });
     });
 
     socket.on("createMessage", (message, userName) => {
