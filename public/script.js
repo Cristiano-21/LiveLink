@@ -7,7 +7,7 @@ myVideo.muted = true;
 
 Swal.fire({
   title:
-    "<div class='title-username-modal'><span>WELCOME ON LiveLink</span></div><div class='username-modal-container'><span> <br> Enter your username and join the call !</div>",
+    "<div class='title-username-modal'><span>WELCOME TO LiveLink</span></div><div class='username-modal-container'><span> <br> Enter your username to join the call !</div>",
   input: "text",
   inputAttributes: {
     autocapitalize: "off",
