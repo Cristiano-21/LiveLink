@@ -43,7 +43,7 @@ div:where(.swal2-container) .swal2-input{
   /* Username modal background color */
 
 .swal2-container.swal2-center>.swal2-popup{
-  background-color: var(--color-gray-200);
+  background-color: var(--color-primary-900);
 }
 /* error message in username modal */
 
