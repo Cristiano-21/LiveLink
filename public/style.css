@@ -2,8 +2,10 @@
 
 :root {
   --color-primary-900: #001d4d;
+  --color-primary-800: #01317e;
   --color-red-button: #ab0000;
   --color-red-button-hover:rgb(211 3 3);
+  --color-error: red;
   --color-button:#117012;
   --color-button-hover:rgb(36 129 28);
   --primary-color: #2f80ec;
@@ -13,12 +15,105 @@
   --color-gray-400: #9f9f9f;
   --color-primary-200: #00b4ff;
   --color-primary-200-hover:#4bc7fc;
+  --color-dark:black;
   font-family: "Poppins", sans-serif;
 }
 
 * {
   margin: 0;
   padding: 0;
+}
+
+
+/*ROOM PAGE */
+
+/* Username modal title */
+
+#swal2-title {
+  color: var(--color-error) !important;
+}
+
+/* Border color username input */
+
+div:where(.swal2-container) .swal2-input{
+  box-shadow: none !important;
+  border-color: var(--color-dark) !important;
+  }
+
+  /* Username modal background color */
+
+.swal2-container.swal2-center>.swal2-popup{
+  background-color: var(--color-gray-200);
+}
+/* error message in username modal */
+
+.swal2-validation-message{
+  color: var(--color-error)!important;
+}
+
+/* Icon error message in username modal */
+
+.swal2-validation-message::before{
+  background-color: var(--color-error) !important;
+}
+
+/*input border color for error message in user modal */
+
+.swal2-input .swal2-inputerror{
+  border-color: var(--color-error) !important;
+  box-shadow: none !important;
+}
+
+/*Submit button color */
+
+.swal2-styled.swal2-confirm{
+  background-color: var(--color-primary-900) !important;
+  border: none !important;
+  border-color: transparent !important;
+}
+
+.swal2-styled.swal2-confirm:hover{
+  background-color:var(--color-primary-800) !important;
+  border: none !important;
+  border-color: transparent !important;
+}
+
+/* color invite icon in invite modal */
+
+div:where(.swal2-container) 
+div:where(.swal2-icon).swal2-info.swal2-icon-show{
+  border-color: var(--color-primary-900) !important;
+}
+
+div:where(.swal2-container) 
+div:where(.swal2-icon).swal2-info.swal2-icon-show 
+.swal2-icon-content{
+ color: var(--color-primary-900)!important;
+}
+
+div:where(.swal2-container) .swal2-html-container{
+  color: var(--color-dark) !important;
+}
+
+/*username text in username modal */
+
+.title-username-modal{
+color: var(--color-primary-900);
+font-size: 32px;
+}
+
+.username-modal-container{
+  color: var(--color-error);
+  font-size: 20px;
+}
+
+div:where(.swal2-container) .swal2-input{
+  color: var(--color-dark);
+}
+
+
+button.swal2-confirm.swal2-styled:focus {
+  box-shadow: none !important;
 }
 
 /* TOP BAR */
@@ -180,6 +275,28 @@ width: 100%;
 .muteButton.clicked:hover {
   background-color: var(--color-red-button-hover);
 }
+
+/* End call button */
+
+.endCallButton {
+  display: flex;
+  justify-content: center;
+  border-color: transparent;
+  align-items: center;
+  background-color: var(--color-red-button);
+  height: 45px;
+  border-radius: 50%;
+  color: var(--color-basic);
+  font-size: 1.2rem;
+  width: 45px;
+  margin: 0 0.5rem;
+}
+
+.endCallButton:hover {
+  background-color: var(--color-red-button-hover);
+}
+
+
 
 /* Chat Button */
 
@@ -374,3 +491,10 @@ input[type="text"] {
 button {
   padding: 10px 20px;
 }
+
+
+
+.swal2-validation-message{
+background-color: var(--color-basic) ;
+}
+
