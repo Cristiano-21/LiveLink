@@ -49,6 +49,35 @@ Swal.fire({
       .then((stream) => {
         myVideoStream = stream;
         addVideoStream(myVideo, stream);
+        console.log(
+      "Video resolution:",
+      stream.getVideoTracks()[0].getSettings().width,
+      "x",
+      stream.getVideoTracks()[0].getSettings().height)
+	
+	console.log(
+	  "Frequenza fotogrammi:",
+	  stream.getVideoTracks()[0].getSettings().frameRate);
+	  
+	console.log(
+	  "Device id:",
+	  stream.getVideoTracks()[0].getSettings().deviceId);
+	 
+	console.log(
+	  "Formato:",
+	  stream.getVideoTracks()[0].getSettings().aspectRatio);
+	  
+	console.log(
+	  "Audio Latency:",
+	  stream.getAudioTracks()[0].getSettings().latency, "seconds");
+	  
+	console.log(
+	  "Noise suppression:",
+	  stream.getAudioTracks()[0].getSettings().noiseSuppression);
+	  
+	console.log(
+	  "Quality audio:",
+	  stream.getAudioTracks()[0].getSettings().sampleSize, "bits");
 
         peer.on("call", (call) => {
           console.log("someone call me");
@@ -56,6 +85,35 @@ Swal.fire({
           const video = document.createElement("video");
           call.on("stream", (userVideoStream) => {
             addVideoStream(video, userVideoStream);
+            console.log(
+      "Video resolution:",
+      stream.getVideoTracks()[0].getSettings().width,
+      "x",
+      stream.getVideoTracks()[0].getSettings().height)
+	
+	console.log(
+	  "Frequenza fotogrammi:",
+	  stream.getVideoTracks()[0].getSettings().frameRate);
+	  
+	console.log(
+	  "Device id:",
+	  stream.getVideoTracks()[0].getSettings().deviceId);
+	 
+	console.log(
+	  "Formato:",
+	  stream.getVideoTracks()[0].getSettings().aspectRatio);
+	  
+	console.log(
+	  "Audio Latency:",
+	  stream.getAudioTracks()[0].getSettings().latency, "seconds");
+	  
+	console.log(
+	  "Noise suppression:",
+	  stream.getAudioTracks()[0].getSettings().noiseSuppression);
+	  
+	console.log(
+	  "Quality audio:",
+	  stream.getAudioTracks()[0].getSettings().sampleSize, "bits");
           });
         });
 
