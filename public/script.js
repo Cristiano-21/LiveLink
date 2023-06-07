@@ -49,35 +49,7 @@ Swal.fire({
       .then((stream) => {
         myVideoStream = stream;
         addVideoStream(myVideo, stream);
-        console.log(
-      "Video resolution:",
-      stream.getVideoTracks()[0].getSettings().width,
-      "x",
-      stream.getVideoTracks()[0].getSettings().height)
-	
-	console.log(
-	  "Frequenza fotogrammi:",
-	  stream.getVideoTracks()[0].getSettings().frameRate);
-	  
-	console.log(
-	  "Device id:",
-	  stream.getVideoTracks()[0].getSettings().deviceId);
-	 
-	console.log(
-	  "Formato:",
-	  stream.getVideoTracks()[0].getSettings().aspectRatio);
-	  
-	console.log(
-	  "Audio Latency:",
-	  stream.getAudioTracks()[0].getSettings().latency, "seconds");
-	  
-	console.log(
-	  "Noise suppression:",
-	  stream.getAudioTracks()[0].getSettings().noiseSuppression);
-	  
-	console.log(
-	  "Quality audio:",
-	  stream.getAudioTracks()[0].getSettings().sampleSize, "bits");
+        logVideoStreamInfo(stream);
 
         peer.on("call", (call) => {
           console.log("someone call me");
@@ -85,35 +57,7 @@ Swal.fire({
           const video = document.createElement("video");
           call.on("stream", (userVideoStream) => {
             addVideoStream(video, userVideoStream);
-            console.log(
-      "Video resolution:",
-      stream.getVideoTracks()[0].getSettings().width,
-      "x",
-      stream.getVideoTracks()[0].getSettings().height)
-	
-	console.log(
-	  "Frequenza fotogrammi:",
-	  stream.getVideoTracks()[0].getSettings().frameRate);
-	  
-	console.log(
-	  "Device id:",
-	  stream.getVideoTracks()[0].getSettings().deviceId);
-	 
-	console.log(
-	  "Formato:",
-	  stream.getVideoTracks()[0].getSettings().aspectRatio);
-	  
-	console.log(
-	  "Audio Latency:",
-	  stream.getAudioTracks()[0].getSettings().latency, "seconds");
-	  
-	console.log(
-	  "Noise suppression:",
-	  stream.getAudioTracks()[0].getSettings().noiseSuppression);
-	  
-	console.log(
-	  "Quality audio:",
-	  stream.getAudioTracks()[0].getSettings().sampleSize, "bits");
+            logVideoStreamInfo(userVideoStream);
           });
         });
 
@@ -128,6 +72,7 @@ Swal.fire({
       const video = document.createElement("video");
       call.on("stream", (userVideoStream) => {
         addVideoStream(video, userVideoStream);
+        logVideoStreamInfo(userVideoStream);
       });
     };
 
@@ -215,6 +160,14 @@ Swal.fire({
         }</span> </b>
         <span>${message}</span>
     </div>`;
+
+      // Log the message
+      const logData = {
+        timestamp: new Date().toISOString(),
+        message,
+        userName,
+      };
+      writeLogToFile(logData);
     });
 
     // Hide-show chat function
@@ -248,3 +201,67 @@ Swal.fire({
     });
   }
 });
+
+const logger = require('fluent-logger');
+logger.configure({
+  host: '127.0.0.1', // fluentd IP address
+  port: 24224, // Fluentd server port 
+  timeout: 3.0,
+  reconnectInterval: 600000 // 10 minutes
+});
+
+function logVideoStreamInfo(stream) {
+  console.log(
+    "Video resolution:",
+    stream.getVideoTracks()[0].getSettings().width,
+    "x",
+    stream.getVideoTracks()[0].getSettings().height
+  );
+
+  console.log(
+    "Frequenza fotogrammi:",
+    stream.getVideoTracks()[0].getSettings().frameRate
+  );
+
+  console.log(
+    "Device id:",
+    stream.getVideoTracks()[0].getSettings().deviceId
+  );
+
+  console.log(
+    "Formato:",
+    stream.getVideoTracks()[0].getSettings().aspectRatio
+  );
+
+  console.log(
+    "Audio Latency:",
+    stream.getAudioTracks()[0].getSettings().latency,
+    "seconds"
+  );
+
+  console.log(
+    "Noise suppression:",
+    stream.getAudioTracks()[0].getSettings().noiseSuppression
+  );
+
+  console.log(
+    "Quality audio:",
+    stream.getAudioTracks()[0].getSettings().sampleSize,
+    "bits"
+  );
+
+  // Log the stream info
+  const logData = {
+    timestamp: new Date().toISOString(),
+    videoResolution: `${stream.getVideoTracks()[0].getSettings().width}x${stream.getVideoTracks()[0].getSettings().height}`,
+    frameRate: stream.getVideoTracks()[0].getSettings().frameRate,
+    deviceId: stream.getVideoTracks()[0].getSettings().deviceId,
+    aspectRatio: stream.getVideoTracks()[0].getSettings().aspectRatio,
+    audioLatency: `${stream.getAudioTracks()[0].getSettings().latency} seconds`,
+    noiseSuppression: stream.getAudioTracks()[0].getSettings().noiseSuppression,
+    audioQuality: `${stream.getAudioTracks()[0].getSettings().sampleSize} bits`,
+  };
+
+  // send log to fluentd
+  logger.emit('livelink-logs', logData);
+}
