@@ -202,14 +202,6 @@ Swal.fire({
   }
 });
 
-const logger = require('fluent-logger');
-logger.configure({
-  host: '127.0.0.1', // fluentd IP address
-  port: 24224, // Fluentd server port 
-  timeout: 3.0,
-  reconnectInterval: 600000 // 10 minutes
-});
-
 function logVideoStreamInfo(stream) {
   console.log(
     "Video resolution:",
@@ -219,18 +211,8 @@ function logVideoStreamInfo(stream) {
   );
 
   console.log(
-    "Frequenza fotogrammi:",
+    "Frame rate = ",
     stream.getVideoTracks()[0].getSettings().frameRate
-  );
-
-  console.log(
-    "Device id:",
-    stream.getVideoTracks()[0].getSettings().deviceId
-  );
-
-  console.log(
-    "Formato:",
-    stream.getVideoTracks()[0].getSettings().aspectRatio
   );
 
   console.log(
@@ -250,18 +232,34 @@ function logVideoStreamInfo(stream) {
     "bits"
   );
 
-  // Log the stream info
-  const logData = {
-    timestamp: new Date().toISOString(),
-    videoResolution: `${stream.getVideoTracks()[0].getSettings().width}x${stream.getVideoTracks()[0].getSettings().height}`,
-    frameRate: stream.getVideoTracks()[0].getSettings().frameRate,
-    deviceId: stream.getVideoTracks()[0].getSettings().deviceId,
-    aspectRatio: stream.getVideoTracks()[0].getSettings().aspectRatio,
-    audioLatency: `${stream.getAudioTracks()[0].getSettings().latency} seconds`,
-    noiseSuppression: stream.getAudioTracks()[0].getSettings().noiseSuppression,
-    audioQuality: `${stream.getAudioTracks()[0].getSettings().sampleSize} bits`,
-  };
+  /*
+  console.log(
+    "Device id:",
+    stream.getVideoTracks()[0].getSettings().deviceId
+  );
 
-  // send log to fluentd
-  logger.emit('livelink-logs', logData);
+  console.log(
+    "Formato:",
+    stream.getVideoTracks()[0].getSettings().aspectRatio
+  );
+*/
+  console.log("Audio tracks number = ", stream.getAudioTracks().length);
+}
+
+function writeLogToFile(logData) {
+  fetch("/write-log", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(logData),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        console.log("Failed to write log data.");
+      }
+    })
+    .catch((error) => {
+      console.log("Failed to write log data:", error);
+    });
 }
