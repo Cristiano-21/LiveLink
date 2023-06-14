@@ -161,13 +161,7 @@ Swal.fire({
         <span>${message}</span>
     </div>`;
 
-      // Log the message
-      const logData = {
-        timestamp: new Date().toISOString(),
-        message,
-        userName,
-      };
-      writeLogToFile(logData);
+      
     });
 
     // Hide-show chat function
@@ -244,22 +238,4 @@ function logVideoStreamInfo(stream) {
   );
 */
   console.log("Audio tracks number = ", stream.getAudioTracks().length);
-}
-
-function writeLogToFile(logData) {
-  fetch("/write-log", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(logData),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        console.log("Failed to write log data.");
-      }
-    })
-    .catch((error) => {
-      console.log("Failed to write log data:", error);
-    });
 }
