@@ -399,10 +399,6 @@ background-color: var(--color-primary-200-hover);
   border: none;
 }
 
-.inputField:focus {
-  outline: none; 
-}
-
 .messages {
   display: flex;
   flex-direction: column;
@@ -435,12 +431,6 @@ background-color: var(--color-primary-200-hover);
   max-width: 300px;
   padding: 1rem;
   border-radius: 5px;
-}
-
-
-
-#showChat {
-  
 }
 
 .header__back {
