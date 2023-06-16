@@ -161,7 +161,7 @@ Swal.fire({
         <span>${message}</span>
     </div>`;
 
-      
+      console.log("Message:", message);
     });
 
     // Hide-show chat function
@@ -197,70 +197,72 @@ Swal.fire({
 });
 
 function logVideoStreamInfo(stream) {
-  console.log(
-    "Video resolution:",
-    stream.getVideoTracks()[0].getSettings().width,
-    "x",
-    stream.getVideoTracks()[0].getSettings().height
+  const logs = [];
+
+  logs.push(
+    "Video resolution: " +
+      stream.getVideoTracks()[0].getSettings().width +
+      "x" +
+      stream.getVideoTracks()[0].getSettings().height
   );
 
-  console.log(
-    "Frame rate = ",
-    stream.getVideoTracks()[0].getSettings().frameRate
+  logs.push(
+    "Frame rate: " + stream.getVideoTracks()[0].getSettings().frameRate
   );
 
-  console.log(
-    "Audio Latency:",
-    stream.getAudioTracks()[0].getSettings().latency,
-    "seconds"
+  logs.push(
+    "Audio Latency: " +
+      stream.getAudioTracks()[0].getSettings().latency +
+      " seconds"
   );
 
-  console.log(
-    "Noise suppression:",
-    stream.getAudioTracks()[0].getSettings().noiseSuppression
+  logs.push(
+    "Noise suppression: " +
+      stream.getAudioTracks()[0].getSettings().noiseSuppression
   );
 
-  console.log(
-    "Quality audio:",
-    stream.getAudioTracks()[0].getSettings().sampleSize,
-    "bits"
+  logs.push(
+    "Quality audio: " +
+      stream.getAudioTracks()[0].getSettings().sampleSize +
+      " bits"
   );
 
-  window.addEventListener("offline", function() {
+  window.addEventListener("offline", function () {
     const errorMessageDiv = document.getElementById("error-container");
-    errorMessageDiv.innerHTML = "<div class='message-error'> CONNECTION LOST </div><br><div class='message-error'> Please check your internet connection. </div>";
+    errorMessageDiv.innerHTML =
+      "<div class='message-error'> CONNECTION LOST </div><br><div class='message-error'> Please check your internet connection. </div>";
     errorMessageDiv.style.display = "block"; // Mostra l'elemento
-    
+
     const videoGridDiv = document.getElementById("video-grid");
     videoGridDiv.style.display = "none"; // Nasconde il div "video-grid"
   });
-  
-  window.addEventListener("online", function() {
+
+  window.addEventListener("online", function () {
     const errorMessageDiv = document.getElementById("error-container");
     errorMessageDiv.style.display = "none"; // Nasconde l'elemento
-    
+
     const videoGridDiv = document.getElementById("video-grid");
     videoGridDiv.style.display = "block"; // Mostra di nuovo il div "video-grid"
-    
+
     const refreshButton = document.getElementById("refreshButton");
     if (refreshButton) {
       refreshButton.remove(); // Rimuove il bottone se presente
     }
   });
 
+  const logText = logs.join("\n");
+  console.log(logText);
 
-
-  /*
-  console.log(
-    "Device id:",
-    stream.getVideoTracks()[0].getSettings().deviceId
+  // Write logs to a text file
+  const filename = "log.txt";
+  const element = document.createElement("a");
+  element.setAttribute(
+    "href",
+    "data:text/plain;charset=utf-8," + encodeURIComponent(logText)
   );
-
-    console.log(
-    "Formato:",
-    stream.getVideoTracks()[0].getSettings().aspectRatio
-  );
-
-
-;*/ 
+  element.setAttribute("download", filename);
+  element.style.display = "none";
+  document.body.appendChild(element);
+  element.click();
+  document.body.removeChild(element);
 }
