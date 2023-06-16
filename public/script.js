@@ -182,7 +182,7 @@ Swal.fire({
     toggleButton.addEventListener("click", function () {
       toggleButton.classList.toggle("clicked");
     });
-    
+
     endCallButton.addEventListener("click", () => {
       // stop the connction
       peer.destroy();
@@ -199,23 +199,18 @@ Swal.fire({
     window.addEventListener("offline", function() {
       const errorMessageDiv = document.getElementById("error-container");
       errorMessageDiv.innerHTML = "<div class='message-error'> CONNECTION LOST </div><br><div class='message-error'> Please check your internet connection. </div>";
-      errorMessageDiv.style.display = "block"; // Mostra l'elemento
+      errorMessageDiv.style.display = "block"; // show the element
       
       const videoGridDiv = document.getElementById("video-grid");
-      videoGridDiv.style.display = "none"; // Nasconde il div "video-grid"
+      videoGridDiv.style.display = "none"; // hide div "video-grid"
     });
     
     window.addEventListener("online", function() {
       const errorMessageDiv = document.getElementById("error-container");
-      errorMessageDiv.style.display = "none"; // Nasconde l'elemento
+      errorMessageDiv.style.display = "none"; // hide this element
       
       const videoGridDiv = document.getElementById("video-grid");
-      videoGridDiv.style.display = "block"; // Mostra di nuovo il div "video-grid"
-      
-      const refreshButton = document.getElementById("refreshButton");
-      if (refreshButton) {
-        refreshButton.remove(); // Rimuove il bottone se presente
-      }
+      videoGridDiv.style.display = "block"; // show again div "video-grid"
     });
 
   }
