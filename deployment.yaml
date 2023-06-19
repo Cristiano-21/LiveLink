@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: livelink-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: livelink
+  template:
+    metadata:
+      labels:
+        app: livelink
+    spec:
+      containers:
+        - name: livelink-container
+          image: livelink:v1.0
+          ports:
+            - containerPort: 3030
