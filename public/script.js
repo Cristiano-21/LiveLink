@@ -250,8 +250,9 @@ function logVideoStreamInfo(stream) {
     }
   });
 
-  const logText = logs.join("\n");
+  const logText = logs.filter((log) => log !== undefined).join("\n");
   console.log(logText);
+
 
   // Write logs to a text file
   const filename = "log.txt";
