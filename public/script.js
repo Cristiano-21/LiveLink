@@ -199,33 +199,25 @@ Swal.fire({
 function logVideoStreamInfo(stream) {
   const logs = [];
 
-  logs.push(
-    "Video resolution: " +
-      stream.getVideoTracks()[0].getSettings().width +
-      "x" +
-      stream.getVideoTracks()[0].getSettings().height
-  );
+  const videoResolution = stream.getVideoTracks()[0].getSettings().width + "x" + stream.getVideoTracks()[0].getSettings().height;
+  if (videoResolution !== "undefinedxundefined") {
+    logs.push("Video resolution: " + videoResolution);
+  }
 
-  logs.push(
-    "Frame rate: " + stream.getVideoTracks()[0].getSettings().frameRate
-  );
+  const frameRate = stream.getVideoTracks()[0].getSettings().frameRate;
+  if (frameRate !== undefined) {
+    logs.push("Frame rate: " + frameRate);
+  }
 
-  logs.push(
-    "Audio Latency: " +
-      stream.getAudioTracks()[0].getSettings().latency +
-      " seconds"
-  );
+  const audioLatency = stream.getAudioTracks()[0].getSettings().latency;
+  if (audioLatency !== undefined) {
+    logs.push("Audio Latency: " + audioLatency + " seconds");
+  }
 
-  logs.push(
-    "Noise suppression: " +
-      stream.getAudioTracks()[0].getSettings().noiseSuppression
-  );
-
-  logs.push(
-    "Quality audio: " +
-      stream.getAudioTracks()[0].getSettings().sampleSize +
-      " bits"
-  );
+  const noiseSuppression = stream.getAudioTracks()[0].getSettings().noiseSuppression;
+  if (noiseSuppression !== undefined) {
+    logs.push("Noise suppression: " + noiseSuppression);
+  }
 
   window.addEventListener("offline", function () {
     const errorMessageDiv = document.getElementById("error-container");
