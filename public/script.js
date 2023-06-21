@@ -193,76 +193,56 @@ Swal.fire({
       // Hide videoGrid section
       videoGrid.style.display = "none";
     });
+    window.addEventListener("offline", function () {
+      const errorMessageDiv = document.getElementById("error-container");
+      errorMessageDiv.innerHTML =
+        "<div class='message-error'> CONNECTION LOST </div><br><div class='message-error'> Please check your internet connection. </div>";
+      errorMessageDiv.style.display = "block"; // Mostra l'elemento
+  
+      const videoGridDiv = document.getElementById("video-grid");
+      videoGridDiv.style.display = "none"; // Nasconde il div "video-grid"
+    });
+  
+    window.addEventListener("online", function () {
+      const errorMessageDiv = document.getElementById("error-container");
+      errorMessageDiv.style.display = "none"; // Nasconde l'elemento
+  
+      const videoGridDiv = document.getElementById("video-grid");
+      videoGridDiv.style.display = "block"; // Mostra di nuovo il div "video-grid"
+  
+      const refreshButton = document.getElementById("refreshButton");
+      if (refreshButton) {
+        refreshButton.remove(); // Rimuove il bottone se presente
+      }
+    });
   }
 });
 
 function logVideoStreamInfo(stream) {
   const logs = [];
 
-  logs.push(
-    "Video resolution: " +
-      stream.getVideoTracks()[0].getSettings().width +
-      "x" +
-      stream.getVideoTracks()[0].getSettings().height
-  );
+  const videoResolution = stream.getVideoTracks()[0].getSettings().width + "x" + stream.getVideoTracks()[0].getSettings().height;
+  if (videoResolution !== "undefinedxundefined") {
+    logs.push("Video resolution: " + videoResolution);
+  }
 
-  logs.push(
-    "Frame rate: " + stream.getVideoTracks()[0].getSettings().frameRate
-  );
+  const frameRate = stream.getVideoTracks()[0].getSettings().frameRate;
+  if (frameRate !== undefined) {
+    logs.push("Frame rate: " + frameRate);
+  }
 
-  logs.push(
-    "Audio Latency: " +
-      stream.getAudioTracks()[0].getSettings().latency +
-      " seconds"
-  );
+  const audioLatency = stream.getAudioTracks()[0].getSettings().latency;
+  if (audioLatency !== undefined) {
+    logs.push("Audio Latency: " + audioLatency + " seconds");
+  }
 
-  logs.push(
-    "Noise suppression: " +
-      stream.getAudioTracks()[0].getSettings().noiseSuppression
-  );
-
-  logs.push(
-    "Quality audio: " +
-      stream.getAudioTracks()[0].getSettings().sampleSize +
-      " bits"
-  );
-
-  window.addEventListener("offline", function () {
-    const errorMessageDiv = document.getElementById("error-container");
-    errorMessageDiv.innerHTML =
-      "<div class='message-error'> CONNECTION LOST </div><br><div class='message-error'> Please check your internet connection. </div>";
-    errorMessageDiv.style.display = "block"; // Mostra l'elemento
-
-    const videoGridDiv = document.getElementById("video-grid");
-    videoGridDiv.style.display = "none"; // Nasconde il div "video-grid"
-  });
-
-  window.addEventListener("online", function () {
-    const errorMessageDiv = document.getElementById("error-container");
-    errorMessageDiv.style.display = "none"; // Nasconde l'elemento
-
-    const videoGridDiv = document.getElementById("video-grid");
-    videoGridDiv.style.display = "block"; // Mostra di nuovo il div "video-grid"
-
-    const refreshButton = document.getElementById("refreshButton");
-    if (refreshButton) {
-      refreshButton.remove(); // Rimuove il bottone se presente
-    }
-  });
+  const noiseSuppression = stream.getAudioTracks()[0].getSettings().noiseSuppression;
+  if (noiseSuppression !== undefined) {
+    logs.push("Noise suppression: " + noiseSuppression);
+  }
 
   const logText = logs.join("\n");
+  
+  // Log the messages to the Heroku console
   console.log(logText);
-
-  // Write logs to a text file
-  const filename = "log.txt";
-  const element = document.createElement("a");
-  element.setAttribute(
-    "href",
-    "data:text/plain;charset=utf-8," + encodeURIComponent(logText)
-  );
-  element.setAttribute("download", filename);
-  element.style.display = "none";
-  document.body.appendChild(element);
-  element.click();
-  document.body.removeChild(element);
 }
