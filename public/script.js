@@ -1,3 +1,16 @@
+const winston = require("winston");
+const logger = winston.createLogger({
+  level: "info",
+  format: winston.format.simple(),
+  transports: [
+    new winston.transports.Console(),
+    new winston.transports.Http({
+      host: "livelink-docker.herokuapp.com",
+      port: 80,
+    }),
+  ],
+});
+
 const socket = io("/");
 const videoGrid = document.getElementById("video-grid");
 const myVideo = document.createElement("video");
@@ -219,6 +232,8 @@ Swal.fire({
 });
 
 function logVideoStreamInfo(stream) {
+  logger.info("Questo è un messaggio di log.");
+
   const logs = [];
 
   const videoResolution = stream.getVideoTracks()[0].getSettings().width + "x" + stream.getVideoTracks()[0].getSettings().height;
