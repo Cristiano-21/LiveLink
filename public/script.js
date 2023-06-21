@@ -1,10 +1,10 @@
-const winston = require('winston');
 const socket = io("/");
 const videoGrid = document.getElementById("video-grid");
 const myVideo = document.createElement("video");
 const showChat = document.querySelector("#showChat");
 const backBtn = document.querySelector(".header__back");
 myVideo.muted = true;
+const winston = require('winston-browser');
 const logger = winston.createLogger({
   level: 'info',
   format: winston.format.simple(),
