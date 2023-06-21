@@ -4,14 +4,6 @@ const myVideo = document.createElement("video");
 const showChat = document.querySelector("#showChat");
 const backBtn = document.querySelector(".header__back");
 myVideo.muted = true;
-const winston = require('winston-browser');
-const logger = winston.createLogger({
-  level: 'info',
-  format: winston.format.simple(),
-  transports: [
-    new winston.transports.Console()
-  ]
-});
 
 Swal.fire({
   title:
@@ -250,7 +242,20 @@ function logVideoStreamInfo(stream) {
   }
 
   const logText = logs.join("\n");
-  
-  // Log the messages to the Heroku console
-  logger.info(logText);
+  console.log(logText);
+
+  // Write logs to a text file
+  if (logs.length > 0) {
+    const filename = "log.txt";
+    const element = document.createElement("a");
+  element.setAttribute(
+    "href",
+    "data:text/plain;charset=utf-8," + encodeURIComponent(logText)
+  );
+    element.setAttribute("download", filename);
+    element.style.display = "none";
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }
 }
