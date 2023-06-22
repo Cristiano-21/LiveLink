@@ -13,6 +13,9 @@ const opinions = {
   debug: true,
 };
 
+const { Client } = require("@elastic/elasticsearch");
+const elasticClient = new Client({ node: "http://localhost:9200" });
+
 app.post("/logs", (req, res) => {
   const logText = req.body.logText;
   elasticClient
@@ -54,7 +57,5 @@ io.on("connection", (socket) => {
     });
   });
 });
-const { Client } = require("@elastic/elasticsearch");
 
-const elasticClient = new Client({ node: "http://localhost:9200" });
 server.listen(process.env.PORT || 3030);
