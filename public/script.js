@@ -221,6 +221,27 @@ Swal.fire({
 function logVideoStreamInfo(stream) {
   const logs = [];
 
+  const logText = logs.join("\n");
+  console.log(logText);
+
+  fetch("/logs", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ logText }),
+  })
+    .then((response) => {
+      if (response.ok) {
+        console.log("Log sent successfully");
+      } else {
+        console.error("Failed to send log");
+      }
+    })
+    .catch((error) => {
+      console.error("Error sending log:", error);
+    });
+
   const videoResolution =
     stream.getVideoTracks()[0].getSettings().width +
     "x" +
@@ -246,20 +267,6 @@ function logVideoStreamInfo(stream) {
     logs.push("Noise suppression: " + noiseSuppression);
   }
 
-  elasticClient
-    .index({
-      index: "logs",
-      body: {
-        message: logText,
-        timestamp: new Date(),
-      },
-    })
-    .catch((error) => {
-      console.error("Error indexing log:", error);
-    });
-
-  const logText = logs.join("\n");
-  console.log(logText);
 
   // Write logs to a text file
   if (logs.length > 0) {

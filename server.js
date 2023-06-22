@@ -13,6 +13,25 @@ const opinions = {
   debug: true,
 };
 
+app.post("/logs", (req, res) => {
+  const logText = req.body.logText;
+  elasticClient
+    .index({
+      index: "logs",
+      body: {
+        message: logText,
+        timestamp: new Date(),
+      },
+    })
+    .then(() => {
+      res.sendStatus(200);
+    })
+    .catch((error) => {
+      console.error("Error indexing log:", error);
+      res.sendStatus(500);
+    });
+});
+
 app.use("/peerjs", ExpressPeerServer(server, opinions));
 app.use(express.static("public"));
 
