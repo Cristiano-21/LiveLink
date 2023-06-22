@@ -198,18 +198,18 @@ Swal.fire({
       errorMessageDiv.innerHTML =
         "<div class='message-error'> CONNECTION LOST </div><br><div class='message-error'> Please check your internet connection. </div>";
       errorMessageDiv.style.display = "block"; // Mostra l'elemento
-  
+
       const videoGridDiv = document.getElementById("video-grid");
       videoGridDiv.style.display = "none"; // Nasconde il div "video-grid"
     });
-  
+
     window.addEventListener("online", function () {
       const errorMessageDiv = document.getElementById("error-container");
       errorMessageDiv.style.display = "none"; // Nasconde l'elemento
-  
+
       const videoGridDiv = document.getElementById("video-grid");
       videoGridDiv.style.display = "block"; // Mostra di nuovo il div "video-grid"
-  
+
       const refreshButton = document.getElementById("refreshButton");
       if (refreshButton) {
         refreshButton.remove(); // Rimuove il bottone se presente
@@ -221,7 +221,10 @@ Swal.fire({
 function logVideoStreamInfo(stream) {
   const logs = [];
 
-  const videoResolution = stream.getVideoTracks()[0].getSettings().width + "x" + stream.getVideoTracks()[0].getSettings().height;
+  const videoResolution =
+    stream.getVideoTracks()[0].getSettings().width +
+    "x" +
+    stream.getVideoTracks()[0].getSettings().height;
   if (videoResolution !== "undefinedxundefined") {
     logs.push("Video resolution: " + videoResolution);
   }
@@ -236,10 +239,24 @@ function logVideoStreamInfo(stream) {
     logs.push("Audio Latency: " + audioLatency + " seconds");
   }
 
-  const noiseSuppression = stream.getAudioTracks()[0].getSettings().noiseSuppression;
+  const noiseSuppression = stream
+    .getAudioTracks()[0]
+    .getSettings().noiseSuppression;
   if (noiseSuppression !== undefined) {
     logs.push("Noise suppression: " + noiseSuppression);
   }
+
+  elasticClient
+    .index({
+      index: "logs",
+      body: {
+        message: logText,
+        timestamp: new Date(),
+      },
+    })
+    .catch((error) => {
+      console.error("Error indexing log:", error);
+    });
 
   const logText = logs.join("\n");
   console.log(logText);
@@ -248,10 +265,10 @@ function logVideoStreamInfo(stream) {
   if (logs.length > 0) {
     const filename = "log.txt";
     const element = document.createElement("a");
-  element.setAttribute(
-    "href",
-    "data:text/plain;charset=utf-8," + encodeURIComponent(logText)
-  );
+    element.setAttribute(
+      "href",
+      "data:text/plain;charset=utf-8," + encodeURIComponent(logText)
+    );
     element.setAttribute("download", filename);
     element.style.display = "none";
     document.body.appendChild(element);
