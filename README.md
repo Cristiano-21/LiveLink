@@ -1,3 +1,6 @@
+## GIT
+
+Download and run the branch named: PROD, it is the one used in the production environment
 ## How to run the project (local)
 
 1. Clone this repository in your local system.
