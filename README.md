@@ -21,15 +21,15 @@ Download and run the branch named: PROD, it is the one used in the production en
 
 1. Create the Docker image running the command `docker build -t livelink:v1.0 .`
 
-2. launch the container runing the command `Docker run your-app-name:tag (livelink:v1.0)`
+2. launch the container running the command `Docker run your-app-name:tag (livelink:v1.0)`
 
 3. Tag your immage running the command `docker tag your-id/your-app-name:tag (livelink:v1.0 cristiano0121/livelink:v1.0)`
 
-4. To push your Docker image on your repo in Docker Hub run this command `docker push your-id/your-app-name:tag (cristiano0121/livelink:v1.0)`
+4. To push your Docker image on your Docker Hub repo run this command `docker push your-id/your-app-name:tag (cristiano0121/livelink:v1.0)`
 
-5. Tag your image to push it on Heroku running this command `docker tag tag your-id/your-app-name:tag registry.heroku.com/your-heroku-repo/web (cristiano0121/livelink:v1.0 registry.heroku.com/livelink-docker/web)`
+5. Tag your image to push it on Heroku repo running this command `docker tag tag your-id/your-app-name:tag registry.heroku.com/your-heroku-repo/web (cristiano0121/livelink:v1.0 registry.heroku.com/livelink-docker/web)`
 
-6. To manage your run the command `docker images` (facoltativo)
+6. To manage images run the command `docker images` (optional)
 
 7. To push the new Heroku image to Docker Hub run the command `docker push registry.heroku.com/your-heroku-repo (livelink-docker)/web`
 
@@ -39,7 +39,9 @@ Download and run the branch named: PROD, it is the one used in the production en
 
 ## Kubernetes
 
-Kubernetes need minikube to be installed, on MacOs run this command brew install `minikube` and need to be started running this command `minikube start`.
+Kubernetes need minikube to be installed, on MacOs run this command: `brew install minikube` 
+
+you need to start it running this command `minikube start`.
 
 If you need to check minikube status, you have to run this command `minikube status`.
 
@@ -70,8 +72,10 @@ To check if everything is correctly set visit this website `https://localhost:56
 
 ## LINKS
 
-LiveLink App : `https://livelink-docker.herokuapp.com/1194b42f-7f7d-4af4-96ca-00440c6b6688`
+LiveLink App : `https://livelink-docker.herokuapp.com/a672b151-b891-4b33-aa20-f54494cb9e2b`
 
 Docker Repo: `https://hub.docker.com/repository/docker/cristiano0121/livelink/general`
 
 GitHub Repo: `https://github.com/Cristiano-21/LiveLink`
+
+Heroku repo: `https://dashboard.heroku.com/apps/livelink-docker`
