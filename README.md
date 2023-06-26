@@ -72,7 +72,7 @@ To check if everything is correctly set visit this website `https://localhost:56
 
 ## LINKS
 
-LiveLink App : `https://livelink-docker.herokuapp.com/a672b151-b891-4b33-aa20-f54494cb9e2b`
+LiveLink App : `https://livelink-docker.herokuapp.com`
 
 Docker Repo: `https://hub.docker.com/repository/docker/cristiano0121/livelink/general`
 
