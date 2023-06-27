@@ -189,7 +189,8 @@ button.swal2-confirm.swal2-styled:focus {
 video {
   border-radius: 1rem;
   margin: 0.5rem;
-  width: 450px;
+  max-width: 450px;
+  max-height:450px;
   object-fit: cover;
   transform: rotateY(180deg);
   -webkit-transform: rotateY(180deg);
