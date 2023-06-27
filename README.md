@@ -1,6 +1,11 @@
+## INTRODUCTION TO LIVELINK
+
+You can find presentazione (pdf) and relazione (pdf) in the project folder.
+
 ## GIT
 
 Download and run the branch named: PROD, it is the one used in the production environment
+
 ## How to run the project (local)
 
 1. Clone this repository in your local system.
@@ -39,7 +44,7 @@ Download and run the branch named: PROD, it is the one used in the production en
 
 ## Kubernetes
 
-Kubernetes need minikube to be installed, on MacOs run this command: `brew install minikube` 
+Kubernetes need minikube to be installed, on MacOs run this command: `brew install minikube`
 
 you need to start it running this command `minikube start`.
 
