@@ -66,6 +66,16 @@ div:where(.swal2-container) .swal2-input{
   border-radius: 0.25em;
   font-size: 16px;
 }
+.verify-button:hover{
+  background-color: var(--color-primary-800);
+ border: none;
+ border-color: transparent;
+ color: white;
+ border-radius: 0.25em;
+ font-size: 16px;
+}
+
+
 
 .captcha-code{
   color: var(--color-primary-900);
@@ -85,12 +95,23 @@ div:where(.swal2-container) .swal2-input{
 .error-captcha{
   color: var(--color-error);
   font-size: 16px;
-  margin-top: -78px
+  margin-top: -88px
+}
+
+.captcha-input:focus{
+  background-color: var(--color-gray-200);
+  box-shadow: none !important;
+  border-color: var(--color-dark) !important;
+  border-radius: 0.25em;
+  border: 1px solid;
 }
 
 #refresh-icon{
  color: var(--color-primary-900);
 }
+#refresh-icon:hover{
+  color: var(--color-primary-800);
+ }
 
 .captcha-input{
   background-color: var(--color-gray-200);
