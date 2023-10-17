@@ -8,7 +8,6 @@ myVideo.muted = true;
 Swal.fire({
   title: ` <div class='title-username-modal'><span>WELCOME TO LiveLink</span></div>
     <div class='username-modal-container'>
-    <span>Enter your username to join the call!</span>
     </div>
     <span class="captcha-title"> Verify you are not a robot  </span>
     <div class='main__captcha'>
@@ -19,6 +18,7 @@ Swal.fire({
         <div class='inline' onclick='generate()'><i id="refresh-icon"class='fas fa-sync'></i></div>
         </div>
   <p class="error-captcha" id="error-message"></p>
+  <span class="input-title">Enter your username to join the call!</span>
     `,
   input: "text",
   inputAttributes: {

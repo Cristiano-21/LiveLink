@@ -68,20 +68,28 @@ div:where(.swal2-container) .swal2-input{
 }
 
 .captcha-code{
-  color: black;
+  color: var(--color-primary-900);
   margin-bottom: -40px;
   margin-top: -85px;
   text-decoration:line-through;
 }
 
+.main__captcha{
+  background-color: white;
+  margin-left: 80px;
+  margin-right: 80px;
+  border-radius: 0.25em;
+  border: 1px solid black;
+}
+
 .error-captcha{
-  color: black;
+  color: var(--color-error);
   font-size: 16px;
   margin-top: -78px
 }
 
 #refresh-icon{
- color: black;
+ color: var(--color-primary-900);
 }
 
 .captcha-input{
@@ -89,11 +97,7 @@ div:where(.swal2-container) .swal2-input{
   box-shadow: none !important;
   border-color: var(--color-dark) !important;
   border-radius: 0.25em;
-}
-
-.captcha-title{
-  color: rgb(0 0 0) !important;
-    font-size: 15px;
+  border: 1px solid;
 }
 /*input border color for error message in user modal */
 
@@ -110,12 +114,20 @@ div:where(.swal2-container) .swal2-input{
   border-color: transparent !important;
 }
 
+.captcha-title{
+color: var(--color-primary-900);
+font-size: 16px;
+}
+
 .swal2-styled.swal2-confirm:hover{
   background-color:var(--color-primary-800) !important;
   border: none !important;
   border-color: transparent !important;
 }
-
+.input-title{
+color: var(--color-primary-900);
+font-size: 16px;
+}
 /* color invite icon in invite modal */
 
 div:where(.swal2-container) 
