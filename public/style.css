@@ -58,6 +58,26 @@ div:where(.swal2-container) .swal2-input{
   background-color: var(--color-error) !important;
 }
 
+.verify-button{
+   background-color: var(--color-primary-900);
+  border: none;
+  border-color: transparent;
+  color: white;
+  border-radius: 0.25em;
+  font-size: 16px;
+}
+
+.captcha-input{
+  background-color: var(--color-gray-200);
+  box-shadow: none !important;
+  border-color: var(--color-dark) !important;
+  border-radius: 0.25em;
+}
+
+.captcha-title{
+  color: rgb(0 0 0) !important;
+    font-size: 15px;
+}
 /*input border color for error message in user modal */
 
 .swal2-input .swal2-inputerror{

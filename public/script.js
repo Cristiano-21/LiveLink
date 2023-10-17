@@ -6,8 +6,15 @@ const backBtn = document.querySelector(".header__back");
 myVideo.muted = true;
 
 Swal.fire({
-  title:
-    "<div class='title-username-modal'><span>WELCOME TO LiveLink</span></div><div class='username-modal-container'><span> <br> Enter your username to join the call !</div>",
+  title: ` <div class='title-username-modal'><span>WELCOME TO LiveLink</span></div>
+    <div class='username-modal-container'><span><br>Enter your username to join the call!</span></div>
+    <div class='main__captcha'>
+        <p id='key'></p>
+        <span class="captcha-title"> Verify you are not a robot  </span>
+        <input class='captcha-input' type='text' id='submit' placeholder='Insert Captcha' />
+        <button class="verify-button" id='btn' onclick='printmsg()'>Verify</button>
+        <div class='inline' onclick='generate()'><i class='fas fa-sync'></i></div>
+    </div>`,
   input: "text",
   inputAttributes: {
     autocapitalize: "off",
@@ -198,18 +205,18 @@ Swal.fire({
       errorMessageDiv.innerHTML =
         "<div class='message-error'> CONNECTION LOST </div><br><div class='message-error'> Please check your internet connection. </div>";
       errorMessageDiv.style.display = "block"; // Mostra l'elemento
-  
+
       const videoGridDiv = document.getElementById("video-grid");
       videoGridDiv.style.display = "none"; // Nasconde il div "video-grid"
     });
-  
+
     window.addEventListener("online", function () {
       const errorMessageDiv = document.getElementById("error-container");
       errorMessageDiv.style.display = "none"; // Nasconde l'elemento
-  
+
       const videoGridDiv = document.getElementById("video-grid");
       videoGridDiv.style.display = "block"; // Mostra di nuovo il div "video-grid"
-  
+
       const refreshButton = document.getElementById("refreshButton");
       if (refreshButton) {
         refreshButton.remove(); // Rimuove il bottone se presente
@@ -221,7 +228,10 @@ Swal.fire({
 function logVideoStreamInfo(stream) {
   const logs = [];
 
-  const videoResolution = stream.getVideoTracks()[0].getSettings().width + "x" + stream.getVideoTracks()[0].getSettings().height;
+  const videoResolution =
+    stream.getVideoTracks()[0].getSettings().width +
+    "x" +
+    stream.getVideoTracks()[0].getSettings().height;
   if (videoResolution !== "undefinedxundefined") {
     logs.push("Video resolution: " + videoResolution);
   }
@@ -236,7 +246,9 @@ function logVideoStreamInfo(stream) {
     logs.push("Audio Latency: " + audioLatency + " seconds");
   }
 
-  const noiseSuppression = stream.getAudioTracks()[0].getSettings().noiseSuppression;
+  const noiseSuppression = stream
+    .getAudioTracks()[0]
+    .getSettings().noiseSuppression;
   if (noiseSuppression !== undefined) {
     logs.push("Noise suppression: " + noiseSuppression);
   }
@@ -248,10 +260,10 @@ function logVideoStreamInfo(stream) {
   if (logs.length > 0) {
     const filename = "log.txt";
     const element = document.createElement("a");
-  element.setAttribute(
-    "href",
-    "data:text/plain;charset=utf-8," + encodeURIComponent(logText)
-  );
+    element.setAttribute(
+      "href",
+      "data:text/plain;charset=utf-8," + encodeURIComponent(logText)
+    );
     element.setAttribute("download", filename);
     element.style.display = "none";
     document.body.appendChild(element);
