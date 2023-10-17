@@ -16,9 +16,9 @@ Swal.fire({
         <input class='captcha-input' type='text' id='submit' placeholder='Insert Captcha' />
         <button class="verify-button" id='btn' onclick='printmsg()'>Verify</button>
         <div class='inline' onclick='generate()'><i id="refresh-icon"class='fas fa-sync'></i></div>
-        </div>
-  <p class="error-captcha" id="error-message"></p>
-  <span class="input-title">Enter your username to join the call!</span>
+    </div>
+    <p class="error-captcha" id="error-message"></p>
+    <span class="input-title">Enter your username to join the call!</span>
     `,
   input: "text",
   inputAttributes: {
@@ -27,11 +27,24 @@ Swal.fire({
   showCancelButton: false,
   confirmButtonText: "Submit",
   allowOutsideClick: false,
-  preConfirm: (name) => {
-    if (!name) {
-      Swal.showValidationMessage("Please enter your name");
+  preConfirm: async () => {
+    const userInput = document.getElementById("submit").value;
+    const captchaKey = document.getElementById("key").textContent;
+    const usernameInput = Swal.getInput().value;
+
+    if (userInput === captchaKey && usernameInput) {
+      return usernameInput; // Il captcha è verificato e l'username è inserito, permetti di chiudere la modale
+    } else {
+      if (!usernameInput) {
+        // Mostra un messaggio di errore se l'username non è inserito
+        Swal.showValidationMessage("Please enter your username");
+      } else {
+        // Mostra un messaggio di errore se il captcha è sbagliato
+        document.getElementById("error-message").textContent =
+          "Insert Captcha, please !";
+      }
+      return false; // Impedisce la chiusura della modale
     }
-    return name;
   },
 }).then((result) => {
   if (result.isConfirmed) {
@@ -229,6 +242,37 @@ Swal.fire({
     });
   }
 });
+
+function generate() {
+  const captchaLength = 5; // Lunghezza del captcha
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let captcha = "";
+
+  for (let i = 0; i < captchaLength; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    captcha += characters[randomIndex];
+  }
+
+  // Mostra il captcha nell'elemento con id "key"
+  document.getElementById("key").textContent = captcha;
+}
+
+// Chiama la funzione generate() subito all'avvio dello script
+generate();
+
+// Verifica il captcha
+function printmsg() {
+  const userInput = document.getElementById("submit").value;
+  const captchaKey = document.getElementById("key").textContent;
+  const errorMessage = document.getElementById("error-message");
+
+  if (userInput === captchaKey) {
+    errorMessage.textContent = "Captcha correct !";
+  } else {
+    errorMessage.textContent = "Wrong Captcha, please try again !";
+  }
+}
 
 function logVideoStreamInfo(stream) {
   const logs = [];
