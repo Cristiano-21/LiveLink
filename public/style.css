@@ -67,6 +67,23 @@ div:where(.swal2-container) .swal2-input{
   font-size: 16px;
 }
 
+.captcha-code{
+  color: black;
+  margin-bottom: -40px;
+  margin-top: -85px;
+  text-decoration:line-through;
+}
+
+.error-captcha{
+  color: black;
+  font-size: 16px;
+  margin-top: -78px
+}
+
+#refresh-icon{
+ color: black;
+}
+
 .captcha-input{
   background-color: var(--color-gray-200);
   box-shadow: none !important;
@@ -126,6 +143,7 @@ font-size: 32px;
 .username-modal-container{
   color: var(--color-error);
   font-size: 20px;
+  margin-top: -58px
 }
 
 div:where(.swal2-container) .swal2-input{
