@@ -106,6 +106,7 @@ div:where(.swal2-container) .swal2-input{
   border: 1px solid;
 }
 
+
 #refresh-icon{
  color: var(--color-primary-900);
 }
@@ -125,6 +126,16 @@ div:where(.swal2-container) .swal2-input{
 .swal2-input .swal2-inputerror{
   border-color: var(--color-error) !important;
   box-shadow: none !important;
+}
+
+input.swal2-input.swal2-inputerror:focus {
+  border: 2px solid !important;
+  border-color: var(--color-error) !important;
+}
+
+input.swal2-input:focus {
+  border: 2px solid;
+  border-color: var(--color-dark);
 }
 
 /*Submit button color */

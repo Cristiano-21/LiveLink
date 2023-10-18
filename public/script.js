@@ -13,7 +13,7 @@ Swal.fire({
     <div class='main__captcha'>
 
         <p class="captcha-code" id='key'></p>
-        <input class='captcha-input' type='text' id='submit' placeholder='Insert Captcha' />
+        <input class='captcha-input' type='text' id='submit' placeholder='Captcha' />
         <button class="verify-button" id='btn' onclick='printmsg()'>Verify</button>
         <div class='inline' onclick='generate()'><i id="refresh-icon"class='fas fa-sync'></i></div>
     </div>
@@ -23,6 +23,7 @@ Swal.fire({
   input: "text",
   inputAttributes: {
     autocapitalize: "off",
+    placeholder: "Username",
   },
   showCancelButton: false,
   confirmButtonText: "Submit",
@@ -222,29 +223,29 @@ Swal.fire({
       const errorMessageDiv = document.getElementById("error-container");
       errorMessageDiv.innerHTML =
         "<div class='message-error'> CONNECTION LOST </div><br><div class='message-error'> Please check your internet connection. </div>";
-      errorMessageDiv.style.display = "block"; // Mostra l'elemento
+      errorMessageDiv.style.display = "block"; // show the element
 
       const videoGridDiv = document.getElementById("video-grid");
-      videoGridDiv.style.display = "none"; // Nasconde il div "video-grid"
+      videoGridDiv.style.display = "none"; // Hide the div "video-grid"
     });
 
     window.addEventListener("online", function () {
       const errorMessageDiv = document.getElementById("error-container");
-      errorMessageDiv.style.display = "none"; // Nasconde l'elemento
+      errorMessageDiv.style.display = "none"; // hide the element
 
       const videoGridDiv = document.getElementById("video-grid");
-      videoGridDiv.style.display = "block"; // Mostra di nuovo il div "video-grid"
+      videoGridDiv.style.display = "block"; // Show the div "video-grid" again
 
       const refreshButton = document.getElementById("refreshButton");
       if (refreshButton) {
-        refreshButton.remove(); // Rimuove il bottone se presente
+        refreshButton.remove(); // Remove the button if it is present
       }
     });
   }
 });
 
 function generate() {
-  const captchaLength = 5; // Lunghezza del captcha
+  const captchaLength = 6; // Captcha length
   const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let captcha = "";
@@ -254,14 +255,13 @@ function generate() {
     captcha += characters[randomIndex];
   }
 
-  // Mostra il captcha nell'elemento con id "key"
+  // Show captcha in the element with ID "key"
   document.getElementById("key").textContent = captcha;
 }
 
-// Chiama la funzione generate() subito all'avvio dello script
 generate();
 
-// Verifica il captcha
+// Verify captcha
 function printmsg() {
   const userInput = document.getElementById("submit").value;
   const captchaKey = document.getElementById("key").textContent;
