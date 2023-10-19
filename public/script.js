@@ -11,7 +11,7 @@ Swal.fire({
     </div>
     <span class="captcha-title"> Verify you are not a robot  </span>
     <div class='main__captcha'>
-
+    
         <p class="captcha-code" id='key'></p>
         <input class='captcha-input' type='text' id='submit' placeholder='Captcha' />
         <button class="verify-button" id='btn' onclick='printmsg()'>Verify</button>

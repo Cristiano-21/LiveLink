@@ -50,6 +50,7 @@ div:where(.swal2-container) .swal2-input{
 
 .swal2-validation-message{
   color: var(--color-error)!important;
+  background-color: var(--color-gray-200) !important;
 }
 
 /* Icon error message in username modal */
@@ -75,8 +76,6 @@ div:where(.swal2-container) .swal2-input{
  font-size: 16px;
 }
 
-
-
 .captcha-code{
   color: var(--color-primary-900);
   margin-bottom: -40px;
@@ -90,6 +89,12 @@ div:where(.swal2-container) .swal2-input{
   margin-right: 80px;
   border-radius: 0.25em;
   border: 1px solid black;
+  height: 240px;
+}
+
+.inline{
+  margin-left: 128px;
+  margin-right: 128px;
 }
 
 .error-captcha{
@@ -99,11 +104,9 @@ div:where(.swal2-container) .swal2-input{
 }
 
 .captcha-input:focus{
-  background-color: var(--color-gray-200);
-  box-shadow: none !important;
   border-color: var(--color-dark) !important;
-  border-radius: 0.25em;
-  border: 1px solid;
+  border: 2px solid;
+  outline: none;
 }
 
 
@@ -586,7 +589,6 @@ background-color: var(--color-primary-200-hover);
 
 input[type="text"] {
   padding: 10px;
-  margin-bottom: 10px;
 }
 
 button {
