@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+const helmet = require("helmet"); // Importa il modulo helmet
+
 const server = require("http").Server(app);
 const { v4: uuidv4 } = require("uuid");
 app.set("view engine", "ejs");
@@ -12,6 +14,8 @@ const { ExpressPeerServer } = require("peer");
 const opinions = {
   debug: true,
 };
+app.disable("etag");
+app.use(helmet()); // Usa il middleware helmet per la sicurezza
 
 app.use("/peerjs", ExpressPeerServer(server, opinions));
 app.use(express.static("public"));
