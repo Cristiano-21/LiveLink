@@ -31,13 +31,23 @@ Swal.fire({
     const usernameInput = document.getElementById("usernameInput").value;
     const emailInput = document.getElementById("emailInput").value;
 
-    if (userInput === captchaKey && usernameInput && emailInput) {
+    // Espressione regolare per verificare il formato dell'email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (
+      userInput === captchaKey &&
+      usernameInput &&
+      emailInput &&
+      emailRegex.test(emailInput) // Verifica il formato dell'email
+    ) {
       return { username: usernameInput, email: emailInput };
     } else {
       if (!usernameInput) {
         Swal.showValidationMessage("Please enter your username");
       } else if (!emailInput) {
         Swal.showValidationMessage("Please enter your email");
+      } else if (!emailRegex.test(emailInput)) {
+        Swal.showValidationMessage("Please enter a valid email");
       } else {
         document.getElementById("error-message").textContent =
           "Insert Captcha, please !";
@@ -48,25 +58,6 @@ Swal.fire({
   showCancelButton: false,
   confirmButtonText: "Submit",
   allowOutsideClick: false,
-  preConfirm: async () => {
-    const userInput = document.getElementById("submit").value;
-    const captchaKey = document.getElementById("key").textContent;
-    const usernameInput = Swal.getInput().value;
-
-    if (userInput === captchaKey && usernameInput) {
-      return usernameInput; // Il captcha è verificato e l'username è inserito, permetti di chiudere la modale
-    } else {
-      if (!usernameInput) {
-        // Mostra un messaggio di errore se l'username non è inserito
-        Swal.showValidationMessage("Please enter your username");
-      } else {
-        // Mostra un messaggio di errore se il captcha è sbagliato
-        document.getElementById("error-message").textContent =
-          "Insert Captcha, please !";
-      }
-      return false; // Impedisce la chiusura della modale
-    }
-  },
 }).then((result) => {
   if (result.isConfirmed) {
     const user = result.value;
