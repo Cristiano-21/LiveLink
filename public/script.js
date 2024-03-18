@@ -18,7 +18,7 @@ Swal.fire({
     <p class="error-captcha" id="error-message"></p>
 
     <div class='username-modal-container'>
-        <span class="input-title">Enter your username to join the call!</span>
+        <span class="input-title">Enter your username and email to join the call !</span>
         <input id="usernameInput" class="swal2-input" placeholder="Username">
         <input id="emailInput" class="swal2-input" placeholder="Email">
     </div>
