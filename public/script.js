@@ -23,18 +23,12 @@ Swal.fire({
         <input id="emailInput" class="swal2-input" placeholder="Email">
     </div>
   `,
-  input: "text",
-  inputAttributes: {
-    autocapitalize: "off",
-    placeholder: "Username",
-  },
   showCancelButton: false,
   confirmButtonText: "Submit",
   allowOutsideClick: false,
   preConfirm: async () => {
     const userInput = document.getElementById("submit").value;
     const captchaKey = document.getElementById("key").textContent;
-    const usernameInput = Swal.getInput().value;
 
     if (userInput === captchaKey && usernameInput) {
       return usernameInput; // Il captcha è verificato e l'username è inserito, permetti di chiudere la modale
