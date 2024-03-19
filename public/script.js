@@ -31,7 +31,10 @@ Swal.fire({
     const captchaKey = document.getElementById("key").textContent;
 
     if (userInput === captchaKey && usernameInput) {
-      return usernameInput; // Il captcha è verificato e l'username è inserito, permetti di chiudere la modale
+      return {
+        username: document.getElementById("usernameInput").value,
+        email: document.getElementById("emailInput").value,
+      }; // Il captcha è verificato e l'username è inserito, permetti di chiudere la modale
     } else {
       if (!usernameInput) {
         // Mostra un messaggio di errore se l'username non è inserito
@@ -101,7 +104,7 @@ Swal.fire({
 
     peer.on("open", (id) => {
       console.log("my id is" + id);
-      socket.emit("join-room", ROOM_ID, id, user);
+      socket.emit("join-room", user);
     });
 
     const addVideoStream = (video, stream) => {
@@ -179,7 +182,7 @@ Swal.fire({
         messages.innerHTML +
         `<div class="message">
         <b><i class="fa fa-user" aria-hidden="true"></i><span> ${
-          userName === user ? "me" : userName
+          userName === user.username ? "me" : userName
         }</span> </b>
         <span>${message}</span>
     </div>`;
