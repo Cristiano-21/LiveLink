@@ -6,20 +6,23 @@ const backBtn = document.querySelector(".header__back");
 myVideo.muted = true;
 
 Swal.fire({
-  title: ` <div class='title-username-modal'><span>WELCOME TO LiveLink</span></div>
-    <div class='username-modal-container'>
-    </div>
-    <span class="captcha-title"> Verify you are not a robot  </span>
+  html: `
+    <div class='title-username-modal'><span>WELCOME TO LiveLink</span></div>
+    <span class="captcha-title"> Verify you are not a robot </span>
     <div class='main__captcha'>
-    
         <p class="captcha-code" id='key'></p>
         <input class='captcha-input' type='text' id='submit' placeholder='Captcha' />
         <button class="verify-button" id='btn' onclick='printmsg()'>Verify</button>
-        <div class='inline' onclick='generate()'><i id="refresh-icon"class='fas fa-sync'></i></div>
+        <div class='inline' onclick='generate()'><i id="refresh-icon" class='fas fa-sync'></i></div>
     </div>
     <p class="error-captcha" id="error-message"></p>
-    <span class="input-title">Enter your username to join the call!</span>
-    `,
+
+    <div class='username-modal-container'>
+        <span class="input-title">Enter your username and email to join the call !</span>
+        <input id="usernameInput" class="swal2-input" placeholder="Username">
+        <input id="emailInput" class="swal2-input" placeholder="Email">
+    </div>
+  `,
   input: "text",
   inputAttributes: {
     autocapitalize: "off",
