@@ -30,13 +30,16 @@ Swal.fire({
     const userInput = document.getElementById("submit").value;
     const captchaKey = document.getElementById("key").textContent;
 
-    if (userInput === captchaKey && usernameInput) {
+    if (
+      userInput === captchaKey &&
+      document.getElementById("usernameInput").value
+    ) {
       return {
         username: document.getElementById("usernameInput").value,
         email: document.getElementById("emailInput").value,
       }; // Il captcha è verificato e l'username è inserito, permetti di chiudere la modale
     } else {
-      if (!usernameInput) {
+      if (!document.getElementById("usernameInput").value) {
         // Mostra un messaggio di errore se l'username non è inserito
         Swal.showValidationMessage("Please enter your username");
       } else {
@@ -50,6 +53,27 @@ Swal.fire({
 }).then((result) => {
   if (result.isConfirmed) {
     const user = result.value;
+
+    // Seconda modale per inserire il token
+    Swal.fire({
+      title: "Enter Token",
+      input: "text",
+      showCancelButton: false,
+      confirmButtonText: "Continue",
+      allowOutsideClick: false,
+      preConfirm: (token) => {
+        // Puoi eseguire qui la verifica del token inviato per email
+        if (token) {
+          // Fai qualcosa con il token, come verificarlo o inviarlo al server
+          // Esempio:
+          console.log("Token:", token);
+          // Successivamente puoi procedere all'accesso nell'app
+        } else {
+          // Mostra un messaggio di errore se il campo del token è vuoto
+          Swal.showValidationMessage("Token cannot be empty");
+        }
+      },
+    });
 
     var peer = new Peer({
       host: window.location.hostname,
