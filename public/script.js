@@ -6,20 +6,46 @@ const backBtn = document.querySelector(".header__back");
 myVideo.muted = true;
 
 Swal.fire({
-  title:
-    "<div class='title-username-modal'><span>WELCOME TO LiveLink</span></div><div class='username-modal-container'><span> <br> Enter your username to join the call !</div>",
-  input: "text",
-  inputAttributes: {
-    autocapitalize: "off",
-  },
+  html: `
+    <div class='title-username-modal'><span>WELCOME TO LiveLink</span></div>
+    <span class="captcha-title"> Verify you are not a robot </span>
+    <div class='main__captcha'>
+        <p class="captcha-code" id='key'></p>
+        <input class='captcha-input' type='text' id='submit' placeholder='Captcha' />
+        <button class="verify-button" id='btn' onclick='printmsg()'>Verify</button>
+        <div class='inline' onclick='generate()'><i id="refresh-icon" class='fas fa-sync'></i></div>
+    </div>
+    <p class="error-captcha" id="error-message"></p>
+
+    <div class='username-modal-container'>
+        <span class="input-title">Enter your username and email to join the call !</span>
+        <input id="usernameInput" class="swal2-input" placeholder="Username">
+        <input id="emailInput" class="swal2-input" placeholder="Email">
+    </div>
+  `,
   showCancelButton: false,
   confirmButtonText: "Submit",
   allowOutsideClick: false,
-  preConfirm: (name) => {
-    if (!name) {
-      Swal.showValidationMessage("Please enter your name");
+  preConfirm: async () => {
+    const userInput = document.getElementById("submit").value;
+    const captchaKey = document.getElementById("key").textContent;
+
+    if (userInput === captchaKey && usernameInput) {
+      return {
+        username: document.getElementById("usernameInput").value,
+        email: document.getElementById("emailInput").value,
+      }; // Il captcha è verificato e l'username è inserito, permetti di chiudere la modale
+    } else {
+      if (!usernameInput) {
+        // Mostra un messaggio di errore se l'username non è inserito
+        Swal.showValidationMessage("Please enter your username");
+      } else {
+        // Mostra un messaggio di errore se il captcha è sbagliato
+        document.getElementById("error-message").textContent =
+          "Insert Captcha, please !";
+      }
+      return false; // Impedisce la chiusura della modale
     }
-    return name;
   },
 }).then((result) => {
   if (result.isConfirmed) {
@@ -78,7 +104,7 @@ Swal.fire({
 
     peer.on("open", (id) => {
       console.log("my id is" + id);
-      socket.emit("join-room", ROOM_ID, id, user);
+      socket.emit("join-room", user);
     });
 
     const addVideoStream = (video, stream) => {
@@ -156,7 +182,7 @@ Swal.fire({
         messages.innerHTML +
         `<div class="message">
         <b><i class="fa fa-user" aria-hidden="true"></i><span> ${
-          userName === user ? "me" : userName
+          userName === user.username ? "me" : userName
         }</span> </b>
         <span>${message}</span>
     </div>`;
@@ -197,31 +223,64 @@ Swal.fire({
       const errorMessageDiv = document.getElementById("error-container");
       errorMessageDiv.innerHTML =
         "<div class='message-error'> CONNECTION LOST </div><br><div class='message-error'> Please check your internet connection. </div>";
-      errorMessageDiv.style.display = "block"; // Mostra l'elemento
-  
+      errorMessageDiv.style.display = "block"; // show the element
+
       const videoGridDiv = document.getElementById("video-grid");
-      videoGridDiv.style.display = "none"; // Nasconde il div "video-grid"
+      videoGridDiv.style.display = "none"; // Hide the div "video-grid"
     });
-  
+
     window.addEventListener("online", function () {
       const errorMessageDiv = document.getElementById("error-container");
-      errorMessageDiv.style.display = "none"; // Nasconde l'elemento
-  
+      errorMessageDiv.style.display = "none"; // hide the element
+
       const videoGridDiv = document.getElementById("video-grid");
-      videoGridDiv.style.display = "block"; // Mostra di nuovo il div "video-grid"
-  
+      videoGridDiv.style.display = "block"; // Show the div "video-grid" again
+
       const refreshButton = document.getElementById("refreshButton");
       if (refreshButton) {
-        refreshButton.remove(); // Rimuove il bottone se presente
+        refreshButton.remove(); // Remove the button if it is present
       }
     });
   }
 });
 
+function generate() {
+  const captchaLength = 6; // Captcha length
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let captcha = "";
+
+  for (let i = 0; i < captchaLength; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    captcha += characters[randomIndex];
+  }
+
+  // Show captcha in the element with ID "key"
+  document.getElementById("key").textContent = captcha;
+}
+
+generate();
+
+// Verify captcha
+function printmsg() {
+  const userInput = document.getElementById("submit").value;
+  const captchaKey = document.getElementById("key").textContent;
+  const errorMessage = document.getElementById("error-message");
+
+  if (userInput === captchaKey) {
+    errorMessage.textContent = "Captcha correct !";
+  } else {
+    errorMessage.textContent = "Wrong Captcha, please try again !";
+  }
+}
+
 function logVideoStreamInfo(stream) {
   const logs = [];
 
-  const videoResolution = stream.getVideoTracks()[0].getSettings().width + "x" + stream.getVideoTracks()[0].getSettings().height;
+  const videoResolution =
+    stream.getVideoTracks()[0].getSettings().width +
+    "x" +
+    stream.getVideoTracks()[0].getSettings().height;
   if (videoResolution !== "undefinedxundefined") {
     logs.push("Video resolution: " + videoResolution);
   }
@@ -236,7 +295,9 @@ function logVideoStreamInfo(stream) {
     logs.push("Audio Latency: " + audioLatency + " seconds");
   }
 
-  const noiseSuppression = stream.getAudioTracks()[0].getSettings().noiseSuppression;
+  const noiseSuppression = stream
+    .getAudioTracks()[0]
+    .getSettings().noiseSuppression;
   if (noiseSuppression !== undefined) {
     logs.push("Noise suppression: " + noiseSuppression);
   }
@@ -248,10 +309,10 @@ function logVideoStreamInfo(stream) {
   if (logs.length > 0) {
     const filename = "log.txt";
     const element = document.createElement("a");
-  element.setAttribute(
-    "href",
-    "data:text/plain;charset=utf-8," + encodeURIComponent(logText)
-  );
+    element.setAttribute(
+      "href",
+      "data:text/plain;charset=utf-8," + encodeURIComponent(logText)
+    );
     element.setAttribute("download", filename);
     element.style.display = "none";
     document.body.appendChild(element);

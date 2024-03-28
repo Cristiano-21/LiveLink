@@ -39,6 +39,7 @@
 div:where(.swal2-container) .swal2-input{
   box-shadow: none !important;
   border-color: var(--color-dark) !important;
+  font-size: 20px ;
   }
 
   /* Username modal background color */
@@ -50,6 +51,7 @@ div:where(.swal2-container) .swal2-input{
 
 .swal2-validation-message{
   color: var(--color-error)!important;
+  background-color: var(--color-gray-200) !important;
 }
 
 /* Icon error message in username modal */
@@ -58,11 +60,85 @@ div:where(.swal2-container) .swal2-input{
   background-color: var(--color-error) !important;
 }
 
+.verify-button{
+   background-color: var(--color-primary-900);
+  border: none;
+  border-color: transparent;
+  color: white;
+  border-radius: 0.25em;
+  font-size: 16px;
+}
+.verify-button:hover{
+  background-color: var(--color-primary-800);
+ border: none;
+ border-color: transparent;
+ color: white;
+ border-radius: 0.25em;
+ font-size: 16px;
+}
+
+.captcha-code{
+  color: var(--color-primary-900);
+  text-decoration:line-through;
+  font-size: 30px;
+}
+
+.main__captcha{
+  background-color: white;
+  margin-left: 80px;
+  margin-right: 80px;
+  border-radius: 0.25em;
+  border: 1px solid black;
+  
+}
+
+.inline{
+  padding: 10px;
+  font-size: 22px;
+}
+
+.error-captcha{
+  color: var(--color-error);
+  font-size: 16px;
+  margin-top: 7px
+}
+
+.captcha-input:focus{
+  border-color: var(--color-dark) !important;
+  border: 2px solid;
+  outline: none;
+}
+
+
+#refresh-icon{
+ color: var(--color-primary-900);
+}
+#refresh-icon:hover{
+  color: var(--color-primary-800);
+ }
+
+.captcha-input{
+  background-color: var(--color-gray-200);
+  box-shadow: none !important;
+  border-color: var(--color-dark) !important;
+  border-radius: 0.25em;
+  border: 1px solid;
+}
 /*input border color for error message in user modal */
 
 .swal2-input .swal2-inputerror{
   border-color: var(--color-error) !important;
   box-shadow: none !important;
+}
+
+input.swal2-input.swal2-inputerror:focus {
+  border: 2px solid !important;
+  border-color: var(--color-error) !important;
+}
+
+input.swal2-input:focus {
+  border: 2px solid;
+  border-color: var(--color-dark);
 }
 
 /*Submit button color */
@@ -73,12 +149,20 @@ div:where(.swal2-container) .swal2-input{
   border-color: transparent !important;
 }
 
+.captcha-title{
+color: var(--color-primary-900);
+font-size: 16px;
+}
+
 .swal2-styled.swal2-confirm:hover{
   background-color:var(--color-primary-800) !important;
   border: none !important;
   border-color: transparent !important;
 }
-
+.input-title{
+color: var(--color-primary-900);
+font-size: 16px;
+}
 /* color invite icon in invite modal */
 
 div:where(.swal2-container) 
@@ -106,6 +190,7 @@ font-size: 32px;
 .username-modal-container{
   color: var(--color-error);
   font-size: 20px;
+  margin-top: 10px;
 }
 
 div:where(.swal2-container) .swal2-input{
@@ -504,7 +589,6 @@ background-color: var(--color-primary-200-hover);
 
 input[type="text"] {
   padding: 10px;
-  margin-bottom: 10px;
 }
 
 button {
