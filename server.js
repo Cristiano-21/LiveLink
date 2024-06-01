@@ -60,7 +60,7 @@ app.post("/register", async (req, res) => {
     // Cifra la password prima di salvarla nel database
     const hashedPassword = await hashPassword(password);
 
-    const query = "INSERT INTO users (username, password) VALUES (?, ?)";
+    const query = "INSERT INTO user (username, password) VALUES (?, ?)";
     db.query(query, [username, hashedPassword], (err, result) => {
       if (err) {
         console.error("Errore durante l'inserimento dell'utente: ", err);
