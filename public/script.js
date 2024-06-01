@@ -4,12 +4,82 @@ const myVideo = document.createElement("video");
 const showChat = document.querySelector("#showChat");
 const backBtn = document.querySelector(".header__back");
 myVideo.muted = true;
+function openLoginModal() {
+  Swal.fire({
+    html: `
+      <div class='title-username-modal'><span>WELCOME TO LiveLink</span></div>
+      <div class='username-modal-container'>
+        <span class="input-title">Enter your username and password to log in!</span>
+        <input id="loginUsernameInput" class="swal2-input" placeholder="Username">
+        <input id="loginPasswordInput" class="swal2-input" type="password" placeholder="Password">
+      </div>
+      <span class="captcha-title"> Verify you are not a robot </span>
+      <div class='main__captcha'>
+        <p class="captcha-code" id='key'></p>
+        <input class='captcha-input' type='text' id='loginCaptcha' placeholder='Captcha' />
+        <button class="verify-button" id='btn' onclick='printmsg()'>Verify</button>
+        <div class='inline' onclick='generate()'><i id="refresh-icon" class='fas fa-sync'></i></div>
+      </div>
+      <p class="error-captcha" id="loginErrorMessage"></p>
+    `,
+    showCancelButton: false,
+    confirmButtonText: "log in",
+    allowOutsideClick: false,
+    preConfirm: async () => {
+      const userInput = document.getElementById("loginCaptcha").value;
+      const captchaKey = document.getElementById("key").textContent;
+      const username = document.getElementById("loginUsernameInput").value;
+      const password = document.getElementById("loginPasswordInput").value;
 
+      if (!username) {
+        Swal.showValidationMessage("Please enter your username");
+        return false;
+      }
+      if (!password) {
+        Swal.showValidationMessage("Please enter your password");
+        return false;
+      }
+      if (userInput !== captchaKey) {
+        document.getElementById("loginErrorMessage").textContent = "Insert Captcha, please!";
+        return false;
+      }
+
+      return {
+        username: username,
+        password: password,
+      };
+    },
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const user = result.value;
+
+      fetch("/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: user.username,
+          password: user.password,
+        }),
+      }).then(response => {
+        if (!response.ok) {
+          return Swal.fire("Login Error", "There was a problem with the login.", "error");
+        }
+      });
+
+      // Additional actions after successful login...
+    }
+  });
+}
+
+// Funzione per validare l'email
 function isValidEmail(email) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 }
 
+// Funzione per la gestione della seconda modale di login al click del bottone "log in" nella prima modale
 Swal.fire({
   html: `
     <div class='title-username-modal'><span>WELCOME TO LiveLink</span></div>
@@ -22,17 +92,18 @@ Swal.fire({
     <span class="captcha-title"> Verify you are not a robot </span>
     <div class='main__captcha'>
       <p class="captcha-code" id='key'></p>
-      <input class='captcha-input' type='text' id='Log In' placeholder='Captcha' />
+      <input class='captcha-input' type='text' id='signInCaptcha' placeholder='Captcha' />
       <button class="verify-button" id='btn' onclick='printmsg()'>Verify</button>
       <div class='inline' onclick='generate()'><i id="refresh-icon" class='fas fa-sync'></i></div>
     </div>
     <p class="error-captcha" id="error-message"></p>
+    <button class="login-button" onclick="openLoginModal()">log in</button>
   `,
   showCancelButton: false,
-  confirmButtonText: "Log In",
+  confirmButtonText: "sign in",
   allowOutsideClick: false,
   preConfirm: async () => {
-    const userInput = document.getElementById("Log In").value;
+    const userInput = document.getElementById("signInCaptcha").value;
     const captchaKey = document.getElementById("key").textContent;
     const username = document.getElementById("usernameInput").value;
     const password = document.getElementById("passwordInput").value;
@@ -102,6 +173,12 @@ Swal.fire({
 
     let myVideoStream;
     navigator.mediaDevices
+
+
+
+
+
+
       .getUserMedia({
         audio: true,
         video: true,
@@ -296,7 +373,7 @@ generate();
 
 // Verify captcha
 function printmsg() {
-  const userInput = document.getElementById("Log In").value;
+  const userInput = document.getElementById("sign in").value;
   const captchaKey = document.getElementById("key").textContent;
   const errorMessage = document.getElementById("error-message");
 
