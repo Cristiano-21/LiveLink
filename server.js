@@ -4,6 +4,7 @@ const server = require("http").Server(app);
 const { v4: uuidv4 } = require("uuid");
 const mysql = require("mysql");
 const bodyParser = require("body-parser");
+const bcrypt = require("bcrypt");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -37,6 +38,13 @@ db.connect((err) => {
   console.log("Connesso al database MySQL");
 });
 
+// Funzione per cifrare la password
+const hashPassword = async (password) => {
+  const saltRounds = 10;
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+  return hashedPassword;
+};
+
 app.get("/", (req, res) => {
   res.redirect(`/${uuidv4()}`);
 });
@@ -45,18 +53,26 @@ app.get("/:room", (req, res) => {
   res.render("room", { roomId: req.params.room });
 });
 
-app.post("/register", (req, res) => {
+app.post("/register", async (req, res) => {
   const { username, password } = req.body;
 
-  const query = "INSERT INTO users (username, password) VALUES (?, ?)";
-  db.query(query, [username, password], (err, result) => {
-    if (err) {
-      console.error("Errore durante l'inserimento dell'utente: ", err);
-      res.status(500).send("Errore durante la registrazione");
-      return;
-    }
-    res.status(200).send("Registrazione avvenuta con successo");
-  });
+  try {
+    // Cifra la password prima di salvarla nel database
+    const hashedPassword = await hashPassword(password);
+
+    const query = "INSERT INTO users (username, password) VALUES (?, ?)";
+    db.query(query, [username, hashedPassword], (err, result) => {
+      if (err) {
+        console.error("Errore durante l'inserimento dell'utente: ", err);
+        res.status(500).send("Errore durante la registrazione");
+        return;
+      }
+      res.status(200).send("Registrazione avvenuta con successo");
+    });
+  } catch (error) {
+    console.error("Errore durante la cifratura della password: ", error);
+    res.status(500).send("Errore durante la registrazione");
+  }
 });
 
 io.on("connection", (socket) => {
