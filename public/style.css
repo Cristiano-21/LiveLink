@@ -189,6 +189,7 @@ font-size: 32px;
   color: var(--color-error);
   font-size: 20px;
   margin-top: 10px;
+  padding-bottom: 15px;
 }
 
 div:where(.swal2-container) .swal2-input{

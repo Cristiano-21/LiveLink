@@ -7,28 +7,28 @@ myVideo.muted = true;
 
 Swal.fire({
   html: `
-    <div class='title-username-modal'><span>WELCOME TO LiveLink</span></div>
-    <span class="captcha-title"> Verify you are not a robot </span>
-    <div class='main__captcha'>
-        <p class="captcha-code" id='key'></p>
-        <input class='captcha-input' type='text' id='submit' placeholder='Captcha' />
-        <button class="verify-button" id='btn' onclick='printmsg()'>Verify</button>
-        <div class='inline' onclick='generate()'><i id="refresh-icon" class='fas fa-sync'></i></div>
-    </div>
-    <p class="error-captcha" id="error-message"></p>
-
-    <div class='username-modal-container'>
+  <div class='title-username-modal'><span>WELCOME TO LiveLink</span></div>  
+  <div class='username-modal-container'>
         <span class="input-title">Enter your username, password, and email to join the call !</span>
         <input id="usernameInput" class="swal2-input" placeholder="Username">
         <input id="passwordInput" class="swal2-input" type="password" placeholder="Password">
         <input id="emailInput" class="swal2-input" placeholder="Email">
     </div>
+    <span class="captcha-title"> Verify you are not a robot </span>
+    <div class='main__captcha'>
+        <p class="captcha-code" id='key'></p>
+        <input class='captcha-input' type='text' id='Log In' placeholder='Captcha' />
+        <button class="verify-button" id='btn' onclick='printmsg()'>Verify</button>
+        <div class='inline' onclick='generate()'><i id="refresh-icon" class='fas fa-sync'></i></div>
+    </div>
+    <p class="error-captcha" id="error-message"></p>
+
   `,
   showCancelButton: false,
-  confirmButtonText: "Submit",
+  confirmButtonText: "Log In",
   allowOutsideClick: false,
   preConfirm: async () => {
-    const userInput = document.getElementById("submit").value;
+    const userInput = document.getElementById("Log In").value;
     const captchaKey = document.getElementById("key").textContent;
     const username = document.getElementById("usernameInput").value;
     const password = document.getElementById("passwordInput").value;
@@ -278,7 +278,7 @@ generate();
 
 // Verify captcha
 function printmsg() {
-  const userInput = document.getElementById("submit").value;
+  const userInput = document.getElementById("Log In").value;
   const captchaKey = document.getElementById("key").textContent;
   const errorMessage = document.getElementById("error-message");
 
