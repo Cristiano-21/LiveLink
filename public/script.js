@@ -18,49 +18,54 @@ Swal.fire({
     <p class="error-captcha" id="error-message"></p>
 
     <div class='username-modal-container'>
-        <span class="input-title">Enter your username and email to join the call !</span>
+        <span class="input-title">Enter your username, password, and email to join the call !</span>
         <input id="usernameInput" class="swal2-input" placeholder="Username">
+        <input id="passwordInput" class="swal2-input" type="password" placeholder="Password">
         <input id="emailInput" class="swal2-input" placeholder="Email">
     </div>
-    
   `,
-  focusConfirm: false,
+  showCancelButton: false,
+  confirmButtonText: "Submit",
+  allowOutsideClick: false,
   preConfirm: async () => {
     const userInput = document.getElementById("submit").value;
     const captchaKey = document.getElementById("key").textContent;
-    const usernameInput = document.getElementById("usernameInput").value;
-    const emailInput = document.getElementById("emailInput").value;
+    const username = document.getElementById("usernameInput").value;
+    const password = document.getElementById("passwordInput").value;
 
-    // Espressione regolare per verificare il formato dell'email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (
-      userInput === captchaKey &&
-      usernameInput &&
-      emailInput &&
-      emailRegex.test(emailInput) // Verifica il formato dell'email
-    ) {
-      return { username: usernameInput, email: emailInput };
+    if (userInput === captchaKey && username && password) {
+      return {
+        username: username,
+        password: password,
+        email: document.getElementById("emailInput").value,
+      };
     } else {
-      if (!usernameInput) {
-        Swal.showValidationMessage("Please enter your username");
-      } else if (!emailInput) {
-        Swal.showValidationMessage("Please enter your email");
-      } else if (!emailRegex.test(emailInput)) {
-        Swal.showValidationMessage("Please enter a valid email");
+      if (!username || !password) {
+        Swal.showValidationMessage("Please enter your username and password");
       } else {
-        document.getElementById("error-message").textContent =
-          "Insert Captcha, please !";
+        document.getElementById("error-message").textContent = "Insert Captcha, please !";
       }
       return false;
     }
   },
-  showCancelButton: false,
-  confirmButtonText: "Submit",
-  allowOutsideClick: false,
 }).then((result) => {
   if (result.isConfirmed) {
     const user = result.value;
+
+    fetch("/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: user.username,
+        password: user.password,
+      }),
+    }).then(response => {
+      if (!response.ok) {
+        return Swal.fire("Registration Error", "There was a problem with the registration.", "error");
+      }
+    });
 
     var peer = new Peer({
       host: window.location.hostname,
@@ -89,7 +94,6 @@ Swal.fire({
         logVideoStreamInfo(stream);
 
         peer.on("call", (call) => {
-          console.log("someone call me");
           call.answer(stream);
           const video = document.createElement("video");
           call.on("stream", (userVideoStream) => {
