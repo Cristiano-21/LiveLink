@@ -7,22 +7,21 @@ myVideo.muted = true;
 
 Swal.fire({
   html: `
-  <div class='title-username-modal'><span>WELCOME TO LiveLink</span></div>  
-  <div class='username-modal-container'>
-        <span class="input-title">Enter your username, password, and email to join the call !</span>
-        <input id="usernameInput" class="swal2-input" placeholder="Username">
-        <input id="passwordInput" class="swal2-input" type="password" placeholder="Password">
-        <input id="emailInput" class="swal2-input" placeholder="Email">
+    <div class='title-username-modal'><span>WELCOME TO LiveLink</span></div>
+    <div class='username-modal-container'>
+      <span class="input-title">Enter your username, password, and email to join the call!</span>
+      <input id="usernameInput" class="swal2-input" placeholder="Username">
+      <input id="passwordInput" class="swal2-input" type="password" placeholder="Password">
+      <input id="emailInput" class="swal2-input" placeholder="Email">
     </div>
     <span class="captcha-title"> Verify you are not a robot </span>
     <div class='main__captcha'>
-        <p class="captcha-code" id='key'></p>
-        <input class='captcha-input' type='text' id='Log In' placeholder='Captcha' />
-        <button class="verify-button" id='btn' onclick='printmsg()'>Verify</button>
-        <div class='inline' onclick='generate()'><i id="refresh-icon" class='fas fa-sync'></i></div>
+      <p class="captcha-code" id='key'></p>
+      <input class='captcha-input' type='text' id='Log In' placeholder='Captcha' />
+      <button class="verify-button" id='btn' onclick='printmsg()'>Verify</button>
+      <div class='inline' onclick='generate()'><i id="refresh-icon" class='fas fa-sync'></i></div>
     </div>
     <p class="error-captcha" id="error-message"></p>
-
   `,
   showCancelButton: false,
   confirmButtonText: "Log In",
@@ -32,21 +31,34 @@ Swal.fire({
     const captchaKey = document.getElementById("key").textContent;
     const username = document.getElementById("usernameInput").value;
     const password = document.getElementById("passwordInput").value;
+    const email = document.getElementById("emailInput").value;
 
-    if (userInput === captchaKey && username && password) {
-      return {
-        username: username,
-        password: password,
-        email: document.getElementById("emailInput").value,
-      };
-    } else {
-      if (!username || !password) {
-        Swal.showValidationMessage("Please enter your username and password");
-      } else {
-        document.getElementById("error-message").textContent = "Insert Captcha, please !";
-      }
+    if (!username) {
+      Swal.showValidationMessage("Please enter your username");
       return false;
     }
+    if (!password) {
+      Swal.showValidationMessage("Please enter your password");
+      return false;
+    }
+    if (!email) {
+      Swal.showValidationMessage("Please enter your email");
+      return false;
+    }
+    if (!isValidEmail(email)) {
+      Swal.showValidationMessage("Please enter a valid email address");
+      return false;
+    }
+    if (userInput !== captchaKey) {
+      document.getElementById("error-message").textContent = "Insert Captcha, please!";
+      return false;
+    }
+
+    return {
+      username: username,
+      password: password,
+      email: email,
+    };
   },
 }).then((result) => {
   if (result.isConfirmed) {
@@ -60,6 +72,7 @@ Swal.fire({
       body: JSON.stringify({
         username: user.username,
         password: user.password,
+        email: user.email,
       }),
     }).then(response => {
       if (!response.ok) {
