@@ -5,6 +5,11 @@ const showChat = document.querySelector("#showChat");
 const backBtn = document.querySelector(".header__back");
 myVideo.muted = true;
 
+function isValidEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
 Swal.fire({
   html: `
     <div class='title-username-modal'><span>WELCOME TO LiveLink</span></div>
