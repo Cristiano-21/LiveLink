@@ -68,6 +68,7 @@ Swal.fire({
       body: JSON.stringify({
         username: user.username,
         password: user.password,
+        email: user.email,
       }),
     }).then(response => {
       if (!response.ok) {

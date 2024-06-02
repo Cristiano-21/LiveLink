@@ -54,14 +54,14 @@ app.get("/:room", (req, res) => {
 });
 
 app.post("/register", async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, email } = req.body;
 
   try {
     // Cifra la password prima di salvarla nel database
     const hashedPassword = await hashPassword(password);
 
-    const query = "INSERT INTO user (username, password) VALUES (?, ?)";
-    db.query(query, [username, hashedPassword], (err, result) => {
+    const query = "INSERT INTO user (username, password, email) VALUES (?, ?, ?)";
+    db.query(query, [username, hashedPassword, email], (err, result) => {
       if (err) {
         console.error("Errore durante l'inserimento dell'utente: ", err);
         res.status(500).send("Errore durante la registrazione");
