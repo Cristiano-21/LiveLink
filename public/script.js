@@ -22,7 +22,6 @@ Swal.fire({
         <div class='inline' onclick='generate()'><i id="refresh-icon" class='fas fa-sync'></i></div>
     </div>
     <p class="error-captcha" id="error-message"></p>
-
   `,
   showCancelButton: false,
   confirmButtonText: "Log In",
@@ -32,18 +31,27 @@ Swal.fire({
     const captchaKey = document.getElementById("key").textContent;
     const username = document.getElementById("usernameInput").value;
     const password = document.getElementById("passwordInput").value;
+    const email = document.getElementById("emailInput").value;
 
-    if (userInput === captchaKey && username && password) {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (userInput === captchaKey && username && password && email && emailPattern.test(email)) {
       return {
         username: username,
         password: password,
-        email: document.getElementById("emailInput").value,
+        email: email,
       };
     } else {
-      if (!username || !password) {
-        Swal.showValidationMessage("Please enter your username and password");
+      if (!username) {
+        Swal.showValidationMessage("Please enter your username");
+      } else if (!password) {
+        Swal.showValidationMessage("Please enter your password");
+      } else if (!email) {
+        Swal.showValidationMessage("Please enter your email");
+      } else if (!emailPattern.test(email)) {
+        Swal.showValidationMessage("Please enter a valid email address");
       } else {
-        document.getElementById("error-message").textContent = "Insert Captcha, please !";
+        document.getElementById("error-message").textContent = "Insert Captcha, please!";
       }
       return false;
     }
