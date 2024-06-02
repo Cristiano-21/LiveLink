@@ -9,33 +9,34 @@ Swal.fire({
   html: `
   <div class='title-username-modal'><span>WELCOME TO LiveLink</span></div>  
   <div class='username-modal-container'>
-        <span class="input-title">Enter your username, password, and email to join the call !</span>
         <input id="usernameInput" class="swal2-input" placeholder="Username">
         <input id="passwordInput" class="swal2-input" type="password" placeholder="Password">
+        <input id="confirmPasswordInput" class="swal2-input" type="password" placeholder="Confirm Password">
         <input id="emailInput" class="swal2-input" placeholder="Email">
     </div>
     <span class="captcha-title"> Verify you are not a robot </span>
     <div class='main__captcha'>
         <p class="captcha-code" id='key'></p>
-        <input class='captcha-input' type='text' id='Log In' placeholder='Captcha' />
+        <input class='captcha-input' type='text' id='sign in' placeholder='Captcha' />
         <button class="verify-button" id='btn' onclick='printmsg()'>Verify</button>
         <div class='inline' onclick='generate()'><i id="refresh-icon" class='fas fa-sync'></i></div>
     </div>
     <p class="error-captcha" id="error-message"></p>
   `,
   showCancelButton: false,
-  confirmButtonText: "Log In",
+  confirmButtonText: "sign in",
   allowOutsideClick: false,
   preConfirm: async () => {
-    const userInput = document.getElementById("Log In").value;
+    const userInput = document.getElementById("sign in").value;
     const captchaKey = document.getElementById("key").textContent;
     const username = document.getElementById("usernameInput").value;
     const password = document.getElementById("passwordInput").value;
+    const confirmPassword = document.getElementById("confirmPasswordInput").value;
     const email = document.getElementById("emailInput").value;
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (userInput === captchaKey && username && password && email && emailPattern.test(email)) {
+    if (userInput === captchaKey && username && password && confirmPassword && password === confirmPassword && email && emailPattern.test(email)) {
       return {
         username: username,
         password: password,
@@ -46,6 +47,10 @@ Swal.fire({
         Swal.showValidationMessage("Please enter your username");
       } else if (!password) {
         Swal.showValidationMessage("Please enter your password");
+      } else if (!confirmPassword) {
+        Swal.showValidationMessage("Please confirm your password");
+      } else if (password !== confirmPassword) {
+        Swal.showValidationMessage("Passwords do not match");
       } else if (!email) {
         Swal.showValidationMessage("Please enter your email");
       } else if (!emailPattern.test(email)) {
@@ -287,7 +292,7 @@ generate();
 
 // Verify captcha
 function printmsg() {
-  const userInput = document.getElementById("Log In").value;
+  const userInput = document.getElementById("sign in").value;
   const captchaKey = document.getElementById("key").textContent;
   const errorMessage = document.getElementById("error-message");
 

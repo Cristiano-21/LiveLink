@@ -48,6 +48,9 @@ div:where(.swal2-container) .swal2-input{
 }
 /* error message in username modal */
 
+.swal2-popup{
+  width: 80em !important;
+}
 .swal2-validation-message{
   color: var(--color-error)!important;
   background-color: var(--color-gray-200) !important;
@@ -84,8 +87,8 @@ div:where(.swal2-container) .swal2-input{
 
 .main__captcha{
   background-color: white;
-  margin-left: 80px;
-  margin-right: 80px;
+  margin-left: 35%;
+  margin-right: 35%;
   border-radius: 0.25em;
   border: 1px solid black;
   
