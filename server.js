@@ -57,17 +57,31 @@ app.post("/register", async (req, res) => {
   const { username, password, email } = req.body;
 
   try {
-    // Cifra la password prima di salvarla nel database
-    const hashedPassword = await hashPassword(password);
-
-    const query = "INSERT INTO user (username, password, email) VALUES (?, ?, ?)";
-    db.query(query, [username, hashedPassword, email], (err, result) => {
+    // Controlla se l'email esiste già nel database
+    const emailExistsQuery = "SELECT * FROM user WHERE email = ?";
+    db.query(emailExistsQuery, [email], async (err, result) => {
       if (err) {
-        console.error("Errore durante l'inserimento dell'utente: ", err);
+        console.error("Errore durante il controllo dell'email nel database: ", err);
         res.status(500).send("Errore durante la registrazione");
         return;
       }
-      res.status(200).send("Registrazione avvenuta con successo");
+      if (result.length > 0) {
+        res.status(400).send("L'email esiste già nel database");
+        return;
+      }
+
+      // Cifra la password prima di salvarla nel database
+      const hashedPassword = await hashPassword(password);
+
+      const insertUserQuery = "INSERT INTO user (username, password, email) VALUES (?, ?, ?)";
+      db.query(insertUserQuery, [username, hashedPassword, email], (err, result) => {
+        if (err) {
+          console.error("Errore durante l'inserimento dell'utente: ", err);
+          res.status(500).send("Errore durante la registrazione");
+          return;
+        }
+        res.status(200).send("Registrazione avvenuta con successo");
+      });
     });
   } catch (error) {
     console.error("Errore durante la cifratura della password: ", error);

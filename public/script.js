@@ -64,6 +64,9 @@ function showSignInModal() {
           password: user.password,
         }),
       }).then(response => {
+        if (response.status === 400) {
+          return Swal.fire("Login Error", "This email is not registered.", "error");
+        }
         if (!response.ok) {
           return Swal.fire("Login Error", "There was a problem with the login.", "error");
         }
@@ -145,6 +148,9 @@ Swal.fire({
         email: user.email,
       }),
     }).then(response => {
+      if (response.status === 400) {
+        return Swal.fire("Registration Error", "This email is already registered.", "error");
+      }
       if (!response.ok) {
         return Swal.fire("Registration Error", "There was a problem with the registration.", "error");
       }
