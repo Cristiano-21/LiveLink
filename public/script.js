@@ -5,13 +5,24 @@ const showChat = document.querySelector("#showChat");
 const backBtn = document.querySelector(".header__back");
 myVideo.muted = true;
 
+function generateOTP() {
+  // Genera un codice casuale di 6 cifre
+  const otp = Math.floor(100000 + Math.random() * 900000);
+  return otp.toString();
+}
+
 function showLogInModal() {
+  // Genera il codice OTP
+  const otp = generateOTP();
+
+  // Aggiungi la modale di login
   Swal.fire({
     html: `
     <div class='title-username-modal'><span>Log in to LiveLink</span></div>  
     <div class='username-modal-container'>
           <input id="emailInputLogin" class="swal2-input" placeholder="Email">
           <input id="passwordInputLogin" class="swal2-input" type="password" placeholder="Password">
+          <input id="otpInputLogin" class="swal2-input" placeholder="OTP">
       </div>
       <div class='main__captcha2'>
           <p class="captcha-code" id='keyLogin'></p>
@@ -21,6 +32,7 @@ function showLogInModal() {
       </div>
       <p class="error-captcha" id="error-messageLogin"></p>
       <p class="login-error" id="login-error-message" style="color: red;"></p>
+      <img id="otpQrCode" src="https://api.qrserver.com/v1/create-qr-code/?data=${otp}&size=100x100" alt="OTP QR Code">
     `,
     showCancelButton: false,
     confirmButtonText: "Log in",
@@ -33,10 +45,11 @@ function showLogInModal() {
       const captchaKey = document.getElementById("keyLogin").textContent;
       const email = document.getElementById("emailInputLogin").value;
       const password = document.getElementById("passwordInputLogin").value;
+      const otpInput = document.getElementById("otpInputLogin").value;
 
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-      if (userInput === captchaKey && email && emailPattern.test(email) && password) {
+      if (userInput === captchaKey && email && emailPattern.test(email) && password && otpInput === otp) {
         return {
           email: email,
           password: password,
@@ -48,6 +61,8 @@ function showLogInModal() {
           Swal.showValidationMessage("Please enter a valid email address");
         } else if (!password) {
           Swal.showValidationMessage("Please enter your password");
+        } else if (!otpInput || otpInput !== otp) {
+          Swal.showValidationMessage("Please enter the correct OTP");
         } else {
           document.getElementById("error-messageLogin").textContent = "Insert Captcha, please!";
         }
@@ -82,6 +97,7 @@ function showLogInModal() {
   });
 }
 
+// Aggiungi questa funzione per mostrare la modale di errore
 function showErrorModal(errorMessage) {
   Swal.fire({
     title: "Login Error",
