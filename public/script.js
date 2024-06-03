@@ -10,7 +10,7 @@ function generateOTP() {
   const otp = Math.floor(100000 + Math.random() * 900000);
   return otp.toString();
 }
-
+let peer; 
 function showLogInModal() {
   // Genera il codice OTP
   const otp = generateOTP();
@@ -72,6 +72,7 @@ function showLogInModal() {
   }).then((result) => {
     if (result.isConfirmed) {
       const user = result.value;
+      initializePeerAndVideoStream(peer, socket, user, ROOM_ID, myVideo, videoGrid);
 
       fetch("/login", {
         method: "POST",
@@ -173,6 +174,7 @@ Swal.fire({
 }).then((result) => {
   if (result.isConfirmed) {
     const user = result.value;
+    initializePeerAndVideoStream(peer, socket, user, ROOM_ID, myVideo, videoGrid);
 
     fetch("/register", {
       method: "POST",
@@ -204,70 +206,80 @@ Swal.fire({
       }
     });
 
-    var peer = new Peer({
-      host: window.location.hostname,
-      port:
-        window.location.port ||
-        (window.location.protocol === "https:" ? 443 : 80),
-      path: "/peerjs",
-      config: {
-        iceServers: [
-          { urls: "stun:stun.l.google.com:19302" },
-          { urls: "stun:stun1.l.google.com:19302" },
-        ],
-      },
-      debug: 3,
+  } });
+
+
+
+
+
+
+
+
+function initializePeerAndVideoStream(peer, socket, user, ROOM_ID, myVideo, videoGrid) {
+  peer = new Peer({
+    host: window.location.hostname,
+    port:
+      window.location.port ||
+      (window.location.protocol === "https:" ? 443 : 80),
+    path: "/peerjs",
+    config: {
+      iceServers: [
+        { urls: "stun:stun.l.google.com:19302" },
+        { urls: "stun:stun1.l.google.com:19302" },
+      ],
+    },
+    debug: 3,
+  });
+
+  let myVideoStream;
+  navigator.mediaDevices
+    .getUserMedia({
+      audio: true,
+      video: true,
+    })
+    .then((stream) => {
+      myVideoStream = stream;
+      addVideoStream(myVideo, stream);
+      logVideoStreamInfo(stream);
+
+      peer.on("call", (call) => {
+        call.answer(stream);
+        const video = document.createElement("video");
+        call.on("stream", (userVideoStream) => {
+          addVideoStream(video, userVideoStream);
+          logVideoStreamInfo(userVideoStream);
+        });
+      });
+
+      socket.on("user-connected", (userId) => {
+        connectToNewUser(userId, stream);
+      });
     });
 
-    let myVideoStream;
-    navigator.mediaDevices
-      .getUserMedia({
-        audio: true,
-        video: true,
-      })
-      .then((stream) => {
-        myVideoStream = stream;
-        addVideoStream(myVideo, stream);
-        logVideoStreamInfo(stream);
-
-        peer.on("call", (call) => {
-          call.answer(stream);
-          const video = document.createElement("video");
-          call.on("stream", (userVideoStream) => {
-            addVideoStream(video, userVideoStream);
-            logVideoStreamInfo(userVideoStream);
-          });
-        });
-
-        socket.on("user-connected", (userId) => {
-          connectToNewUser(userId, stream);
-        });
-      });
-
-    const connectToNewUser = (userId, stream) => {
-      console.log("I call someone" + userId);
-      const call = peer.call(userId, stream);
-      const video = document.createElement("video");
-      call.on("stream", (userVideoStream) => {
-        addVideoStream(video, userVideoStream);
-        logVideoStreamInfo(userVideoStream);
-      });
-    };
-
-    peer.on("open", (id) => {
-      console.log("my id is" + id);
-      socket.emit("join-room", ROOM_ID, id, user);
+  const connectToNewUser = (userId, stream) => {
+    console.log("I call someone" + userId);
+    const call = peer.call(userId, stream);
+    const video = document.createElement("video");
+    call.on("stream", (userVideoStream) => {
+      addVideoStream(video, userVideoStream);
+      logVideoStreamInfo(userVideoStream);
     });
+  };
 
-    const addVideoStream = (video, stream) => {
-      video.srcObject = stream;
-      video.addEventListener("loadedmetadata", () => {
-        video.play();
-        videoGrid.append(video);
-      });
-    };
+  peer.on("open", (id) => {
+    console.log("my id is" + id);
+    socket.emit("join-room", ROOM_ID, id, user);
+  });
 
-    let text = document.querySelector("#chat_message");
+  const addVideoStream = (video, stream) => {
+    video.srcObject = stream;
+    video.addEventListener("loadedmetadata", () => {
+      video.play();
+      videoGrid.append(video);
+    });
+  };
+
+  let text = document.querySelector("#chat_message");
     let send = document.getElementById("send");
     let messages = document.querySelector(".messages");
 
@@ -393,8 +405,18 @@ Swal.fire({
         refreshButton.remove(); // Remove the button if it is present
       }
     });
-  }
-});
+}
+
+
+
+
+
+
+
+
+
+
+
 
 function generate() {
   const captchaLength = 6; // Captcha length
