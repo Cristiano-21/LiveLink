@@ -257,6 +257,10 @@ button.swal2-confirm.swal2-styled:focus {
   display: flex;
 }
 
+.main__captcha2{
+display: none;
+}
+
 .videosGroup {
   flex-grow: 1;
   display: flex;

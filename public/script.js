@@ -5,6 +5,74 @@ const showChat = document.querySelector("#showChat");
 const backBtn = document.querySelector(".header__back");
 myVideo.muted = true;
 
+function showSignInModal() {
+  Swal.fire({
+    html: `
+    <div class='title-username-modal'><span>Log in to LiveLink</span></div>  
+    <div class='username-modal-container'>
+          <input id="emailInputLogin" class="swal2-input" placeholder="Email">
+          <input id="passwordInputLogin" class="swal2-input" type="password" placeholder="Password">
+      </div>
+      <div class='main__captcha2'>
+          <p class="captcha-code" id='keyLogin'></p>
+          <input class='captcha-input' type='text' id='signInCaptcha' placeholder='Captcha' />
+          <button class="verify-button" id='btnLogin' onclick='printmsg()'>Verify</button>
+          <div class='inline' onclick='generate()'><i id="refresh-iconLogin" class='fas fa-sync'></i></div>
+      </div>
+      <p class="error-captcha" id="error-messageLogin"></p>
+    `,
+    showCancelButton: false,
+    confirmButtonText: "Log in",
+    allowOutsideClick: false,
+    preConfirm: async () => {
+      const userInput = document.getElementById("signInCaptcha").value;
+      const captchaKey = document.getElementById("keyLogin").textContent;
+      const email = document.getElementById("emailInputLogin").value;
+      const password = document.getElementById("passwordInputLogin").value;
+
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (userInput === captchaKey && email && emailPattern.test(email) && password) {
+        return {
+          email: email,
+          password: password,
+        };
+      } else {
+        if (!email) {
+          Swal.showValidationMessage("Please enter your email");
+        } else if (!emailPattern.test(email)) {
+          Swal.showValidationMessage("Please enter a valid email address");
+        } else if (!password) {
+          Swal.showValidationMessage("Please enter your password");
+        } else {
+          document.getElementById("error-messageLogin").textContent = "Insert Captcha, please!";
+        }
+        return false;
+      }
+    },
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const user = result.value;
+
+      fetch("/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: user.email,
+          password: user.password,
+        }),
+      }).then(response => {
+        if (!response.ok) {
+          return Swal.fire("Login Error", "There was a problem with the login.", "error");
+        }
+        // handle successful login
+      });
+    }
+  });
+}
+
 Swal.fire({
   html: `
   <div class='title-username-modal'><span>WELCOME TO LiveLink</span></div>  
@@ -22,6 +90,7 @@ Swal.fire({
         <div class='inline' onclick='generate()'><i id="refresh-icon" class='fas fa-sync'></i></div>
     </div>
     <p class="error-captcha" id="error-message"></p>
+    <button id="loginButton" class="swal2-confirm swal2-styled" onclick="showSignInModal()">Log in</button>
   `,
   showCancelButton: false,
   confirmButtonText: "sign in",
