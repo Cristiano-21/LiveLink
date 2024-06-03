@@ -133,28 +133,40 @@ Swal.fire({
       return false;
     }
   },
-}).then((result) => {
-  if (result.isConfirmed) {
-    const user = result.value;
 
-    fetch("/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: user.username,
-        password: user.password,
-        email: user.email,
-      }),
-    }).then(response => {
-      if (response.status === 400) {
-        return Swal.fire("Registration Error", "This email is already registered.", "error");
-      }
-      if (!response.ok) {
-        return Swal.fire("Registration Error", "There was a problem with the registration.", "error");
-      }
-    });
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const user = result.value;
+  
+      fetch("/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: user.username,
+          password: user.password,
+          email: user.email,
+        }),
+      }).then(response => {
+        if (response.status === 400) {
+          // Display registration error and show login modal
+          Swal.fire({
+            title: "Registration Error",
+            text: "This email is already registered.",
+            icon: "error",
+            showCancelButton: false,
+            confirmButtonText: "Login",
+            allowOutsideClick: false,
+          }).then(() => {
+            showSignInModal(); // Call the function to show login modal
+          });
+          return false; // Returning false to prevent subsequent execution of the code
+        }
+        if (!response.ok) {
+          return Swal.fire("Registration Error", "There was a problem with the registration.", "error");
+        }
+      });
 
     var peer = new Peer({
       host: window.location.hostname,
