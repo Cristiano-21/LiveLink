@@ -65,7 +65,7 @@ function showSignInModal() {
         }),
       }).then(response => {
         if (response.status === 400) {
-          return Swal.fire("Login Error", "This email is not registered.", "error");
+          return Swal.fire("Login Error", "Invalid email or password.", "error");
         }
         if (!response.ok) {
           return Swal.fire("Login Error", "There was a problem with the login.", "error");
@@ -133,23 +133,22 @@ Swal.fire({
       return false;
     }
   },
+}).then((result) => {
+  if (result.isConfirmed) {
+    const user = result.value;
 
-  }).then((result) => {
-    if (result.isConfirmed) {
-      const user = result.value;
-  
-      fetch("/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: user.username,
-          password: user.password,
-          email: user.email,
-        }),
-      }).then(response => {
-        if (response.status === 400) {
+    fetch("/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: user.username,
+        password: user.password,
+        email: user.email,
+      }),
+    }).then(response => {
+      if (response.status === 400) {
           // Display registration error and show login modal
           Swal.fire({
             title: "Registration Error",
@@ -162,11 +161,11 @@ Swal.fire({
             showSignInModal(); // Call the function to show login modal
           });
           return false; // Returning false to prevent subsequent execution of the code
-        }
-        if (!response.ok) {
-          return Swal.fire("Registration Error", "There was a problem with the registration.", "error");
-        }
-      });
+      }
+      if (!response.ok) {
+        return Swal.fire("Registration Error", "There was a problem with the registration.", "error");
+      }
+    });
 
     var peer = new Peer({
       host: window.location.hostname,

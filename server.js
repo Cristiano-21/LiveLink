@@ -45,6 +45,43 @@ const hashPassword = async (password) => {
   return hashedPassword;
 };
 
+// Endpoint per il login
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Cerca l'utente nel database tramite l'email fornita
+    const getUserQuery = "SELECT * FROM user WHERE email = ?";
+    db.query(getUserQuery, [email], async (err, result) => {
+      if (err) {
+        console.error("Errore durante il recupero dell'utente dal database: ", err);
+        res.status(500).send("Errore durante il login");
+        return;
+      }
+      if (result.length === 0) {
+        // Se non esiste un utente con l'email fornita, restituisci un errore
+        res.status(400).send("Email non registrata");
+        return;
+      }
+
+      // Verifica la corrispondenza della password
+      const user = result[0];
+      const passwordMatch = await bcrypt.compare(password, user.password);
+      if (!passwordMatch) {
+        // Se la password non corrisponde, restituisci un errore
+        res.status(400).send("Password errata");
+        return;
+      }
+
+      // Se l'utente esiste e la password corrisponde, restituisci OK
+      res.status(200).send("Login effettuato con successo");
+    });
+  } catch (error) {
+    console.error("Errore durante il login: ", error);
+    res.status(500).send("Errore durante il login");
+  }
+});
+
 app.get("/", (req, res) => {
   res.redirect(`/${uuidv4()}`);
 });
