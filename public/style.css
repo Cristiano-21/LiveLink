@@ -79,11 +79,22 @@ div:where(.swal2-container) .swal2-input{
  font-size: 16px;
 }
 
+.custom-container{
+  background-color: var(--color-gray-200) !important;
+}
+
+.swal2-container.swal2-center.swal2-backdrop-show{
+  background-color: var(--color-gray-200) !important;
+
+}
+
 .captcha-code{
   color: var(--color-primary-900);
   text-decoration:line-through;
   font-size: 30px;
 }
+
+
 
 .main__captcha{
   background-color: white;

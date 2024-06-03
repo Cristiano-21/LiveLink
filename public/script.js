@@ -5,7 +5,7 @@ const showChat = document.querySelector("#showChat");
 const backBtn = document.querySelector(".header__back");
 myVideo.muted = true;
 
-function showSignInModal() {
+function showLogInModal() {
   Swal.fire({
     html: `
     <div class='title-username-modal'><span>Log in to LiveLink</span></div>  
@@ -20,10 +20,14 @@ function showSignInModal() {
           <div class='inline' onclick='generate()'><i id="refresh-iconLogin" class='fas fa-sync'></i></div>
       </div>
       <p class="error-captcha" id="error-messageLogin"></p>
+      <p class="login-error" id="login-error-message" style="color: red;"></p>
     `,
     showCancelButton: false,
     confirmButtonText: "Log in",
     allowOutsideClick: false,
+    customClass: {
+      container: 'custom-container'
+    },
     preConfirm: async () => {
       const userInput = document.getElementById("signInCaptcha").value;
       const captchaKey = document.getElementById("keyLogin").textContent;
@@ -65,14 +69,28 @@ function showSignInModal() {
         }),
       }).then(response => {
         if (response.status === 400) {
-          return Swal.fire("Login Error", "Invalid email or password.", "error");
+          showErrorModal("Invalid email or password. Please try again.");
+        } else if (!response.ok) {
+          showErrorModal("There was a problem with the login. Please try again.");
+        } else {
+          // handle successful login
         }
-        if (!response.ok) {
-          return Swal.fire("Login Error", "There was a problem with the login.", "error");
-        }
-        // handle successful login
+      }).catch(() => {
+        showErrorModal("There was a problem with the login. Please try again.");
       });
     }
+  });
+}
+
+function showErrorModal(errorMessage) {
+  Swal.fire({
+    title: "Login Error",
+    text: errorMessage,
+    icon: "error",
+    showCancelButton: false,
+    confirmButtonText: "Log in",
+  }).then(() => {
+    showLogInModal();
   });
 }
 
@@ -93,11 +111,14 @@ Swal.fire({
         <div class='inline' onclick='generate()'><i id="refresh-icon" class='fas fa-sync'></i></div>
     </div>
     <p class="error-captcha" id="error-message"></p>
-    <button id="loginButton" class="swal2-confirm swal2-styled" onclick="showSignInModal()">Log in</button>
+    <button id="loginButton" class="swal2-confirm swal2-styled" onclick="showLogInModal()">Log in</button>
   `,
   showCancelButton: false,
   confirmButtonText: "sign in",
   allowOutsideClick: false,
+  customClass: {
+    container: 'custom-container'
+  },
   preConfirm: async () => {
     const userInput = document.getElementById("sign in").value;
     const captchaKey = document.getElementById("key").textContent;
@@ -158,7 +179,7 @@ Swal.fire({
             confirmButtonText: "Login",
             allowOutsideClick: false,
           }).then(() => {
-            showSignInModal(); // Call the function to show login modal
+            showLogInModal(); // Call the function to show login modal
           });
           return false; // Returning false to prevent subsequent execution of the code
       }
