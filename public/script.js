@@ -138,21 +138,32 @@ function showErrorModal(errorMessage) {
 Swal.fire({
   html: `
   <div class='title-username-modal'><span>WELCOME TO LiveLink</span></div>  
-  <div class='username-modal-container'>
-        <input id="usernameInput" class="swal2-input" placeholder="Username">
-        <input id="passwordInput" class="swal2-input" type="password" placeholder="Password">
-        <input id="confirmPasswordInput" class="swal2-input" type="password" placeholder="Confirm Password">
-        <input id="emailInput" class="swal2-input" placeholder="Email">
-    </div>
-    <span class="captcha-title"> Verify you are not a robot </span>
-    <div class='main__captcha'>
-        <p class="captcha-code" id='key'></p>
-        <input class='captcha-input' type='text' id='sign in' placeholder='Captcha' />
-        <button class="verify-button" id='btn' onclick='printmsg()'>Verify</button>
-        <div class='inline' onclick='generate()'><i id="refresh-icon" class='fas fa-sync'></i></div>
-    </div>
-    <p class="error-captcha" id="error-message"></p>
-    <button id="loginButton" class="swal2-confirm swal2-styled" onclick="showLogInModal()">Log in</button>
+
+  <div class="form-container">
+  <div class="form-group">
+      <input id="emailInput" class="swal2-input" placeholder="Email">
+  </div>
+  <div class="form-group">
+      <input id="passwordInput" class="swal2-input" type="password" placeholder="Password">
+  </div>
+  <div class="form-group">
+      <input id="usernameInput" class="swal2-input" placeholder="Username">
+  </div>
+  <div class="form-group">
+      <input id="confirmPasswordInput" class="swal2-input" type="password" placeholder="Confirm Password">
+  </div>
+</div>
+<div class="captcha-container">
+  <span class="captcha-title"> Verify you are not a robot </span>
+  <div class='main__captcha'>
+      <p class="captcha-code" id='key'></p>
+      <input class='captcha-input' type='text' id='sign in' placeholder='Captcha' />
+      <button class="verify-button" id='btn' onclick='printmsg()'>Verify</button>
+      <div class='inline' onclick='generate()'><i id="refresh-icon" class='fas fa-sync'></i></div>
+  </div>
+  <p class="error-captcha" id="error-message"></p>
+</div>
+<button id="loginButton" class="swal2-confirm swal2-styled" onclick="showLogInModal()">Log in</button>
   `,
   showCancelButton: false,
   confirmButtonText: "sign in",

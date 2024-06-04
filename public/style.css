@@ -101,7 +101,34 @@ div:where(.swal2-container) .swal2-input{
     padding: 10px;
     border: 2px solid black;
     text-align: center;
-    border-radius: 5px;
+}
+
+.form-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 72%;
+  margin: 0 auto;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.captcha-container {
+  text-align: center;
+  margin-top: 20px;
 }
 
 .qrContainer .scan-message {
@@ -117,8 +144,8 @@ div:where(.swal2-container) .swal2-input{
   background-color: white;
   margin-left: 35%;
   margin-right: 35%;
-  border-radius: 0.25em;
-  border: 1px solid black;
+  border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   
 }
 
