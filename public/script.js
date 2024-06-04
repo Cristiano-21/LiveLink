@@ -10,7 +10,7 @@ function generateOTP() {
   const otp = Math.floor(100000 + Math.random() * 900000);
   return otp.toString();
 }
-let peer; 
+let peer;
 function showLogInModal() {
   // Genera il codice OTP
   const otp = generateOTP();
@@ -20,25 +20,29 @@ function showLogInModal() {
     html: `
     <div class='title-username-modal'><span>Log in to LiveLink</span></div>  
     <div class='username-modal-container'>
-          <input id="emailInputLogin" class="swal2-input" placeholder="Email">
-          <input id="passwordInputLogin" class="swal2-input" type="password" placeholder="Password">
-          <input id="otpInputLogin" class="swal2-input" placeholder="OTP">
-      </div>
-      <div class='main__captcha2'>
-          <p class="captcha-code" id='keyLogin'></p>
-          <input class='captcha-input' type='text' id='signInCaptcha' placeholder='Captcha' />
-          <button class="verify-button" id='btnLogin' onclick='printmsg()'>Verify</button>
-          <div class='inline' onclick='generate()'><i id="refresh-iconLogin" class='fas fa-sync'></i></div>
-      </div>
-      <p class="error-captcha" id="error-messageLogin"></p>
-      <p class="login-error" id="login-error-message" style="color: red;"></p>
-      <img id="otpQrCode" src="https://api.qrserver.com/v1/create-qr-code/?data=${otp}&size=100x100" alt="OTP QR Code">
-    `,
+        <input id="emailInputLogin" class="swal2-input" placeholder="Email">
+        <input id="passwordInputLogin" class="swal2-input" type="password" placeholder="Password">
+        
+    </div>
+    <div class='main__captcha2'>
+        <p class="captcha-code" id='keyLogin'></p>
+        <input class='captcha-input' type='text' id='signInCaptcha' placeholder='Captcha' />
+        <button class="verify-button" id='btnLogin' onclick='printmsg()'>Verify</button>
+        <div class='inline' onclick='generate()'><i id="refresh-iconLogin" class='fas fa-sync'></i></div>
+    </div>
+    <p class="error-captcha" id="error-messageLogin"></p>
+    <p class="login-error" id="login-error-message" style="color: red;"></p>
+    <div class="qrContainer">
+        <p class="scan-message">Scan me</p>
+        <img id="otpQrCode" src="https://api.qrserver.com/v1/create-qr-code/?data=${otp}&size=100x100" alt="OTP QR Code">
+        <input id="otpInputLogin" class="swal2-input" placeholder="OTP">
+        </div>  
+      `,
     showCancelButton: false,
     confirmButtonText: "Log in",
     allowOutsideClick: false,
     customClass: {
-      container: 'custom-container'
+      container: "custom-container",
     },
     preConfirm: async () => {
       const userInput = document.getElementById("signInCaptcha").value;
@@ -49,7 +53,13 @@ function showLogInModal() {
 
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-      if (userInput === captchaKey && email && emailPattern.test(email) && password && otpInput === otp) {
+      if (
+        userInput === captchaKey &&
+        email &&
+        emailPattern.test(email) &&
+        password &&
+        otpInput === otp
+      ) {
         return {
           email: email,
           password: password,
@@ -64,7 +74,8 @@ function showLogInModal() {
         } else if (!otpInput || otpInput !== otp) {
           Swal.showValidationMessage("Please enter the correct OTP");
         } else {
-          document.getElementById("error-messageLogin").textContent = "Insert Captcha, please!";
+          document.getElementById("error-messageLogin").textContent =
+            "Insert Captcha, please!";
         }
         return false;
       }
@@ -72,7 +83,14 @@ function showLogInModal() {
   }).then((result) => {
     if (result.isConfirmed) {
       const user = result.value;
-      initializePeerAndVideoStream(peer, socket, user, ROOM_ID, myVideo, videoGrid);
+      initializePeerAndVideoStream(
+        peer,
+        socket,
+        user,
+        ROOM_ID,
+        myVideo,
+        videoGrid
+      );
 
       fetch("/login", {
         method: "POST",
@@ -83,17 +101,23 @@ function showLogInModal() {
           email: user.email,
           password: user.password,
         }),
-      }).then(response => {
-        if (response.status === 400) {
-          showErrorModal("Invalid email or password. Please try again.");
-        } else if (!response.ok) {
-          showErrorModal("There was a problem with the login. Please try again.");
-        } else {
-          // handle successful login
-        }
-      }).catch(() => {
-        showErrorModal("There was a problem with the login. Please try again.");
-      });
+      })
+        .then((response) => {
+          if (response.status === 400) {
+            showErrorModal("Invalid email or password. Please try again.");
+          } else if (!response.ok) {
+            showErrorModal(
+              "There was a problem with the login. Please try again."
+            );
+          } else {
+            // handle successful login
+          }
+        })
+        .catch(() => {
+          showErrorModal(
+            "There was a problem with the login. Please try again."
+          );
+        });
     }
   });
 }
@@ -134,19 +158,29 @@ Swal.fire({
   confirmButtonText: "sign in",
   allowOutsideClick: false,
   customClass: {
-    container: 'custom-container'
+    container: "custom-container",
   },
   preConfirm: async () => {
     const userInput = document.getElementById("sign in").value;
     const captchaKey = document.getElementById("key").textContent;
     const username = document.getElementById("usernameInput").value;
     const password = document.getElementById("passwordInput").value;
-    const confirmPassword = document.getElementById("confirmPasswordInput").value;
+    const confirmPassword = document.getElementById(
+      "confirmPasswordInput"
+    ).value;
     const email = document.getElementById("emailInput").value;
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (userInput === captchaKey && username && password && confirmPassword && password === confirmPassword && email && emailPattern.test(email)) {
+    if (
+      userInput === captchaKey &&
+      username &&
+      password &&
+      confirmPassword &&
+      password === confirmPassword &&
+      email &&
+      emailPattern.test(email)
+    ) {
       return {
         username: username,
         password: password,
@@ -166,7 +200,8 @@ Swal.fire({
       } else if (!emailPattern.test(email)) {
         Swal.showValidationMessage("Please enter a valid email address");
       } else {
-        document.getElementById("error-message").textContent = "Insert Captcha, please!";
+        document.getElementById("error-message").textContent =
+          "Insert Captcha, please!";
       }
       return false;
     }
@@ -174,7 +209,14 @@ Swal.fire({
 }).then((result) => {
   if (result.isConfirmed) {
     const user = result.value;
-    initializePeerAndVideoStream(peer, socket, user, ROOM_ID, myVideo, videoGrid);
+    initializePeerAndVideoStream(
+      peer,
+      socket,
+      user,
+      ROOM_ID,
+      myVideo,
+      videoGrid
+    );
 
     fetch("/register", {
       method: "POST",
@@ -186,36 +228,40 @@ Swal.fire({
         password: user.password,
         email: user.email,
       }),
-    }).then(response => {
+    }).then((response) => {
       if (response.status === 400) {
-          // Display registration error and show login modal
-          Swal.fire({
-            title: "Registration Error",
-            text: "This email is already registered.",
-            icon: "error",
-            showCancelButton: false,
-            confirmButtonText: "Login",
-            allowOutsideClick: false,
-          }).then(() => {
-            showLogInModal(); // Call the function to show login modal
-          });
-          return false; // Returning false to prevent subsequent execution of the code
+        // Display registration error and show login modal
+        Swal.fire({
+          title: "Registration Error",
+          text: "This email is already registered.",
+          icon: "error",
+          showCancelButton: false,
+          confirmButtonText: "Login",
+          allowOutsideClick: false,
+        }).then(() => {
+          showLogInModal(); // Call the function to show login modal
+        });
+        return false; // Returning false to prevent subsequent execution of the code
       }
       if (!response.ok) {
-        return Swal.fire("Registration Error", "There was a problem with the registration.", "error");
+        return Swal.fire(
+          "Registration Error",
+          "There was a problem with the registration.",
+          "error"
+        );
       }
     });
+  }
+});
 
-  } });
-
-
-
-
-
-
-
-
-function initializePeerAndVideoStream(peer, socket, user, ROOM_ID, myVideo, videoGrid) {
+function initializePeerAndVideoStream(
+  peer,
+  socket,
+  user,
+  ROOM_ID,
+  myVideo,
+  videoGrid
+) {
   peer = new Peer({
     host: window.location.hostname,
     port:
@@ -280,143 +326,132 @@ function initializePeerAndVideoStream(peer, socket, user, ROOM_ID, myVideo, vide
   };
 
   let text = document.querySelector("#chat_message");
-    let send = document.getElementById("send");
-    let messages = document.querySelector(".messages");
+  let send = document.getElementById("send");
+  let messages = document.querySelector(".messages");
 
-    send.addEventListener("click", (e) => {
-      if (text.value.length !== 0) {
-        socket.emit("message", text.value);
-        text.value = "";
-      }
+  send.addEventListener("click", (e) => {
+    if (text.value.length !== 0) {
+      socket.emit("message", text.value);
+      text.value = "";
+    }
+  });
+
+  text.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && text.value.length !== 0) {
+      socket.emit("message", text.value);
+      text.value = "";
+    }
+  });
+
+  const inviteButton = document.querySelector("#inviteButton");
+  const muteButton = document.querySelector("#muteButton");
+  const stopVideo = document.querySelector("#stopVideo");
+  muteButton.addEventListener("click", () => {
+    const enabled = myVideoStream.getAudioTracks()[0].enabled;
+    if (enabled) {
+      myVideoStream.getAudioTracks()[0].enabled = false;
+      html = `<i class="fas fa-microphone-slash"></i>`;
+      muteButton.classList.toggle("clicked");
+      muteButton.innerHTML = html;
+    } else {
+      myVideoStream.getAudioTracks()[0].enabled = true;
+      html = `<i class="fas fa-microphone"></i>`;
+      muteButton.classList.toggle("clicked");
+      muteButton.innerHTML = html;
+    }
+  });
+
+  stopVideo.addEventListener("click", () => {
+    const enabled = myVideoStream.getVideoTracks()[0].enabled;
+    if (enabled) {
+      myVideoStream.getVideoTracks()[0].enabled = false;
+      html = `<i class="fas fa-video-slash"></i>`;
+      stopVideo.classList.toggle("clicked");
+      stopVideo.innerHTML = html;
+    } else {
+      myVideoStream.getVideoTracks()[0].enabled = true;
+      html = `<i class="fas fa-video"></i>`;
+      stopVideo.classList.toggle("clicked");
+      stopVideo.innerHTML = html;
+    }
+  });
+
+  inviteButton.addEventListener("click", (e) => {
+    Swal.fire({
+      title: "Send this link to people you want to meet with",
+      text: window.location.href,
+      icon: "info",
+      confirmButtonText: "OK",
+      position: "center",
+      allowOutsideClick: false,
     });
+  });
 
-    text.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && text.value.length !== 0) {
-        socket.emit("message", text.value);
-        text.value = "";
-      }
-    });
-
-    const inviteButton = document.querySelector("#inviteButton");
-    const muteButton = document.querySelector("#muteButton");
-    const stopVideo = document.querySelector("#stopVideo");
-    muteButton.addEventListener("click", () => {
-      const enabled = myVideoStream.getAudioTracks()[0].enabled;
-      if (enabled) {
-        myVideoStream.getAudioTracks()[0].enabled = false;
-        html = `<i class="fas fa-microphone-slash"></i>`;
-        muteButton.classList.toggle("clicked");
-        muteButton.innerHTML = html;
-      } else {
-        myVideoStream.getAudioTracks()[0].enabled = true;
-        html = `<i class="fas fa-microphone"></i>`;
-        muteButton.classList.toggle("clicked");
-        muteButton.innerHTML = html;
-      }
-    });
-
-    stopVideo.addEventListener("click", () => {
-      const enabled = myVideoStream.getVideoTracks()[0].enabled;
-      if (enabled) {
-        myVideoStream.getVideoTracks()[0].enabled = false;
-        html = `<i class="fas fa-video-slash"></i>`;
-        stopVideo.classList.toggle("clicked");
-        stopVideo.innerHTML = html;
-      } else {
-        myVideoStream.getVideoTracks()[0].enabled = true;
-        html = `<i class="fas fa-video"></i>`;
-        stopVideo.classList.toggle("clicked");
-        stopVideo.innerHTML = html;
-      }
-    });
-
-    inviteButton.addEventListener("click", (e) => {
-      Swal.fire({
-        title: "Send this link to people you want to meet with",
-        text: window.location.href,
-        icon: "info",
-        confirmButtonText: "OK",
-        position: "center",
-        allowOutsideClick: false,
-      });
-    });
-
-    socket.on("createMessage", (message, userName) => {
-      messages.innerHTML =
-        messages.innerHTML +
-        `<div class="message">
+  socket.on("createMessage", (message, userName) => {
+    messages.innerHTML =
+      messages.innerHTML +
+      `<div class="message">
         <b><i class="fa fa-user" aria-hidden="true"></i><span> ${
           userName === user ? "me" : userName
         }</span> </b>
         <span>${message}</span>
     </div>`;
 
-      console.log("Message:", message);
-    });
+    console.log("Message:", message);
+  });
 
-    // Hide-show chat function
+  // Hide-show chat function
 
-    var toggleButton = document.getElementById("toggleButton");
-    const endCallButton = document.getElementById("endCallButton");
+  var toggleButton = document.getElementById("toggleButton");
+  const endCallButton = document.getElementById("endCallButton");
 
-    var sidebar = document.getElementById("sidebar");
+  var sidebar = document.getElementById("sidebar");
 
-    toggleButton.addEventListener("click", function () {
-      sidebar.classList.toggle("open");
-    });
+  toggleButton.addEventListener("click", function () {
+    sidebar.classList.toggle("open");
+  });
 
-    // Change color to chat button when clicked
+  // Change color to chat button when clicked
 
-    var toggleButton = document.getElementById("toggleButton");
+  var toggleButton = document.getElementById("toggleButton");
 
-    toggleButton.addEventListener("click", function () {
-      toggleButton.classList.toggle("clicked");
-    });
-    endCallButton.addEventListener("click", () => {
-      // stop the connction
-      peer.destroy();
+  toggleButton.addEventListener("click", function () {
+    toggleButton.classList.toggle("clicked");
+  });
+  endCallButton.addEventListener("click", () => {
+    // stop the connction
+    peer.destroy();
 
-      // Remove all the videos from videoGrid
-      const videos = document.querySelectorAll("#video-grid video");
-      videos.forEach((video) => video.remove());
+    // Remove all the videos from videoGrid
+    const videos = document.querySelectorAll("#video-grid video");
+    videos.forEach((video) => video.remove());
 
-      // Hide videoGrid section
-      videoGrid.style.display = "none";
-    });
-    window.addEventListener("offline", function () {
-      const errorMessageDiv = document.getElementById("error-container");
-      errorMessageDiv.innerHTML =
-        "<div class='message-error'> CONNECTION LOST </div><br><div class='message-error'> Please check your internet connection. </div>";
-      errorMessageDiv.style.display = "block"; // show the element
+    // Hide videoGrid section
+    videoGrid.style.display = "none";
+  });
+  window.addEventListener("offline", function () {
+    const errorMessageDiv = document.getElementById("error-container");
+    errorMessageDiv.innerHTML =
+      "<div class='message-error'> CONNECTION LOST </div><br><div class='message-error'> Please check your internet connection. </div>";
+    errorMessageDiv.style.display = "block"; // show the element
 
-      const videoGridDiv = document.getElementById("video-grid");
-      videoGridDiv.style.display = "none"; // Hide the div "video-grid"
-    });
+    const videoGridDiv = document.getElementById("video-grid");
+    videoGridDiv.style.display = "none"; // Hide the div "video-grid"
+  });
 
-    window.addEventListener("online", function () {
-      const errorMessageDiv = document.getElementById("error-container");
-      errorMessageDiv.style.display = "none"; // hide the element
+  window.addEventListener("online", function () {
+    const errorMessageDiv = document.getElementById("error-container");
+    errorMessageDiv.style.display = "none"; // hide the element
 
-      const videoGridDiv = document.getElementById("video-grid");
-      videoGridDiv.style.display = "block"; // Show the div "video-grid" again
+    const videoGridDiv = document.getElementById("video-grid");
+    videoGridDiv.style.display = "block"; // Show the div "video-grid" again
 
-      const refreshButton = document.getElementById("refreshButton");
-      if (refreshButton) {
-        refreshButton.remove(); // Remove the button if it is present
-      }
-    });
+    const refreshButton = document.getElementById("refreshButton");
+    if (refreshButton) {
+      refreshButton.remove(); // Remove the button if it is present
+    }
+  });
 }
-
-
-
-
-
-
-
-
-
-
-
 
 function generate() {
   const captchaLength = 6; // Captcha length

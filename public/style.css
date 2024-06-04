@@ -93,6 +93,23 @@ div:where(.swal2-container) .swal2-input{
   text-decoration:line-through;
   font-size: 30px;
 }
+.qrContainer {
+  background-color: white;
+    margin-left: 30%;
+    padding-right: 41%;
+    margin-right: 30%;
+    padding: 10px;
+    border: 2px solid black;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.qrContainer .scan-message {
+  color: var(--color-primary-900);
+  font-size: 28px;
+}
+
+
 
 
 
