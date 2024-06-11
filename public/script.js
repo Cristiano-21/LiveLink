@@ -182,6 +182,7 @@ Swal.fire({
     const email = document.getElementById("emailInput").value;
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const passwordPattern = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.{8,})/;
 
     if (
       userInput === captchaKey &&
@@ -190,7 +191,8 @@ Swal.fire({
       confirmPassword &&
       password === confirmPassword &&
       email &&
-      emailPattern.test(email)
+      emailPattern.test(email) &&
+      passwordPattern.test(password)
     ) {
       return {
         username: username,
@@ -198,18 +200,36 @@ Swal.fire({
         email: email,
       };
     } else {
+      let errorMessage = "";
       if (!username) {
-        Swal.showValidationMessage("Please enter your username");
-      } else if (!password) {
-        Swal.showValidationMessage("Please enter your password");
-      } else if (!confirmPassword) {
-        Swal.showValidationMessage("Please confirm your password");
-      } else if (password !== confirmPassword) {
-        Swal.showValidationMessage("Passwords do not match");
-      } else if (!email) {
-        Swal.showValidationMessage("Please enter your email");
-      } else if (!emailPattern.test(email)) {
-        Swal.showValidationMessage("Please enter a valid email address");
+        errorMessage += "Please enter your username.\n";
+      }
+      if (!password) {
+        errorMessage += "Please enter your password.\n";
+      } else if (password.length < 8) {
+        errorMessage += "Password must be at least 8 characters long.\n";
+      } else if (!/(?=.*[A-Z])/.test(password)) {
+        errorMessage +=
+          "Password must contain at least one uppercase letter.\n";
+      } else if (!/[!@#$%^&*]/.test(password)) {
+        errorMessage +=
+          "Password must contain at least one special character.\n";
+      }
+      if (!confirmPassword) {
+        errorMessage += "Please confirm your password.\n";
+      }
+      if (password !== confirmPassword) {
+        errorMessage += "Passwords do not match.\n";
+      }
+      if (!email) {
+        errorMessage += "Please enter your email.\n";
+      }
+      if (!emailPattern.test(email)) {
+        errorMessage += "Please enter a valid email address.\n";
+      }
+
+      if (errorMessage !== "") {
+        Swal.showValidationMessage(errorMessage);
       } else {
         document.getElementById("error-message").textContent =
           "Insert Captcha, please!";
