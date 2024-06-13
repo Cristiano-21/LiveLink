@@ -345,7 +345,7 @@ function initializePeerAndVideoStream(
 
   peer.on("open", (id) => {
     console.log("my id is" + id);
-    socket.emit("join-room", ROOM_ID, id, user);
+    socket.emit("join-room", ROOM_ID, id);
   });
 
   const addVideoStream = (video, stream) => {
