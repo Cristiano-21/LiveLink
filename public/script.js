@@ -140,39 +140,39 @@ Swal.fire({
   <div class='title-username-modal'><span>WELCOME TO LiveLink</span></div>  
 
   <div class="form-container">
-  <div class="form-group">
+    <div class="form-group">
       <input id="emailInput" class="swal2-input" placeholder="Email">
-  </div>
-  <div class="form-group">
+    </div>
+    <div class="form-group">
       <input id="passwordInput" class="swal2-input" type="password" placeholder="Password">
-  </div>
-  <div class="form-group">
+    </div>
+    <div class="form-group">
       <input id="usernameInput" class="swal2-input" placeholder="Username">
-  </div>
-  <div class="form-group">
+    </div>
+    <div class="form-group">
       <input id="confirmPasswordInput" class="swal2-input" type="password" placeholder="Confirm Password">
+    </div>
   </div>
-</div>
-<div class="captcha-container">
-  <span class="captcha-title"> Verify you are not a robot </span>
-  <div class='main__captcha'>
+  <div class="captcha-container">
+    <span class="captcha-title">Verify you are not a robot</span>
+    <div class='main__captcha'>
       <p class="captcha-code" id='key'></p>
-      <input class='captcha-input' type='text' id='sign in' placeholder='Captcha' />
+      <input class='captcha-input' type='text' id='signin' placeholder='Captcha' />
       <button class="verify-button" id='btn' onclick='printmsg()'>Verify</button>
       <div class='inline' onclick='generate()'><i id="refresh-icon" class='fas fa-sync'></i></div>
+    </div>
+    <p class="error-captcha" id="error-captcha-message"></p>
   </div>
-  <p class="error-captcha" id="error-message"></p>
-</div>
-<button id="loginButton" class="swal2-confirm swal2-styled" onclick="showLogInModal()">Log in</button>
+  <button id="loginButton" class="swal2-confirm swal2-styled" onclick="showLogInModal()">Log in</button>
   `,
   showCancelButton: false,
-  confirmButtonText: "sign in",
+  confirmButtonText: "Sign In",
   allowOutsideClick: false,
   customClass: {
     container: "custom-container",
   },
   preConfirm: async () => {
-    const userInput = document.getElementById("sign in").value;
+    const userInput = document.getElementById("signin").value;
     const captchaKey = document.getElementById("key").textContent;
     const username = document.getElementById("usernameInput").value;
     const password = document.getElementById("passwordInput").value;
@@ -184,58 +184,57 @@ Swal.fire({
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const passwordPattern = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.{8,})/;
 
-    if (
-      userInput === captchaKey &&
-      username &&
-      password &&
-      confirmPassword &&
-      password === confirmPassword &&
-      email &&
-      emailPattern.test(email) &&
-      passwordPattern.test(password)
-    ) {
-      return {
-        username: username,
-        password: password,
-        email: email,
-      };
-    } else {
-      let errorMessage = "";
-      if (!username) {
-        errorMessage += "Please enter your username.\n";
-      }
-      if (!password) {
-        errorMessage += "Please enter your password.\n";
-      } else if (password.length < 8) {
-        errorMessage += "Password must be at least 8 characters long.\n";
-      } else if (!/(?=.*[A-Z])/.test(password)) {
-        errorMessage +=
-          "Password must contain at least one uppercase letter.\n";
-      } else if (!/[!@#$%^&*]/.test(password)) {
-        errorMessage +=
-          "Password must contain at least one special character.\n";
-      }
-      if (!confirmPassword) {
-        errorMessage += "Please confirm your password.\n";
-      }
-      if (password !== confirmPassword) {
-        errorMessage += "Passwords do not match.\n";
-      }
-      if (!email) {
-        errorMessage += "Please enter your email.\n";
-      }
-      if (!emailPattern.test(email)) {
-        errorMessage += "Please enter a valid email address.\n";
-      }
+    let errorMessage = "";
 
-      if (errorMessage !== "") {
-        Swal.showValidationMessage(errorMessage);
-      } else {
-        document.getElementById("error-message").textContent =
-          "Insert Captcha, please!";
-      }
+    // Validazione campo username
+    if (!username) {
+      errorMessage = "Please enter your username.";
+    }
+
+    // Validazione campo password
+    else if (!password) {
+      errorMessage = "Please enter your password.";
+    } else if (password.length < 8) {
+      errorMessage = "Password must be at least 8 characters long.";
+    } else if (!/(?=.*[A-Z])/.test(password)) {
+      errorMessage = "Password must contain at least one uppercase letter.";
+    } else if (!/[!@#$%^&*]/.test(password)) {
+      errorMessage = "Password must contain at least one special character.";
+    }
+
+    // Validazione campo di conferma password
+    else if (!confirmPassword) {
+      errorMessage = "Please confirm your password.";
+    } else if (password !== confirmPassword) {
+      errorMessage = "Passwords do not match.";
+    }
+
+    // Validazione campo email
+    else if (!email) {
+      errorMessage = "Please enter your email.";
+    } else if (!emailPattern.test(email)) {
+      errorMessage = "Please enter a valid email address.";
+    }
+
+    // Validazione campo Captcha
+    else if (userInput !== captchaKey) {
+      document.getElementById("error-captcha-message").textContent =
+        "Incorrect Captcha. Please try again.";
       return false;
     }
+
+    // Mostrare errore se presente
+    if (errorMessage) {
+      Swal.showValidationMessage(errorMessage);
+      return false;
+    }
+
+    // Se non ci sono errori, restituisci i dati validi
+    return {
+      username: username,
+      password: password,
+      email: email,
+    };
   },
 }).then((result) => {
   if (result.isConfirmed) {
@@ -503,14 +502,15 @@ generate();
 
 // Verify captcha
 function printmsg() {
-  const userInput = document.getElementById("sign in").value;
-  const captchaKey = document.getElementById("key").textContent;
-  const errorMessage = document.getElementById("error-message");
+  const userInput = document.getElementById("signin").value; // Modificato da "sign in" a "signin"
+  const captchaKey = document.getElementById("key").textContent.trim(); // Trim per rimuovere spazi vuoti
+
+  const errorMessage = document.getElementById("error-captcha-message"); // Modificato da "error-message" a "error-captcha-message"
 
   if (userInput === captchaKey) {
-    errorMessage.textContent = "Captcha correct !";
+    errorMessage.textContent = "Captcha correct!";
   } else {
-    errorMessage.textContent = "Wrong Captcha, please try again !";
+    errorMessage.textContent = "Wrong Captcha, please try again!";
   }
 }
 
