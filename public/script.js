@@ -186,8 +186,15 @@ Swal.fire({
 
     let errorMessage = "";
 
+    // Validazione campo email
+    if (!email) {
+      errorMessage = "Please enter your email.";
+    } else if (!emailPattern.test(email)) {
+      errorMessage = "Please enter a valid email address.";
+    }
+
     // Validazione campo username
-    if (!username) {
+    else if (!username) {
       errorMessage = "Please enter your username.";
     }
 
@@ -207,13 +214,6 @@ Swal.fire({
       errorMessage = "Please confirm your password.";
     } else if (password !== confirmPassword) {
       errorMessage = "Passwords do not match.";
-    }
-
-    // Validazione campo email
-    else if (!email) {
-      errorMessage = "Please enter your email.";
-    } else if (!emailPattern.test(email)) {
-      errorMessage = "Please enter a valid email address.";
     }
 
     // Validazione campo Captcha
@@ -274,11 +274,12 @@ Swal.fire({
         return false; // Returning false to prevent subsequent execution of the code
       }
       if (!response.ok) {
-        return Swal.fire(
-          "Registration Error",
-          "There was a problem with the registration.",
-          "error"
-        );
+        return Swal.fire({
+          title: "Registration Error",
+          text: "There was a problem with the registration. Refresh the page and try again",
+          icon: "error",
+          showConfirmButton: false,
+        });
       }
     });
   }

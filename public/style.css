@@ -131,6 +131,24 @@ div:where(.swal2-container) .swal2-input{
   margin-top: 20px;
 }
 
+.swal2-validation-message{
+  color: var(--color-error) !important;
+  font-size: 16px !important;
+  margin-top: 7px !important;
+}
+
+.swal2-validation-message::before{
+  display: none !important;
+}
+
+#loginButton {
+  margin-left: 90%;
+    font-size: 16px;
+    background-color:#000000 !important
+}
+
+
+
 .qrContainer .scan-message {
   color: var(--color-primary-900);
   font-size: 28px;
