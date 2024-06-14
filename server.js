@@ -24,7 +24,7 @@ app.use(express.static("public"));
 
 // Configurazione del database
 const db = mysql.createConnection({
-  host: "localhost",
+  host: "127.0.0.1",
   user: "root",
   password: "Fincons24!",
   database: "videochat"
