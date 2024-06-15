@@ -163,7 +163,7 @@ Swal.fire({
     </div>
     <p class="error-captcha" id="error-captcha-message"></p>
   </div>
-  <button id="loginButton" class="swal2-confirm swal2-styled" onclick="showLogInModal()">Log in</button>
+  <button id="loginButton" class="swal2-confirm swal2-styled" onclick="showLogInModal()" disabled>Log in</button>
   `,
   showCancelButton: false,
   confirmButtonText: "Sign In",
@@ -284,6 +284,39 @@ Swal.fire({
     });
   }
 });
+
+function generate() {
+  const captchaLength = 6; // Captcha length
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let captcha = "";
+
+  for (let i = 0; i < captchaLength; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    captcha += characters[randomIndex];
+  }
+
+  // Show captcha in the element with ID "key"
+  document.getElementById("key").textContent = captcha;
+}
+
+generate();
+
+// Verify captcha
+function printmsg() {
+  const userInput = document.getElementById("signin").value; // Modificato da "sign in" a "signin"
+  const captchaKey = document.getElementById("key").textContent.trim(); // Trim per rimuovere spazi vuoti
+
+  const errorMessage = document.getElementById("error-captcha-message"); // Modificato da "error-message" a "error-captcha-message"
+
+  if (userInput === captchaKey) {
+    errorMessage.textContent = "Captcha correct!";
+    document.getElementById("loginButton").disabled = false; // Abilita il pulsante di login
+  } else {
+    errorMessage.textContent = "Wrong Captcha, please try again!";
+    document.getElementById("loginButton").disabled = true; // Disabilita il pulsante di login
+  }
+}
 
 function initializePeerAndVideoStream(
   peer,
@@ -482,82 +515,4 @@ function initializePeerAndVideoStream(
       refreshButton.remove(); // Remove the button if it is present
     }
   });
-}
-
-function generate() {
-  const captchaLength = 6; // Captcha length
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let captcha = "";
-
-  for (let i = 0; i < captchaLength; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length);
-    captcha += characters[randomIndex];
-  }
-
-  // Show captcha in the element with ID "key"
-  document.getElementById("key").textContent = captcha;
-}
-
-generate();
-
-// Verify captcha
-function printmsg() {
-  const userInput = document.getElementById("signin").value; // Modificato da "sign in" a "signin"
-  const captchaKey = document.getElementById("key").textContent.trim(); // Trim per rimuovere spazi vuoti
-
-  const errorMessage = document.getElementById("error-captcha-message"); // Modificato da "error-message" a "error-captcha-message"
-
-  if (userInput === captchaKey) {
-    errorMessage.textContent = "Captcha correct!";
-  } else {
-    errorMessage.textContent = "Wrong Captcha, please try again!";
-  }
-}
-
-function logVideoStreamInfo(stream) {
-  const logs = [];
-
-  const videoResolution =
-    stream.getVideoTracks()[0].getSettings().width +
-    "x" +
-    stream.getVideoTracks()[0].getSettings().height;
-  if (videoResolution !== "undefinedxundefined") {
-    logs.push("Video resolution: " + videoResolution);
-  }
-
-  const frameRate = stream.getVideoTracks()[0].getSettings().frameRate;
-  if (frameRate !== undefined) {
-    logs.push("Frame rate: " + frameRate);
-  }
-
-  const audioLatency = stream.getAudioTracks()[0].getSettings().latency;
-  if (audioLatency !== undefined) {
-    logs.push("Audio Latency: " + audioLatency + " seconds");
-  }
-
-  const noiseSuppression = stream
-    .getAudioTracks()[0]
-    .getSettings().noiseSuppression;
-  if (noiseSuppression !== undefined) {
-    logs.push("Noise suppression: " + noiseSuppression);
-  }
-
-  const logText = logs.join("\n");
-  console.log(logText);
-
-  // Write logs to a text file
-  if (logs.length > 0) {
-    const filename = "log.txt";
-    const element = document.createElement("a");
-    element.setAttribute(
-      "href",
-      "data:text/plain;charset=utf-8," + encodeURIComponent(logText)
-    );
-    element.setAttribute("download", filename);
-    element.style.display = "none";
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-  }
 }
