@@ -6,7 +6,6 @@ const backBtn = document.querySelector(".header__back");
 myVideo.muted = true;
 
 function generateOTP() {
-  // Genera un codice casuale di 6 cifre
   const otp = Math.floor(100000 + Math.random() * 900000);
   return otp.toString();
 }
@@ -303,17 +302,16 @@ generate();
 
 // Verify captcha
 function printmsg() {
-  const userInput = document.getElementById("signin").value; // Modificato da "sign in" a "signin"
-  const captchaKey = document.getElementById("key").textContent.trim(); // Trim per rimuovere spazi vuoti
+  const userInput = document.getElementById("signin").value; 
+  const captchaKey = document.getElementById("key").textContent.trim(); 
 
-  const errorMessage = document.getElementById("error-captcha-message"); // Modificato da "error-message" a "error-captcha-message"
-
+  const errorMessage = document.getElementById("error-captcha-message"); 
   if (userInput === captchaKey) {
     errorMessage.textContent = "Captcha correct!";
-    document.getElementById("loginButton").disabled = false; // Abilita il pulsante di login
+    document.getElementById("loginButton").disabled = false; // Enable login button
   } else {
     errorMessage.textContent = "Wrong Captcha, please try again!";
-    document.getElementById("loginButton").disabled = true; // Disabilita il pulsante di login
+    document.getElementById("loginButton").disabled = true; // Disable login button
   }
 }
 
