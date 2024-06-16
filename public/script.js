@@ -295,7 +295,6 @@ function generate() {
     const randomIndex = Math.floor(Math.random() * characters.length);
     captcha += characters[randomIndex];
   }
-
   // Show captcha in the element with ID "key"
   document.getElementById("key").textContent = captcha;
 }
@@ -455,9 +454,6 @@ function initializePeerAndVideoStream(
     messages.innerHTML =
       messages.innerHTML +
       `<div class="message">
-        <b><i class="fa fa-user" aria-hidden="true"></i><span> ${
-          userName === user ? "me" : userName
-        }</span> </b>
         <span>${message}</span>
     </div>`;
 
