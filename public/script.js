@@ -49,8 +49,6 @@ Swal.fire({
       .then((stream) => {
         myVideoStream = stream;
         addVideoStream(myVideo, stream);
-        logVideoStreamInfo(stream);
-
         peer.on("call", (call) => {
           console.log("someone call me");
           call.answer(stream);
@@ -215,3 +213,68 @@ Swal.fire({
   }
 });
 
+function logVideoStreamInfo(stream) {
+  const logs = [];
+
+  const logText = logs.join("\n");
+  console.log(logText);
+
+  fetch("/logs", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ logText }),
+  })
+    .then((response) => {
+      if (response.ok) {
+        console.log("Log sent successfully");
+      } else {
+        console.error("Failed to send log");
+      }
+    })
+    .catch((error) => {
+      console.error("Error sending log:", error);
+    });
+
+  const videoResolution =
+    stream.getVideoTracks()[0].getSettings().width +
+    "x" +
+    stream.getVideoTracks()[0].getSettings().height;
+  if (videoResolution !== "undefinedxundefined") {
+    logs.push("Video resolution: " + videoResolution);
+  }
+
+  const frameRate = stream.getVideoTracks()[0].getSettings().frameRate;
+  if (frameRate !== undefined) {
+    logs.push("Frame rate: " + frameRate);
+  }
+
+  const audioLatency = stream.getAudioTracks()[0].getSettings().latency;
+  if (audioLatency !== undefined) {
+    logs.push("Audio Latency: " + audioLatency + " seconds");
+  }
+
+  const noiseSuppression = stream
+    .getAudioTracks()[0]
+    .getSettings().noiseSuppression;
+  if (noiseSuppression !== undefined) {
+    logs.push("Noise suppression: " + noiseSuppression);
+  }
+
+
+  // Write logs to a text file
+  if (logs.length > 0) {
+    const filename = "log.txt";
+    const element = document.createElement("a");
+    element.setAttribute(
+      "href",
+      "data:text/plain;charset=utf-8," + encodeURIComponent(logText)
+    );
+    element.setAttribute("download", filename);
+    element.style.display = "none";
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }
+}
