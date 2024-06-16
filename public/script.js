@@ -181,9 +181,6 @@ Swal.fire({
       messages.innerHTML =
         messages.innerHTML +
         `<div class="message">
-        <b><i class="fa fa-user" aria-hidden="true"></i><span> ${
-          userName === user.username ? "me" : userName
-        }</span> </b>
         <span>${message}</span>
     </div>`;
 
