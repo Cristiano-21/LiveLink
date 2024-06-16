@@ -99,8 +99,8 @@ div:where(.swal2-container) .swal2-input{
     padding-right: 41%;
     margin-right: 30%;
     padding: 10px;
-    border: 2px solid black;
-    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);    text-align: center;
 }
 
 .form-container {
